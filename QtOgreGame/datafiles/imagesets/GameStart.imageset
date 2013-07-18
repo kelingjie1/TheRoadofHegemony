@@ -1,0 +1,14 @@
+<Imageset autoScaled="" imagefile="gamestart.png" name="GameStart" nativeHorzRes="800" nativeVertRes="600" version="2">
+    <Image height="256" name="s0" width="341" xPos="0" yPos="0" />
+    <Image height="256" name="s1" width="341" xPos="341" yPos="0" />
+    <Image height="256" name="s2" width="341" xPos="682" yPos="0" />
+    <Image height="256" name="s3" width="341" xPos="0" yPos="256" />
+    <Image height="256" name="s4" width="341" xPos="341" yPos="256" />
+    <Image height="256" name="s5" width="341" xPos="682" yPos="256" />
+    <Image height="256" name="s6" width="341" xPos="0" yPos="512" />
+    <Image height="256" name="s7" width="341" xPos="341" yPos="512" />
+    <Image height="256" name="s8" width="341" xPos="682" yPos="512" />
+    <Image height="256" name="s9" width="341" xPos="0" yPos="768" />
+    <Image height="256" name="s10" width="341" xPos="341" yPos="768" />
+    <Image height="256" name="s11" width="341" xPos="682" yPos="768" />
+</Imageset>

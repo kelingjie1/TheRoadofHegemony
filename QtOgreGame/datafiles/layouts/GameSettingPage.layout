@@ -1,0 +1,1129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout version="4" >
+    <Window type="DefaultWindow" name="Root" >
+        <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        <Window type="OgreTray/StaticImage" name="Background" >
+            <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+            <Property name="Image" value="MenuPicture/img1" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="FrameEnabled" value="False" />
+            <Window type="OgreTray/Combobox" name="PlayerCount" >
+                <Property name="Area" value="{{0.00656729,0},{0.310293,0},{0.256566,0},{0.560293,0}}" />
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/StaticText" name="label1" >
+                <Property name="Area" value="{{0.00838255,0},{0.238891,0},{0.120161,0},{0.306624,0}}" />
+                <Property name="Font" value="hwxk10" />
+                <Property name="Text" value="游戏人数" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="HorzScrollPageSize" value="176" />
+                <Property name="VertScrollPageSize" value="34" />
+                <Property name="HorzScrollDocumentSize" value="80" />
+                <Property name="VertScrollDocumentSize" value="21.82" />
+                <AutoWindow namePath="__auto_hscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+                <AutoWindow namePath="__auto_vscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Button" name="OK" >
+                <Property name="Area" value="{{0.848231,0},{0.920745,0},{0.981064,0},{0.983139,0}}" />
+                <Property name="Text" value="开始游戏" />
+            </Window>
+            <Window type="OgreTray/Button" name="Return" >
+                <Property name="Area" value="{{0.0160368,0},{0.919254,0},{0.14887,0},{0.981648,0}}" />
+                <Property name="Text" value="返回" />
+            </Window>
+            <Window type="OgreTray/StaticImage" name="Title" >
+                <Property name="Area" value="{{0.0246403,0},{-0.0466125,0},{0.990469,0},{0.283333,0}}" />
+                <Property name="Image" value="MenuTitle/img1" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="FrameEnabled" value="False" />
+                <Property name="BackgroundEnabled" value="False" />
+            </Window>
+            <Window type="OgreTray/Editbox" name="Name2" >
+                <Property name="Area" value="{{0.0134615,0},{0.469868,0},{0.205769,0},{0.517897,0}}" />
+            </Window>
+            <Window type="OgreTray/Editbox" name="Name3" >
+                <Property name="Area" value="{{0.0137019,0},{0.528817,0},{0.20601,0},{0.576846,0}}" />
+            </Window>
+            <Window type="OgreTray/Editbox" name="Name4" >
+                <Property name="Area" value="{{0.0132212,0},{0.590311,0},{0.205529,0},{0.63834,0}}" />
+            </Window>
+            <Window type="OgreTray/Editbox" name="Name5" >
+                <Property name="Area" value="{{0.0134615,0},{0.652135,0},{0.205769,0},{0.700164,0}}" />
+            </Window>
+            <Window type="OgreTray/Editbox" name="Name6" >
+                <Property name="Area" value="{{0.0141827,0},{0.713629,0},{0.20649,0},{0.761658,0}}" />
+            </Window>
+            <Window type="OgreTray/Editbox" name="Name7" >
+                <Property name="Area" value="{{0.0149038,0},{0.778407,0},{0.207212,0},{0.826436,0}}" />
+            </Window>
+            <Window type="OgreTray/Editbox" name="Name8" >
+                <Property name="Area" value="{{0.015625,0},{0.841543,0},{0.207933,0},{0.889572,0}}" />
+            </Window>
+            <Window type="OgreTray/Editbox" name="Name1" >
+                <Property name="Area" value="{{0.0141826,0},{0.409852,0},{0.20649,0},{0.45788,0}}" />
+            </Window>
+            <Window type="OgreTray/Combobox" name="Hero1" >
+                <Property name="Area" value="{{0.223077,0},{0.415353,0},{0.409375,0},{0.665353,0}}" />
+                <Property name="Text" value="食人魔" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="食人魔" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Hero2" >
+                <Property name="Area" value="{{0.225,0},{0.471921,0},{0.411298,0},{0.721921,0}}" />
+                <Property name="Text" value="食人魔" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="食人魔" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Hero3" >
+                <Property name="Area" value="{{0.224519,0},{0.533415,0},{0.410817,0},{0.783415,0}}" />
+                <Property name="Text" value="食人魔" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="食人魔" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Hero4" >
+                <Property name="Area" value="{{0.226443,0},{0.593267,0},{0.41274,0},{0.843267,0}}" />
+                <Property name="Text" value="食人魔" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="食人魔" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Hero5" >
+                <Property name="Area" value="{{0.22476,0},{0.654762,0},{0.411058,0},{0.904762,0}}" />
+                <Property name="Text" value="食人魔" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="食人魔" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Hero6" >
+                <Property name="Area" value="{{0.224279,0},{0.716256,0},{0.410577,0},{0.966256,0}}" />
+                <Property name="Text" value="食人魔" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="食人魔" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Hero7" >
+                <Property name="Area" value="{{0.223798,0},{0.781034,0},{0.410096,0},{1.03103,0}}" />
+                <Property name="Text" value="食人魔" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="食人魔" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Hero8" >
+                <Property name="Area" value="{{0.223317,0},{0.845813,0},{0.409615,0},{1.09581,0}}" />
+                <Property name="Text" value="食人魔" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="食人魔" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Race1" >
+                <Property name="Area" value="{{0.419711,0},{0.417734,0},{0.606009,0},{0.667734,0}}" />
+                <Property name="Text" value="兽人" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="兽人" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Race2" >
+                <Property name="Area" value="{{0.420432,0},{0.469376,0},{0.60673,0},{0.719376,0}}" />
+                <Property name="Text" value="兽人" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="兽人" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Race3" >
+                <Property name="Area" value="{{0.423557,0},{0.532513,0},{0.609855,0},{0.782513,0}}" />
+                <Property name="Text" value="兽人" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="兽人" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Race4" >
+                <Property name="Area" value="{{0.421874,0},{0.589081,0},{0.608172,0},{0.839081,0}}" />
+                <Property name="Text" value="兽人" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="兽人" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Race5" >
+                <Property name="Area" value="{{0.421393,0},{0.653859,0},{0.607691,0},{0.903859,0}}" />
+                <Property name="Text" value="兽人" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="兽人" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Race6" >
+                <Property name="Area" value="{{0.424518,0},{0.716995,0},{0.610816,0},{0.966995,0}}" />
+                <Property name="Text" value="兽人" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="兽人" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Race7" >
+                <Property name="Area" value="{{0.424037,0},{0.783416,0},{0.610335,0},{1.03342,0}}" />
+                <Property name="Text" value="兽人" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="兽人" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Race8" >
+                <Property name="Area" value="{{0.424759,0},{0.843268,0},{0.611057,0},{1.09327,0}}" />
+                <Property name="Text" value="兽人" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="兽人" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Camp2" >
+                <Property name="Area" value="{{0.612261,0},{0.475041,0},{0.713222,0},{0.725041,0}}" />
+                <Property name="Text" value="-" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="-" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Camp3" >
+                <Property name="Area" value="{{0.614184,0},{0.533251,0},{0.715145,0},{0.783251,0}}" />
+                <Property name="Text" value="-" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="-" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Camp4" >
+                <Property name="Area" value="{{0.613703,0},{0.588177,0},{0.714664,0},{0.838177,0}}" />
+                <Property name="Text" value="-" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="-" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Camp5" >
+                <Property name="Area" value="{{0.614424,0},{0.651314,0},{0.715385,0},{0.901314,0}}" />
+                <Property name="Text" value="-" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="-" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Camp6" >
+                <Property name="Area" value="{{0.615145,0},{0.716092,0},{0.716106,0},{0.966092,0}}" />
+                <Property name="Text" value="-" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="-" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Camp7" >
+                <Property name="Area" value="{{0.617068,0},{0.78087,0},{0.718029,0},{1.03087,0}}" />
+                <Property name="Text" value="-" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="-" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Camp8" >
+                <Property name="Area" value="{{0.615385,0},{0.844007,0},{0.716346,0},{1.094,0}}" />
+                <Property name="Text" value="-" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="-" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Combobox" name="Camp1" >
+                <Property name="Area" value="{{0.61178,0},{0.41995,0},{0.712741,0},{0.66995,0}}" />
+                <Property name="Text" value="-" />
+                <AutoWindow namePath="__auto_editbox__" >
+                    <Property name="Text" value="-" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_droplist__" >
+                    <AutoWindow namePath="__auto_hscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_vscrollbar__" >
+                        <AutoWindow namePath="__auto_incbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_decbtn__" >
+                            <Property name="Visible" value="False" />
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                        <AutoWindow namePath="__auto_thumb__" >
+                            <Property name="RestoreOldCapture" value="True" />
+                        </AutoWindow>
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/StaticImage" name="Color1" >
+                <Property name="Area" value="{{0.71923,0},{0.415517,0},{0.787739,0},{0.461904,0}}" />
+                <Property name="Image" value="Color/img1" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="FrameEnabled" value="False" />
+            </Window>
+            <Window type="OgreTray/StaticImage" name="Color2" >
+                <Property name="Area" value="{{0.719951,0},{0.473727,0},{0.78846,0},{0.520114,0}}" />
+                <Property name="Image" value="Color/img2" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="FrameEnabled" value="False" />
+            </Window>
+            <Window type="OgreTray/StaticImage" name="Color3" >
+                <Property name="Area" value="{{0.720672,0},{0.527011,0},{0.789181,0},{0.573398,0}}" />
+                <Property name="Image" value="Color/img3" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="FrameEnabled" value="False" />
+            </Window>
+            <Window type="OgreTray/StaticImage" name="Color4" >
+                <Property name="Area" value="{{0.722595,0},{0.586863,0},{0.791104,0},{0.63325,0}}" />
+                <Property name="Image" value="Color/img4" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="FrameEnabled" value="False" />
+            </Window>
+            <Window type="OgreTray/StaticImage" name="Color5" >
+                <Property name="Area" value="{{0.720913,0},{0.648358,0},{0.789421,0},{0.694744,0}}" />
+                <Property name="Image" value="Color/img5" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="FrameEnabled" value="False" />
+            </Window>
+            <Window type="OgreTray/StaticImage" name="Color6" >
+                <Property name="Area" value="{{0.722835,0},{0.713136,0},{0.791344,0},{0.759523,0}}" />
+                <Property name="Image" value="Color/img6" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="FrameEnabled" value="False" />
+            </Window>
+            <Window type="OgreTray/StaticImage" name="Color7" >
+                <Property name="Area" value="{{0.724759,0},{0.777914,0},{0.793268,0},{0.824301,0}}" />
+                <Property name="Image" value="Color/img7" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="FrameEnabled" value="False" />
+            </Window>
+            <Window type="OgreTray/StaticImage" name="Color8" >
+                <Property name="Area" value="{{0.724759,0},{0.839901,0},{0.793268,0},{0.886288,0}}" />
+                <Property name="Image" value="Color/img8" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="FrameEnabled" value="False" />
+            </Window>
+            <Window type="OgreTray/StaticText" >
+                <Property name="Area" value="{{0.0175481,0},{0.362397,0},{0.0584132,38},{0.402216,0}}" />
+                <Property name="Font" value="hwxk10" />
+                <Property name="Text" value="姓名" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="FrameEnabled" value="False" />
+                <Property name="HorzScrollPageSize" value="116" />
+                <Property name="VertScrollPageSize" value="43" />
+                <Property name="HorzScrollDocumentSize" value="40" />
+                <Property name="VertScrollDocumentSize" value="21.82" />
+                <AutoWindow namePath="__auto_hscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+                <AutoWindow namePath="__auto_vscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/StaticText" name="1" >
+                <Property name="Area" value="{{0.228606,0},{0.369704,0},{0.269471,62},{0.409523,0}}" />
+                <Property name="Text" value="英雄" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="FrameEnabled" value="False" />
+                <Property name="HorzScrollPageSize" value="140" />
+                <Property name="VertScrollPageSize" value="43" />
+                <Property name="HorzScrollDocumentSize" value="40" />
+                <Property name="VertScrollDocumentSize" value="21.82" />
+                <AutoWindow namePath="__auto_hscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+                <AutoWindow namePath="__auto_vscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/StaticText" name="2" >
+                <Property name="Area" value="{{0.424038,0},{0.368801,0},{0.464904,60},{0.40862,0}}" />
+                <Property name="Text" value="种族" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="FrameEnabled" value="False" />
+                <Property name="HorzScrollPageSize" value="138" />
+                <Property name="VertScrollPageSize" value="43" />
+                <Property name="HorzScrollDocumentSize" value="40" />
+                <Property name="VertScrollDocumentSize" value="21.82" />
+                <AutoWindow namePath="__auto_hscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+                <AutoWindow namePath="__auto_vscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/StaticText" name="3" >
+                <Property name="Area" value="{{0.615865,0},{0.36954,0},{0.65673,14},{0.409359,0}}" />
+                <Property name="Text" value="阵营" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="FrameEnabled" value="False" />
+                <Property name="HorzScrollPageSize" value="92" />
+                <Property name="VertScrollPageSize" value="43" />
+                <Property name="HorzScrollDocumentSize" value="40" />
+                <Property name="VertScrollDocumentSize" value="21.82" />
+                <AutoWindow namePath="__auto_hscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+                <AutoWindow namePath="__auto_vscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/StaticText" name="4" >
+                <Property name="Area" value="{{0.722356,0},{0.366995,0},{0.763221,30},{0.406814,0}}" />
+                <Property name="Text" value="颜色" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="FrameEnabled" value="False" />
+                <Property name="HorzScrollPageSize" value="108" />
+                <Property name="VertScrollPageSize" value="43" />
+                <Property name="HorzScrollDocumentSize" value="40" />
+                <Property name="VertScrollDocumentSize" value="21.82" />
+                <AutoWindow namePath="__auto_hscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+                <AutoWindow namePath="__auto_vscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

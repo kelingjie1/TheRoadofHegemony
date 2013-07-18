@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout version="4" >
+    <Window type="DefaultWindow" name="Root" >
+        <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        <Window type="OgreTray/StaticText" name="Background" >
+            <Property name="Area" value="{{-0.00120192,0},{0,0},{0.998798,0},{1,0}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="HorzScrollPageSize" value="1881" />
+            <Property name="VertScrollPageSize" value="1041" />
+            <AutoWindow namePath="__auto_hscrollbar__" >
+                <AutoWindow namePath="__auto_incbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_decbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+            </AutoWindow>
+            <AutoWindow namePath="__auto_vscrollbar__" >
+                <AutoWindow namePath="__auto_incbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_decbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+            </AutoWindow>
+            <Window type="OgreTray/ProgressBar" name="ProgressBar" >
+                <Property name="Area" value="{{0.040625,0},{0.904105,0},{0.958894,0},{0.952135,0}}" />
+                <Property name="StepSize" value="0.01" />
+            </Window>
+            <Window type="OgreTray/StaticText" name="label1" >
+                <Property name="Area" value="{{0.382212,0},{0.41954,0},{0.608173,0},{0.50041,0}}" />
+                <Property name="Text" value="游戏载入中，请稍后" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <AutoWindow namePath="__auto_hscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+                <AutoWindow namePath="__auto_vscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

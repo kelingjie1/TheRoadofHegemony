@@ -1,0 +1,3 @@
+<Imageset autoScaled="false" imagefile="lingpai.png" name="lingpai" nativeHorzRes="800" nativeVertRes="600" version="2">
+    <Image height="500" name="img1" width="500" xPos="0" yPos="0" />
+</Imageset>

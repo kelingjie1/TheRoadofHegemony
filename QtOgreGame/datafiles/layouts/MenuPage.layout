@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout version="4" >
+    <Window type="DefaultWindow" name="Root" >
+        <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        <Window type="OgreTray/StaticImage" name="Background" >
+            <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+            <Property name="Image" value="MenuPicture/img1" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="FrameEnabled" value="False" />
+            <Window type="OgreTray/Button" name="StartGame" >
+                <Property name="Area" value="{{0.0205245,0},{0.283787,0},{0.187974,0},{0.347203,0}}" />
+                <Property name="Text" value="开始游戏" />
+            </Window>
+            <Window type="OgreTray/StaticImage" name="Title" >
+                <Property name="Area" value="{{0.00793225,0},{-0.0711002,0},{1.00192,0},{0.293842,0}}" />
+                <Property name="Image" value="MenuTitle/img1" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="FrameEnabled" value="False" />
+                <Property name="BackgroundEnabled" value="False" />
+            </Window>
+            <Window type="OgreTray/Button" name="StartGame1" >
+                <Property name="Area" value="{{0.0219633,0},{0.369017,0},{0.189412,0},{0.432433,0}}" />
+                <Property name="Text" value="网络" />
+            </Window>
+            <Window type="OgreTray/Button" name="StartGame2" >
+                <Property name="Area" value="{{0.0207044,0},{0.448828,0},{0.188153,0},{0.512243,0}}" />
+                <Property name="Text" value="选项设置" />
+            </Window>
+            <Window type="OgreTray/Button" name="StartGame4" >
+                <Property name="Area" value="{{0.0199849,0},{0.529858,0},{0.187434,0},{0.593273,0}}" />
+                <Property name="Text" value="游戏规则" />
+            </Window>
+            <Window type="OgreTray/Button" name="StartGame5" >
+                <Property name="Area" value="{{0.0205245,0},{0.612378,0},{0.187974,0},{0.675793,0}}" />
+                <Property name="Text" value="制作人员" />
+            </Window>
+            <Window type="OgreTray/Button" name="StartGame6" >
+                <Property name="Area" value="{{0.021064,0},{0.694898,0},{0.188513,0},{0.758314,0}}" />
+                <Property name="Text" value="退出游戏" />
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout version="4" >
+    <Window type="DefaultWindow" name="Root" >
+        <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Property name="Font" value="hwxk10" />
+        <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        <Window type="OgreTray/StaticImage" name="Menu" >
+            <Property name="Area" value="{{0.339663,0},{0.155501,0},{0.696634,0},{0.837357,0}}" />
+            <Property name="Font" value="hwxk10" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Visible" value="False" />
+            <Window type="OgreTray/Button" name="Restart" >
+                <Property name="Area" value="{{0.225926,0},{0.174774,0},{0.772222,0},{0.299548,0}}" />
+                <Property name="Font" value="hwxk10" />
+                <Property name="Text" value="重新开始" />
+            </Window>
+            <Window type="OgreTray/Button" name="Return" >
+                <Property name="Area" value="{{0.246128,0},{0.714208,0},{0.738552,0},{0.82935,0}}" />
+                <Property name="Font" value="hwxk10" />
+                <Property name="Text" value="返回主菜单" />
+            </Window>
+        </Window>
+        <Window type="OgreTray/ScrollablePane" name="CardBox" >
+            <Property name="Area" value="{{0,0},{0.8,0},{0.944711,0},{1,0}}" />
+            <Property name="Font" value="hwxk10" />
+            <AutoWindow namePath="__auto_container__" >
+                <Property name="MouseInputPropagationEnabled" value="True" />
+            </AutoWindow>
+            <AutoWindow namePath="__auto_hscrollbar__" >
+                <Property name="AlwaysOnTop" value="True" />
+                <AutoWindow namePath="__auto_incbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_decbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+            </AutoWindow>
+            <AutoWindow namePath="__auto_vscrollbar__" >
+                <Property name="AlwaysOnTop" value="True" />
+                <AutoWindow namePath="__auto_incbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_decbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+            </AutoWindow>
+        </Window>
+        <Window type="OgreTray/StaticImage" name="Attack" >
+            <Property name="Area" value="{{0.316827,0},{0.39688,0},{0.696635,0},{0.67972,0}}" />
+            <Property name="Font" value="hwxk10" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Window type="OgreTray/StaticText" name="label1" >
+                <Property name="Area" value="{{0.0598184,0},{0.157258,0},{0.329358,0},{0.376788,0}}" />
+                <Property name="Font" value="hwxk10" />
+                <Property name="Text" value="数量：0" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="HorzScrollPageSize" value="157" />
+                <Property name="VertScrollPageSize" value="28" />
+                <Property name="HorzScrollDocumentSize" value="71" />
+                <Property name="VertScrollDocumentSize" value="21.82" />
+                <AutoWindow namePath="__auto_hscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+                <AutoWindow namePath="__auto_vscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/HorizontalScrollbar" name="Scrollbar" >
+                <Property name="Area" value="{{0.347277,0},{0.209564,0},{0.965513,0},{0.313809,0}}" />
+                <Property name="Font" value="hwxk10" />
+                <AutoWindow namePath="__auto_incbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_decbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Button" name="OK" >
+                <Property name="Area" value="{{0.173978,0},{0.602759,0},{0.423978,0},{0.852759,0}}" />
+                <Property name="Font" value="hwxk10" />
+                <Property name="Text" value="攻击" />
+            </Window>
+            <Window type="OgreTray/Button" name="Cancel" >
+                <Property name="Area" value="{{0.565985,0},{0.603103,0},{0.815985,0},{0.853103,0}}" />
+                <Property name="Font" value="hwxk10" />
+                <Property name="Text" value="取消" />
+            </Window>
+        </Window>
+        <Window type="OgreTray/StaticImage" name="Move" >
+            <Property name="Area" value="{{0.316827,0},{0.398522,0},{0.695433,0},{0.681363,0}}" />
+            <Property name="Font" value="hwxk10" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Window type="OgreTray/StaticText" name="label2" >
+                <Property name="Area" value="{{0.0629227,0},{0.134036,0},{0.326043,0},{0.353566,0}}" />
+                <Property name="Font" value="hwxk10" />
+                <Property name="Text" value="数量：0" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="HorzScrollPageSize" value="152" />
+                <Property name="VertScrollPageSize" value="28" />
+                <Property name="HorzScrollDocumentSize" value="71" />
+                <Property name="VertScrollDocumentSize" value="21.82" />
+                <AutoWindow namePath="__auto_hscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+                <AutoWindow namePath="__auto_vscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/HorizontalScrollbar" name="Scrollbar" >
+                <Property name="Area" value="{{0.344123,0},{0.192147,0},{0.971852,0},{0.290587,0}}" />
+                <Property name="Font" value="hwxk10" />
+                <AutoWindow namePath="__auto_incbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_decbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/Button" name="OK" >
+                <Property name="Area" value="{{0.173978,0},{0.602759,0},{0.423978,0},{0.852759,0}}" />
+                <Property name="Font" value="hwxk10" />
+                <Property name="Text" value="移动" />
+            </Window>
+            <Window type="OgreTray/Button" name="Cancel" >
+                <Property name="Area" value="{{0.565985,0},{0.603103,0},{0.815985,0},{0.853103,0}}" />
+                <Property name="Font" value="hwxk10" />
+                <Property name="Text" value="取消" />
+            </Window>
+        </Window>
+        <Window type="OgreTray/StaticImage" name="Build" >
+            <Property name="Area" value="{{0.254327,0},{0.319705,0},{0.735096,0},{0.73555,0}}" />
+            <Property name="Font" value="hwxk10" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Window type="OgreTray/StaticText" name="label3" >
+                <Property name="Area" value="{{0.0925002,0},{0.0908497,0},{0.9075,0},{0.289517,0}}" />
+                <Property name="Font" value="hwxk10" />
+                <Property name="Text" value="请选择要建造的建筑物" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="FrameEnabled" value="False" />
+                <Property name="HorzFormatting" value="LeftAligned" />
+                <Property name="HorzScrollPageSize" value="752" />
+                <Property name="VertScrollPageSize" value="89" />
+                <Property name="HorzScrollDocumentSize" value="200" />
+                <Property name="VertScrollDocumentSize" value="21.82" />
+                <AutoWindow namePath="__auto_hscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+                <AutoWindow namePath="__auto_vscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
+            <Window type="OgreTray/StaticImage" name="Building1" >
+                <Property name="Area" value="{{0.0950002,0},{0.354966,0},{0.3425,0},{0.723828,0}}" />
+                <Property name="Font" value="hwxk10" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="OgreTray/StaticImage" name="Building2" >
+                <Property name="Area" value="{{0.3875,0},{0.357582,0},{0.635,0},{0.726445,0}}" />
+                <Property name="Font" value="hwxk10" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="OgreTray/StaticImage" name="Building3" >
+                <Property name="Area" value="{{0.675,0},{0.352301,0},{0.9225,0},{0.721163,0}}" />
+                <Property name="Font" value="hwxk10" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="OgreTray/Button" name="Cancel" >
+                <Property name="Area" value="{{0.385,0},{0.779121,0},{0.635,0},{0.914611,0}}" />
+                <Property name="Font" value="hwxk10" />
+                <Property name="Text" value="取消" />
+            </Window>
+        </Window>
+        <Window type="OgreTray/StaticText" name="AreaInfo1" >
+            <Property name="Area" value="{{0.00192306,0},{0.00279144,0},{0.167788,0},{0.177258,0}}" />
+            <Property name="Font" value="hwxk10" />
+            <Property name="Text" >区域：1
+所属玩家：1
+军队数量：0
+地形特性：无
+放置卡牌：无</Property>
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="VertFormatting" value="TopAligned" />
+            <Property name="HorzScrollPageSize" value="279" />
+            <Property name="VertScrollPageSize" value="149" />
+            <Property name="HorzScrollDocumentSize" value="120" />
+            <Property name="VertScrollDocumentSize" value="109.1" />
+            <AutoWindow namePath="__auto_hscrollbar__" >
+                <AutoWindow namePath="__auto_incbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_decbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+            </AutoWindow>
+            <AutoWindow namePath="__auto_vscrollbar__" >
+                <AutoWindow namePath="__auto_incbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_decbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+            </AutoWindow>
+        </Window>
+        <Window type="OgreTray/StaticText" name="AreaInfo2" >
+            <Property name="Area" value="{{0.227404,0},{0.00353035,0},{0.393269,0},{0.177997,0}}" />
+            <Property name="Font" value="hwxk10" />
+            <Property name="Text" >区域：1
+所属玩家：1
+军队数量：0
+地形特性：无
+放置卡牌：无</Property>
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="VertFormatting" value="TopAligned" />
+            <Property name="HorzScrollPageSize" value="279" />
+            <Property name="VertScrollPageSize" value="149" />
+            <Property name="HorzScrollDocumentSize" value="120" />
+            <Property name="VertScrollDocumentSize" value="109.1" />
+            <AutoWindow namePath="__auto_hscrollbar__" >
+                <AutoWindow namePath="__auto_incbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_decbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+            </AutoWindow>
+            <AutoWindow namePath="__auto_vscrollbar__" >
+                <AutoWindow namePath="__auto_incbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_decbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+            </AutoWindow>
+        </Window>
+        <Window type="OgreTray/StaticText" name="Action" >
+            <Property name="Area" value="{{0.162019,0},{0.03711,0},{0.234134,0},{0.142611,0}}" />
+            <Property name="Font" value="hwxk10" />
+            <Property name="Text" >攻击
+---&gt;</Property>
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="VertFormatting" value="TopAligned" />
+            <Property name="HorzScrollPageSize" value="99" />
+            <Property name="VertScrollPageSize" value="75" />
+            <Property name="HorzScrollDocumentSize" value="43" />
+            <Property name="VertScrollDocumentSize" value="43.64" />
+            <AutoWindow namePath="__auto_hscrollbar__" >
+                <AutoWindow namePath="__auto_incbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_decbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+            </AutoWindow>
+            <AutoWindow namePath="__auto_vscrollbar__" >
+                <AutoWindow namePath="__auto_incbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_decbtn__" >
+                    <Property name="Visible" value="False" />
+                </AutoWindow>
+            </AutoWindow>
+        </Window>
+        <Window type="OgreTray/Button" name="EndTurn" >
+            <Property name="Area" value="{{0.952405,0},{0.827258,0},{0.992067,0},{0.986946,0}}" />
+            <Property name="Font" value="hwxk10" />
+            <Property name="Text" >回
+合
+结
+束</Property>
+        </Window>
+    </Window>
+</GUILayout>

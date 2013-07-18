@@ -1,0 +1,11 @@
+<Imageset autoScaled="false" imagefile="color.png" name="Color" nativeHorzRes="800" nativeVertRes="600" version="2">
+    <Image height="100" name="img0" width="100" xPos="0" yPos="0" />
+    <Image height="100" name="img1" width="100" xPos="100" yPos="0" />
+    <Image height="100" name="img2" width="100" xPos="200" yPos="0" />
+    <Image height="100" name="img3" width="100" xPos="0" yPos="100" />
+    <Image height="100" name="img4" width="100" xPos="100" yPos="100" />
+    <Image height="100" name="img5" width="100" xPos="200" yPos="100" />
+    <Image height="100" name="img6" width="100" xPos="0" yPos="200" />
+    <Image height="100" name="img7" width="100" xPos="100" yPos="200" />
+    <Image height="100" name="img8" width="100" xPos="200" yPos="200" />
+</Imageset>

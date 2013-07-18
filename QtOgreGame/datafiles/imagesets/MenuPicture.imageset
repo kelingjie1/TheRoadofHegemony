@@ -1,0 +1,3 @@
+<Imageset autoScaled="false" imagefile="MenuPicture.jpg" name="MenuPicture" nativeHorzRes="800" nativeVertRes="600" version="2">
+    <Image height="1080" name="img1" width="1920" xPos="0" yPos="0" />
+</Imageset>

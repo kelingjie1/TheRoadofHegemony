@@ -1,0 +1,14 @@
+material qiziMaterial5n
+{
+	technique
+	{
+		pass
+		{
+			texture_unit 
+			{
+				texture qizi5n.png
+				tex_coord_set 0
+			}
+		}
+	}
+}

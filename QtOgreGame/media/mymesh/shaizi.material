@@ -1,0 +1,14 @@
+material "shaiziMaterial__25"
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture shaizishaizi.DDS
+				tex_coord_set 0
+			}
+		}
+	}
+}

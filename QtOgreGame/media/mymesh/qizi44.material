@@ -1,0 +1,14 @@
+material qiziMaterial44
+{
+	technique
+	{
+		pass
+		{
+			texture_unit 
+			{
+				texture qizi44.png
+				tex_coord_set 0
+			}
+		}
+	}
+}

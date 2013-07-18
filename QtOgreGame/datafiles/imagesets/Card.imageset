@@ -1,0 +1,4 @@
+<Imageset autoScaled="false" imagefile="card.png" name="Card" nativeHorzRes="800" nativeVertRes="600" version="2">
+    <Image height="1000" name="Mine" width="700" xPos="0" yPos="0" />
+    <Image height="1000" name="ArmyAssault" width="700" xPos="700" yPos="0" />
+</Imageset>
