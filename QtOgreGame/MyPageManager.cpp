@@ -193,7 +193,7 @@ bool MyGameSettingPage::on_PlayerCount_ListSelectionAccepted( const CEGUI::Event
 	return true;
 }
 
-MyGamePlayingPage::MyGamePlayingPage( const char *name ) :MyPage(name)
+MyGamePlayingPage::MyGamePlayingPage( const char *name ) :MyPage(name),next_click_invalid(0)
 {
 	CEGUI::WindowManager &winMgr=CEGUI::WindowManager::getSingleton();
 	m_pWindow=winMgr.loadLayoutFromFile("GamePlayingPage.layout");
@@ -426,6 +426,11 @@ bool MyGamePlayingPage::on_EndTurn_clicked( const CEGUI::EventArgs& e )
 
 bool MyGamePlayingPage::on_Card_clicked( const CEGUI::EventArgs& e )
 {
+	if(next_click_invalid)
+	{
+		next_click_invalid=false;
+		return true;
+	}
 	CEGUI::NamedElementEventArgs *ev=(CEGUI::NamedElementEventArgs*)&e;
 	CEGUI::Window *win=(CEGUI::Window*)ev->element;
 	QString s=win->getName().c_str();
@@ -442,8 +447,10 @@ bool MyGamePlayingPage::on_Card_doubleClicked( const CEGUI::EventArgs& e )
 	QString s=win->getName().c_str();
 	int id=s.remove("Card").toInt();
 	MyCard *card=MyGameStateManager::GetSingleton().GetCurrentPlayer()->GetCardByID(id);
-
-	card->Use();
+	if(card->Use())
+	{
+		next_click_invalid=true;
+	}
 	return true;
 }
 

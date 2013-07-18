@@ -48,6 +48,7 @@ public:
 };
 class MyGamePlayingPage : public MyPage,Ogre::FrameListener
 {
+	bool next_click_invalid;
 public:
 	MyGamePlayingPage(const char *name);
 	MyGameStateManager *StateManager;

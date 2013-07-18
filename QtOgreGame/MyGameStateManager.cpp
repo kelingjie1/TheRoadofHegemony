@@ -334,12 +334,15 @@ std::set<MyArea*> MyPlayer::GetAreaSet()
 	return m_AreaSet;
 }
 
-void MyPlayer::AddCard( MyCard *card )
+void MyPlayer::AddCard( MyCard *card,bool update/*=true*/ )
 {
 	m_CardVector.push_back(card);
-	if(this==MyGameStateManager::GetSingleton().GetCurrentPlayer())
+	if(update)
 	{
-		MyUIUpdater::GetSingleton().on_CardChange();
+		if(this==MyGameStateManager::GetSingleton().GetCurrentPlayer())
+		{
+			MyUIUpdater::GetSingleton().on_CardChange();
+		}
 	}
 }
 
@@ -367,6 +370,25 @@ MyCard *MyPlayer::GetCardByID( int id )
 int MyPlayer::GetCardCount()
 {
 	return m_CardVector.size();
+}
+
+void MyPlayer::RemoveCard( MyCard *card,bool update/*=true*/ )
+{
+	for(std::vector<MyCard*>::iterator it=m_CardVector.begin();it!=m_CardVector.end();it++)
+	{
+		if(*it==card)
+		{
+			m_CardVector.erase(it);
+			break;
+		}
+	}
+	if (update)
+	{
+		if(this==MyGameStateManager::GetSingleton().GetCurrentPlayer())
+		{
+			MyUIUpdater::GetSingleton().on_CardChange();
+		}
+	}
 }
 
 

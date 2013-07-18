@@ -47,14 +47,20 @@ bool MyBuff::Trigger()
 	return false;
 }
 
-MyCard::MyCard():m_bChoosed(0)
+MyCard::MyCard():m_bChoosed(0),m_pOwener(0)
 {
 
 }
 
-void MyCard::Use()
+bool MyCard::Use()
 {
-
+	lua_State *L=m_pType->L;
+	int re=lua_tinker::call<int>(L,"Use");
+	if(re)
+	{
+		MyGameStateManager::GetSingleton().GetCurrentPlayer()->RemoveCard(this);
+	}
+	return re;
 }
 MyCardType* MyCard::GetCardType()
 {
@@ -66,6 +72,9 @@ void MyCard::DefineInLua( lua_State *L )
 	lua_tinker::class_add<MyCard>(L,"MyCard");
 	lua_tinker::class_def<MyCard>(L,"Use",&MyCard::Use);
 	lua_tinker::class_def<MyCard>(L,"GetCardType",&MyCard::GetCardType);
+	lua_tinker::class_def<MyCard>(L,"IsChoosed",&MyCard::IsChoosed);
+	lua_tinker::class_def<MyCard>(L,"SetChoosed",&MyCard::SetChoosed);
+	lua_tinker::class_def<MyCard>(L,"SetOwenerByID",&MyCard::SetOwenerByID);
 }
 
 bool MyCard::IsChoosed()
@@ -73,10 +82,22 @@ bool MyCard::IsChoosed()
 	return m_bChoosed;
 }
 
-void MyCard::SetChoosed( bool choose/*=true*/ )
+void MyCard::SetChoosed( bool choose/*=true*/,bool update/*=true*/ )
 {
 	m_bChoosed=choose;
-	MyUIUpdater::GetSingleton().on_CardChange();
+	if (update)
+	{
+		MyUIUpdater::GetSingleton().on_CardChange();
+	}
+	
+}
+
+void MyCard::SetOwenerByID( int id )
+{
+	MyPlayer *player=MyGameStateManager::GetSingleton().GetCurrentPlayer();
+	MyPlayer *newplayer=MyGameStateManager::GetSingleton().GetPlayer(id);
+	player->RemoveCard(this,false);
+	newplayer->AddCard(this);
 }
 
 

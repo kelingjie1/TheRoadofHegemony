@@ -14,6 +14,7 @@ public:
 };
 class MyCardType
 {
+	friend class MyCard;
 	std::string m_Name;
 	std::string m_Description;
 	std::string m_ImageName;
@@ -41,12 +42,14 @@ class MyCard
 	MyCard(const MyCard&){}
 
 	bool m_bChoosed;
-	MyCardType* m_pType;
+	MyPlayer	*m_pOwener;
+	MyCardType	*m_pType;
 public:
-	void Use();
+	bool Use();
 	MyCardType* GetCardType();
 	bool IsChoosed();
-	void SetChoosed(bool choose=true);
+	void SetChoosed(bool choose=true,bool update=true);
+	void SetOwenerByID(int id);
 	static void DefineInLua(lua_State *L);
 };
 class MyCardManager

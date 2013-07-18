@@ -19,7 +19,8 @@ class MyPlayer
 public:
 	MyPlayer(int id);
 	
-	void AddCard(MyCard *card);
+	void AddCard(MyCard *card,bool update=true);
+	void RemoveCard(MyCard *card,bool update=true);
 	
 	int GetAreaCount();
 	int GetMoveTimes();
