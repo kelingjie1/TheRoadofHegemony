@@ -8,6 +8,11 @@
 #include "Global.h"
 MyUIUpdater *MyUIUpdater::m_pSingleton=0;
 
+MyUIUpdater::MyUIUpdater()
+{
+
+}
+
 MyUIUpdater& MyUIUpdater::GetSingleton()
 {
 	return *m_pSingleton;
@@ -98,18 +103,22 @@ void MyUIUpdater::on_CardChange()
 	CEGUI::ScrolledContainer *CardBoxContainer=const_cast<CEGUI::ScrolledContainer*>(CardBox->getContentPane());
 
 	MyPlayer *player=MyGameStateManager::GetSingleton().GetCurrentPlayer();
-	std::list<MyCard*> cardlist=player->GetCardList();
 	int height=MyGameApp::GetSingleton().GetRenderWindow()->getHeight();
-	for (int i=CardBoxContainer->getChildCount();i<cardlist.size();i++)
+	for (int i=CardBoxContainer->getChildCount();i<player->GetCardCount();i++)
 	{
 		CEGUI::String name=CEGUIText((QStringLiteral("Card")+QString::number(i)).toLocal8Bit().data());
 		CEGUI::Window *card=CardBoxContainer->createChild("OgreTray/StaticImage",name);
-		card->setPosition(CEGUI::UVector2(CEGUI::UDim(0,i*height*Global::CardWidthScale),CEGUI::UDim(0,0)));
-		card->setSize(CEGUI::USize(CEGUI::UDim(0,height*Global::CardWidthScale),CEGUI::UDim(1,0)));
+		card->setPosition(CEGUI::UVector2(CEGUI::UDim(0,i*height*Global::CardWidthScale),CEGUI::UDim(Global::CardChooseHeight,0)));
+		card->setSize(CEGUI::USize(CEGUI::UDim(0,height*Global::CardWidthScale),CEGUI::UDim(1-Global::CardChooseHeight,0)));
 		card->setProperty("BackgroundEnabled","false");
 		card->setProperty("FrameEnabled","false");
+		card->subscribeEvent(CEGUI::Window::EventMouseClick,
+			CEGUI::Event::Subscriber(&MyGamePlayingPage::on_Card_clicked,(MyGamePlayingPage*)MyPageManager::GetSingleton().GetPage("GamePlayingPage")));
+		card->subscribeEvent(CEGUI::Window::EventMouseDoubleClick,
+			CEGUI::Event::Subscriber(&MyGamePlayingPage::on_Card_doubleClicked,(MyGamePlayingPage*)MyPageManager::GetSingleton().GetPage("GamePlayingPage")));
+
 	}
-	for (int i=CardBoxContainer->getChildCount()-1;i>=(int)cardlist.size();i--)
+	for (int i=CardBoxContainer->getChildCount()-1;i>=player->GetCardCount();i--)
 	{
 		CEGUI::String name=CEGUIText((QStringLiteral("Card")+QString::number(i)).toLocal8Bit().data());
 		CardBoxContainer->removeChild(name);
@@ -117,13 +126,20 @@ void MyUIUpdater::on_CardChange()
 	
 
 	
-	int i=0;
-	for (std::list<MyCard*>::iterator it=cardlist.begin();it!=cardlist.end();it++)
+	for (int i=0;i<player->GetCardCount();i++)
 	{
+		MyCard *mycard=player->GetCardByID(i);
 		CEGUI::String name=CEGUIText((QStringLiteral("Card")+QString::number(i)).toLocal8Bit().data());
 		CEGUI::Window *card=CardBoxContainer->getChild(name);
-		card->setProperty("Image",(*it)->GetCardType()->GetImageName());
-		i++;
+		card->setProperty("Image",mycard->GetCardType()->GetImageName());
+		if (mycard->IsChoosed())
+		{
+			card->setYPosition(CEGUI::UDim(0,0));
+		}
+		else
+		{
+			card->setYPosition(CEGUI::UDim(Global::CardChooseHeight,0));
+		}
 	}
 }
 

@@ -334,14 +334,9 @@ std::set<MyArea*> MyPlayer::GetAreaSet()
 	return m_AreaSet;
 }
 
-std::list<MyCard*> MyPlayer::GetCardList()
-{
-	return m_CardList;
-}
-
 void MyPlayer::AddCard( MyCard *card )
 {
-	m_CardList.push_back(card);
+	m_CardVector.push_back(card);
 	if(this==MyGameStateManager::GetSingleton().GetCurrentPlayer())
 	{
 		MyUIUpdater::GetSingleton().on_CardChange();
@@ -362,6 +357,16 @@ void MyPlayer::DefineInLua( lua_State *L )
 	lua_tinker::class_def<MyPlayer>(L,"SetMaxMoveTimes",&MyPlayer::SetMaxMoveTimes);
 	lua_tinker::class_def<MyPlayer>(L,"SetMoveTimes",&MyPlayer::SetMoveTimes);
 	lua_tinker::class_def<MyPlayer>(L,"SetName",&MyPlayer::SetName);
+}
+
+MyCard *MyPlayer::GetCardByID( int id )
+{
+	return m_CardVector[id];
+}
+
+int MyPlayer::GetCardCount()
+{
+	return m_CardVector.size();
 }
 
 

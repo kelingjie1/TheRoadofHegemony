@@ -2,6 +2,7 @@
 #include "MyGameApp.h"
 #include "MyPageManager.h"
 #include "MyCardManager.h"
+#include "MyUIUpdater.h"
 #include "Global.h"
 MyPageManager *MyPageManager::m_pSingleton=0;
 
@@ -420,6 +421,29 @@ bool MyGamePlayingPage::on_BuildCancel_clicked( const CEGUI::EventArgs& e )
 bool MyGamePlayingPage::on_EndTurn_clicked( const CEGUI::EventArgs& e )
 {
 	MyGameStateManager::GetSingleton().TurnNextPlayer();
+	return true;
+}
+
+bool MyGamePlayingPage::on_Card_clicked( const CEGUI::EventArgs& e )
+{
+	CEGUI::NamedElementEventArgs *ev=(CEGUI::NamedElementEventArgs*)&e;
+	CEGUI::Window *win=(CEGUI::Window*)ev->element;
+	QString s=win->getName().c_str();
+	int id=s.remove("Card").toInt();
+	MyCard *card=MyGameStateManager::GetSingleton().GetCurrentPlayer()->GetCardByID(id);
+	card->SetChoosed(!card->IsChoosed());
+	return true;
+}
+
+bool MyGamePlayingPage::on_Card_doubleClicked( const CEGUI::EventArgs& e )
+{
+	CEGUI::NamedElementEventArgs *ev=(CEGUI::NamedElementEventArgs*)&e;
+	CEGUI::Window *win=(CEGUI::Window*)ev->element;
+	QString s=win->getName().c_str();
+	int id=s.remove("Card").toInt();
+	MyCard *card=MyGameStateManager::GetSingleton().GetCurrentPlayer()->GetCardByID(id);
+
+	card->Use();
 	return true;
 }
 

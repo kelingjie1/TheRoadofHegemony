@@ -4,8 +4,9 @@ class MyUIUpdater
 {
 	static MyUIUpdater *m_pSingleton;
 public:
-	static MyUIUpdater& GetSingleton();
+	MyUIUpdater();
 
+	static MyUIUpdater& GetSingleton();
 
 	void on_AreaChoose();
 	void on_CardChange();

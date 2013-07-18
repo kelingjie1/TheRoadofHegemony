@@ -15,7 +15,7 @@ class MyPlayer
 	int m_MoveTimes;
 	int m_nAreaCount;
 	std::set<MyArea*>	m_AreaSet;
-	std::list<MyCard*>	m_CardList;
+	std::vector<MyCard*>	m_CardVector;
 public:
 	MyPlayer(int id);
 	
@@ -27,7 +27,8 @@ public:
 	int GetID();
 	CEGUI::String GetName();
 	std::set<MyArea*> GetAreaSet();
-	std::list<MyCard*> GetCardList();
+	MyCard* GetCardByID(int id);
+	int	GetCardCount();
 
 	void SetAreaCount(int n);
 	void SetMoveTimes(int n);

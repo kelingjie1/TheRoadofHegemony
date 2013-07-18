@@ -5,6 +5,7 @@ namespace Global
 	extern float DiceSpeed;
 	extern float MoveSpeed;
 	extern float CardWidthScale;
+	extern float CardChooseHeight;
 	void LoadGlobleSetting();
 }
 inline std::wstring ANSI_to_UNICODE(const char *str)

@@ -68,6 +68,8 @@ public:
 	bool on_BuildCancel_clicked(const CEGUI::EventArgs& e);
 	bool on_EndTurn_clicked(const CEGUI::EventArgs& e);
 
+	bool on_Card_clicked(const CEGUI::EventArgs& e);
+	bool on_Card_doubleClicked(const CEGUI::EventArgs& e);
 
 	virtual bool frameStarted(const Ogre::FrameEvent& evt);
 	virtual bool keyPressed(const OIS::KeyEvent &arg);

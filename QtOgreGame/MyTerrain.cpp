@@ -65,7 +65,11 @@ int MyTerrain::GetSelectAreaID( Ogre::Ray ray )
 	}
 	else
 	{
-		return qGreen(resultrgb)*256+qBlue(resultrgb);
+		int id=qGreen(resultrgb)*256+qBlue(resultrgb);
+		if(id<65535)
+			return id;
+		else
+			return -1;
 	}
 }
 

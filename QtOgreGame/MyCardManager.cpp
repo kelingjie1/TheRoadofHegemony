@@ -1,6 +1,7 @@
 ﻿#include "StdAfx.h"
 #include "MyCardManager.h"
 #include "MyGameStateManager.h"
+#include "MyUIUpdater.h"
 MyCardManager *MyCardManager::m_pSingleton=0;
 MyBuffManager *MyBuffManager::m_pSingleton=0;
 
@@ -46,6 +47,11 @@ bool MyBuff::Trigger()
 	return false;
 }
 
+MyCard::MyCard():m_bChoosed(0)
+{
+
+}
+
 void MyCard::Use()
 {
 
@@ -61,6 +67,18 @@ void MyCard::DefineInLua( lua_State *L )
 	lua_tinker::class_def<MyCard>(L,"Use",&MyCard::Use);
 	lua_tinker::class_def<MyCard>(L,"GetCardType",&MyCard::GetCardType);
 }
+
+bool MyCard::IsChoosed()
+{
+	return m_bChoosed;
+}
+
+void MyCard::SetChoosed( bool choose/*=true*/ )
+{
+	m_bChoosed=choose;
+	MyUIUpdater::GetSingleton().on_CardChange();
+}
+
 
 
 MyCardManager::MyCardManager()

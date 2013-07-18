@@ -37,14 +37,16 @@ public:
 class MyCard
 {
 	friend class MyCardManager;
-	MyCard(){}
+	MyCard();
 	MyCard(const MyCard&){}
 
+	bool m_bChoosed;
 	MyCardType* m_pType;
 public:
 	void Use();
 	MyCardType* GetCardType();
-
+	bool IsChoosed();
+	void SetChoosed(bool choose=true);
 	static void DefineInLua(lua_State *L);
 };
 class MyCardManager

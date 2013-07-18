@@ -4,6 +4,7 @@ float Global::Gravity;
 float Global::DiceSpeed;
 float Global::MoveSpeed;
 float Global::CardWidthScale;
+float Global::CardChooseHeight;
 using namespace Global;
 void Global::LoadGlobleSetting()
 {
@@ -16,7 +17,7 @@ void Global::LoadGlobleSetting()
 	DiceSpeed=lua_tinker::get<float>(L,"DiceSpeed");
 	MoveSpeed=lua_tinker::get<float>(L,"MoveSpeed");
 	CardWidthScale=lua_tinker::get<float>(L,"CardWidthScale");
-
+	CardChooseHeight=lua_tinker::get<float>(L,"CardChooseHeight");
 
 	lua_close(L);
 }
