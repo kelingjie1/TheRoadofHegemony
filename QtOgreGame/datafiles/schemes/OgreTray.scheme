@@ -4,6 +4,7 @@
 	<Imageset filename="GameStart.imageset" />
 	<Imageset filename="MenuPicture.imageset" />
     <Imageset filename="MenuTitle.imageset" />
+	<Imageset filename="Buff.imageset" />
 	<Imageset filename="Card.imageset" />
 	<Imageset filename="Color.imageset" />
 	<Imageset filename="lingpai.imageset" />

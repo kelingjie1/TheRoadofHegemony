@@ -1,0 +1,1 @@
+BuffManager:AddNewBuffType("Mine");

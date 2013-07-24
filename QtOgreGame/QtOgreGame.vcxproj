@@ -94,6 +94,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MyBuffManager.cpp" />
     <ClCompile Include="MyCardManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </ExcludedFromBuild>
@@ -113,6 +114,7 @@
     <ClInclude Include="Global.h" />
     <ClInclude Include="InputHook.h" />
     <ClInclude Include="lua_tinker.h" />
+    <ClInclude Include="MyBuffManager.h" />
     <ClInclude Include="MyCardManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </ExcludedFromBuild>

@@ -1,6 +1,7 @@
 ﻿#include "StdAfx.h"
 #include "MyGameApp.h"
 #include "MyCardManager.h"
+#include "MyBuffManager.h"
 #include "MyUIUpdater.h"
 #include "InputHook.h"
 #include "Global.h"
@@ -114,6 +115,9 @@ void MyGameApp::InitScene()
 	
 	m_pMyTerrain=new MyTerrain(m_pSceneMgr);
 	m_pGameStateManager=new MyGameStateManager;
+	MyBuffManager *BuffManager=new MyBuffManager;
+	MyCardManager *CardManager=new MyCardManager;
+	MyUIUpdater	*UIUpdater=new MyUIUpdater;
 	m_pMyTerrain->InitArmy();
 	
 }
@@ -312,9 +316,7 @@ Ogre::RenderWindow * MyGameApp::GetRenderWindow()
 
 void MyGameApp::InitResource()
 {
-	MyBuffManager *BuffManager=new MyBuffManager;
-	MyCardManager *CardManager=new MyCardManager;
-	MyUIUpdater	*UIUpdater=new MyUIUpdater;
+	
 }
 
 void MyGameApp::SetNextTimeDelta( float timeDelta )

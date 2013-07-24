@@ -635,5 +635,17 @@ void MyArea::DefineInLua( lua_State *L )
 	lua_tinker::class_def<MyArea>(L,"GetArmyCount",&MyArea::GetArmyCount);
 	lua_tinker::class_def<MyArea>(L,"SetAreaBelong",&MyArea::SetAreaBelong);
 	lua_tinker::class_def<MyArea>(L,"SetArmyCount",&MyArea::SetArmyCount);
+	lua_tinker::class_def<MyArea>(L,"AddBuff",&MyArea::AddBuff);
+	lua_tinker::class_def<MyArea>(L,"RemoveBuff",&MyArea::RemoveBuff);
+}
+
+void MyArea::AddBuff( MyBuff *buff )
+{
+	m_BuffSet.insert(buff);
+}
+
+void MyArea::RemoveBuff( MyBuff *buff )
+{
+	m_BuffSet.erase(buff);
 }
 

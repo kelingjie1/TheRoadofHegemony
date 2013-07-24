@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "stdafx.h"
+class MyBuff;
 class MyArea
 {
 	int				m_iAreaBelong;
@@ -20,12 +21,17 @@ public:
 
 	std::set<MyArea*> m_AdjacencySet;
 
+	std::set<MyBuff*> m_BuffSet;
 
 
 	void SetAreaBelong(int id);
 	int GetAreaBelong();
 	void SetArmyCount(int n);
 	int GetArmyCount();
+
+	void AddBuff(MyBuff *buff);
+	void RemoveBuff(MyBuff *buff);
+
 
 	static void DefineInLua(lua_State *L);
 	

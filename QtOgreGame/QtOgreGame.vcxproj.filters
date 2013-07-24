@@ -57,6 +57,9 @@
     <ClCompile Include="MyUIUpdater.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="MyBuffManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -93,6 +96,9 @@
       <Filter>LIB</Filter>
     </ClInclude>
     <ClInclude Include="MyUIUpdater.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MyBuffManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
