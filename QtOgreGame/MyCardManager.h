@@ -2,16 +2,7 @@
 #include "stdafx.h"
 class MyPlayer;
 class MyArea;
-class MyBuffType
-{
-	std::string m_Name;
-	std::string m_Description;
-	lua_State *L;
-	std::string m_BuffImage;
-public:
-	MyBuffType(const char *name);
-	~MyBuffType();
-};
+
 class MyCardType
 {
 	friend class MyCard;
@@ -25,16 +16,7 @@ public:
 
 	std::string GetImageName();
 };
-class MyBuff
-{
-	MyBuff(){}
-	MyBuff(const MyBuff&){}
 
-	MyBuffType* m_pType;
-public:
-	//如果触发完毕之后应该删除，返回true
-	bool Trigger();
-};
 class MyCard
 {
 	friend class MyCardManager;
@@ -68,40 +50,6 @@ public:
 	MyCard *CreateNewCard(const char *TypeName);
 	MyCardType *GetCardType(const char *name);
 	void ShowPlayerCard(MyPlayer *player);
-
-	static void DefineInLua(lua_State *L);
-};
-class MyBuffManager
-{
-	static MyBuffManager *m_pSingleton;
-	std::map<QString,MyBuffType*> m_BuffTypeMap;
-	std::map<QString,std::list<MyBuff*>> m_BuffList;
-public:
-	static MyBuffManager& GetSingleton();
-
-	MyBuffManager();
-	~MyBuffManager();
-	void AddNewBuffType(const char *name);
-	MyBuffType *GetBuffType(const char *name);
-	
-	
-	/*
-	所有的触发事件列表：在事件之前加Before，之后加After，
-	比如有事件X，则存在BeforeX，AfterX
-	玩家切换：PlayerChange
-	卡片被使用：CardUse
-	扔骰子：Dice
-	战斗开始：Fight
-	战斗胜利：FightWin
-	战斗失败：FightLose
-	受到攻击：UnderAttack
-	发动攻击：Attack
-	调兵：Move
-	建造：Build
-	游戏胜利：GameWin
-	游戏失败：GameLose
-	*/
-	void StateTrigger(const char *name);
 
 	static void DefineInLua(lua_State *L);
 };

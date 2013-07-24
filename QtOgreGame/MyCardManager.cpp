@@ -1,24 +1,12 @@
 ﻿#include "StdAfx.h"
 #include "MyCardManager.h"
+#include "MyBuffManager.h"
 #include "MyGameStateManager.h"
 #include "MyUIUpdater.h"
+#include "MyTerrain.h"
+#include "Global.h"
 MyCardManager *MyCardManager::m_pSingleton=0;
-MyBuffManager *MyBuffManager::m_pSingleton=0;
 
-MyBuffType::MyBuffType( const char *name )
-{
-	L = lua_open();
-	luaopen_base(L);
-	luaL_openlibs(L);
-	lua_tinker::dofile(L, ("./media/lua/Buff/"+std::string(name)+".lua").c_str());
-	m_Name=lua_tinker::get<char*>(L,"Name");
-	m_Description=lua_tinker::get<char*>(L,"Description");
-}
-
-MyBuffType::~MyBuffType()
-{
-	lua_close(L);
-}
 
 
 MyCardType::MyCardType( const char *name )
@@ -26,6 +14,20 @@ MyCardType::MyCardType( const char *name )
 	L = lua_open();
 	luaopen_base(L);
 	luaL_openlibs(L);
+	MyPlayer::DefineInLua(L);
+	MyArea::DefineInLua(L);
+	MyTerrain::DefineInLua(L);
+	MyGameStateManager::DefineInLua(L);
+	MyBuff::DefineInLua(L);
+	MyBuffManager::DefineInLua(L);
+	MyCard::DefineInLua(L);
+	MyCardManager::DefineInLua(L);
+
+	lua_tinker::set(L,"Terrain",&MyTerrain::GetSingleton());
+	lua_tinker::set(L,"GameStateManager",&MyGameStateManager::GetSingleton());
+	lua_tinker::set(L,"BuffManager",&MyBuffManager::GetSingleton());
+	lua_tinker::set(L,"CardManager",&MyCardManager::GetSingleton());
+
 	lua_tinker::dofile(L, ("./media/lua/Card/"+std::string(name)+".lua").c_str());
 	m_Name=lua_tinker::get<char*>(L,"Name");
 	m_Description=lua_tinker::get<char*>(L,"Description");
@@ -40,11 +42,6 @@ MyCardType::~MyCardType()
 std::string MyCardType::GetImageName()
 {
 	return m_ImageName;
-}
-
-bool MyBuff::Trigger()
-{
-	return false;
 }
 
 MyCard::MyCard():m_bChoosed(0),m_pOwener(0)
@@ -173,53 +170,4 @@ MyCard * MyCardManager::CreateNewCard( const char *TypeName )
 }
 
 
-
-
-MyBuffManager::MyBuffManager()
-{
-	if(m_pSingleton)
-		throw "Error";
-	else
-		m_pSingleton=this;
-}
-
-MyBuffManager::~MyBuffManager()
-{
-
-}
-
-MyBuffManager& MyBuffManager::GetSingleton()
-{
-	return *m_pSingleton;
-}
-
-void MyBuffManager::StateTrigger( const char *name )
-{
-	std::list<MyBuff*> &bufflist=m_BuffList[name];
-	std::list<MyBuff*>::iterator it=bufflist.begin();
-	while (it!=bufflist.end())
-	{
-		if((*it)->Trigger())
-		{
-			bufflist.erase(it++);
-		}
-	}
-}
-
-void MyBuffManager::DefineInLua( lua_State *L )
-{
-	lua_tinker::class_add<MyBuffManager>(L,"MyBuffManager");
-	lua_tinker::class_def<MyBuffManager>(L,"AddNewBuffType",&MyBuffManager::AddNewBuffType);
-
-}
-
-void MyBuffManager::AddNewBuffType( const char *name )
-{
-	m_BuffTypeMap[name]=new MyBuffType(name);
-}
-
-MyBuffType * MyBuffManager::GetBuffType( const char *name )
-{
-	return m_BuffTypeMap[name];
-}
 
