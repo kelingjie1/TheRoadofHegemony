@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<Animations>
+		<AnimationDefinition name="GameStartAnim" duration="1.2" replayMode="loop">
+			<Affector property="Image" interpolator="String">
+                 <KeyFrame position="0.0" progression="discrete" value="GameStart/s0" />
+                 <KeyFrame position="0.1" progression="discrete" value="GameStart/s1" />
+				 <KeyFrame position="0.2" progression="discrete" value="GameStart/s2" />
+				 <KeyFrame position="0.3" progression="discrete" value="GameStart/s3" />
+				 <KeyFrame position="0.4" progression="discrete" value="GameStart/s4" />
+				 <KeyFrame position="0.5" progression="discrete" value="GameStart/s5" />
+				 <KeyFrame position="0.6" progression="discrete" value="GameStart/s6" />
+				 <KeyFrame position="0.7" progression="discrete" value="GameStart/s7" />
+				 <KeyFrame position="0.8" progression="discrete" value="GameStart/s8" />
+				 <KeyFrame position="0.9" progression="discrete" value="GameStart/s9" />
+				 <KeyFrame position="1.0" progression="discrete" value="GameStart/s10" />
+				 <KeyFrame position="1.1" progression="discrete" value="GameStart/s11" />
+            </Affector>
+		</AnimationDefinition>
+		<AnimationDefinition name="GameStartMoveAnim" duration="4.0" replayMode="once">
+			<Affector property="Position" interpolator="UVector2">
+                 <KeyFrame position="0.0" progression="linear" value="{{-0.4, 0}, {0.3, 0}}" />
+				 <KeyFrame position="4.0" progression="linear" value="{{1.0, 0}, {0.3, 0}}" />
+            </Affector>
+		</AnimationDefinition>
+</Animations>

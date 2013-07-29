@@ -20,8 +20,8 @@ MyUIUpdater& MyUIUpdater::GetSingleton()
 
 void MyUIUpdater::on_AreaChoose()
 {
-	int choose1=MyGameStateManager::GetSingleton().GetChoose(1);
-	int choose2=MyGameStateManager::GetSingleton().GetChoose(2);
+	int choose1=MyGameStateManager::GetSingleton().GetChooseID(1);
+	int choose2=MyGameStateManager::GetSingleton().GetChooseID(2);
 	
 
 	if(choose1>=0)

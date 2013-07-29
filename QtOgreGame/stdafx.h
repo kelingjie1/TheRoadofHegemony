@@ -31,7 +31,7 @@
 #include <QTextCodec>
 #include <QImage>
 #include <QFile>
-
+#include <QDataStream>
 
 
 #include <NxOgre.h>

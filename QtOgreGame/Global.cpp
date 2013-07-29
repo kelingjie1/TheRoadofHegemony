@@ -5,6 +5,8 @@ float Global::DiceSpeed;
 float Global::MoveSpeed;
 float Global::CardWidthScale;
 float Global::CardChooseHeight;
+float Global::HeightOffsetForSinbadOnTerrain;
+float Global::MoveDistance;
 using namespace Global;
 void Global::LoadGlobleSetting()
 {
@@ -16,6 +18,8 @@ void Global::LoadGlobleSetting()
 	Gravity=lua_tinker::get<float>(L,"Gravity");
 	DiceSpeed=lua_tinker::get<float>(L,"DiceSpeed");
 	MoveSpeed=lua_tinker::get<float>(L,"MoveSpeed");
+	MoveDistance=lua_tinker::get<float>(L,"MoveDistance");
+	HeightOffsetForSinbadOnTerrain=lua_tinker::get<float>(L,"HeightOffsetForSinbadOnTerrain");
 	CardWidthScale=lua_tinker::get<float>(L,"CardWidthScale");
 	CardChooseHeight=lua_tinker::get<float>(L,"CardChooseHeight");
 

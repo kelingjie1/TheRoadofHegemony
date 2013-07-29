@@ -133,8 +133,7 @@ bool MyGameApp::frameStarted( const Ogre::FrameEvent& evt )
 {
 	if(evt.timeSinceLastFrame>0.1)
 		*const_cast<Ogre::Real*>(&evt.timeSinceLastFrame)=0.1;
-
-
+	CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
 	if(GetAsyncKeyState('W')&0x8000)
 	{
 		m_pMainCamera->move(100*m_pMainCamera->getDirection()*evt.timeSinceLastFrame);
@@ -279,6 +278,7 @@ void MyGameApp::InitCEGUI()
 	rp->setResourceGroupDirectory("layouts", "./datafiles/layouts/");
 	rp->setResourceGroupDirectory("looknfeels","./datafiles/looknfeel/");
 	rp->setResourceGroupDirectory("lua_scripts","./datafiles/lua_scripts/");
+	rp->setResourceGroupDirectory("animations","./datafiles/animations/");
 	// 使用Xerces作为XML解析器
 	//rp->setResourceGroupDirectory("schemas","datafiles/xml_schemas/");
 
@@ -288,6 +288,7 @@ void MyGameApp::InitCEGUI()
 	CEGUI::WidgetLookManager::setDefaultResourceGroup("looknfeels");
 	CEGUI::WindowManager::setDefaultResourceGroup("layouts");
 	CEGUI::ScriptModule::setDefaultResourceGroup("lua_scripts");
+	CEGUI::AnimationManager::setDefaultResourceGroup("animations");
 	// 仅当你用xerces做XML解析器,并为它定义了一个资源组的时候使用
 	//CEGUI::XercesParser::setSchemaDefaultResourceGroup("schemas");
 
@@ -316,7 +317,7 @@ Ogre::RenderWindow * MyGameApp::GetRenderWindow()
 
 void MyGameApp::InitResource()
 {
-	
+	CEGUI::AnimationManager::getSingleton().loadAnimationsFromXML("MyAnimation.anims");
 }
 
 void MyGameApp::SetNextTimeDelta( float timeDelta )

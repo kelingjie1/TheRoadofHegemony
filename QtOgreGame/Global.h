@@ -6,6 +6,8 @@ namespace Global
 	extern float MoveSpeed;
 	extern float CardWidthScale;
 	extern float CardChooseHeight;
+	extern float MoveDistance;
+	extern float HeightOffsetForSinbadOnTerrain;
 	void LoadGlobleSetting();
 }
 inline std::wstring ANSI_to_UNICODE(const char *str)

@@ -260,15 +260,15 @@ void MyTerrain::InitArea()
 		input>>m_AreaVector[id]->m_MidPoint.x>>m_AreaVector[id]->m_MidPoint.y;
 
 		m_AreaVector[id]->m_FlagEntity=m_pSceneMgr->createEntity("qizi.mesh");
-		m_AreaVector[id]->m_Army=m_pSceneMgr->createEntity("sinbad.mesh");
+		m_AreaVector[id]->m_ArmyEntity=m_pSceneMgr->createEntity("sinbad.mesh");
 		m_AreaVector[id]->m_Sword1 = m_pSceneMgr->createEntity("Sword.mesh");
 		m_AreaVector[id]->m_Sword2 = m_pSceneMgr->createEntity("Sword.mesh");
-		m_AreaVector[id]->m_Army->attachObjectToBone("Sheath.L", m_AreaVector[id]->m_Sword1);
-		m_AreaVector[id]->m_Army->attachObjectToBone("Sheath.R", m_AreaVector[id]->m_Sword2);
+		m_AreaVector[id]->m_ArmyEntity->attachObjectToBone("Sheath.L", m_AreaVector[id]->m_Sword1);
+		m_AreaVector[id]->m_ArmyEntity->attachObjectToBone("Sheath.R", m_AreaVector[id]->m_Sword2);
 
 
 		m_AreaVector[id]->m_FlagEntity->setCastShadows(true);
-		m_AreaVector[id]->m_Army->setCastShadows(true);
+		m_AreaVector[id]->m_ArmyEntity->setCastShadows(true);
 
 		m_AreaVector[id]->m_Node=m_pSceneMgr->getRootSceneNode()->createChildSceneNode(("Area"+QString::number(id)+"MidPoint").toStdString());
 		int x=GetWorldXFromImageX(m_AreaVector[id]->m_MidPoint.x);
@@ -281,8 +281,8 @@ void MyTerrain::InitArea()
 		m_AreaVector[id]->m_FlagNode->setScale(Ogre::Vector3(30));
 
 
-		m_AreaVector[id]->m_ArmyNode=m_pSceneMgr->getRootSceneNode()->createChildSceneNode(("Area"+QString::number(id)+"Army").toStdString(),m_AreaVector[id]->m_Node->getPosition()+Ogre::Vector3(0,25,0));
-		m_AreaVector[id]->m_ArmyNode->attachObject(m_AreaVector[id]->m_Army);
+		m_AreaVector[id]->m_ArmyNode=m_pSceneMgr->getRootSceneNode()->createChildSceneNode(("Area"+QString::number(id)+"Army").toStdString(),m_AreaVector[id]->m_Node->getPosition()+Ogre::Vector3(0,Global::HeightOffsetForSinbadOnTerrain,0));
+		m_AreaVector[id]->m_ArmyNode->attachObject(m_AreaVector[id]->m_ArmyEntity);
 		m_AreaVector[id]->m_ArmyNode->setScale(Ogre::Vector3(5));
 		m_AreaVector[id]->m_FlagEntity->setMaterialName("qiziMaterial00");
 	}
@@ -647,5 +647,28 @@ void MyArea::AddBuff( MyBuff *buff )
 void MyArea::RemoveBuff( MyBuff *buff )
 {
 	m_BuffSet.erase(buff);
+}
+
+bool MyArea::IsAdjacencyArea( MyArea *area )
+{
+	if (m_AdjacencySet.find(area)==m_AdjacencySet.end())
+		return false;
+	else
+		return true;
+}
+
+Ogre::SceneNode * MyArea::GetSceneNode()
+{
+	return m_Node;
+}
+
+Ogre::SceneNode * MyArea::GetArmySceneNode()
+{
+	return m_ArmyNode;
+}
+
+Ogre::Entity	* MyArea::GetArmyEntity()
+{
+	return m_ArmyEntity;
 }
 

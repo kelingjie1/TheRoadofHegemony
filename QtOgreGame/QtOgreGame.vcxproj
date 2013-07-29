@@ -103,6 +103,7 @@
     <ClCompile Include="MyGameStateManager.cpp" />
     <ClCompile Include="MyPageManager.cpp" />
     <ClCompile Include="MyTerrain.cpp" />
+    <ClCompile Include="MyTransformer.cpp" />
     <ClCompile Include="MyUIUpdater.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -123,6 +124,7 @@
     <ClInclude Include="MyGameStateManager.h" />
     <ClInclude Include="MyPageManager.h" />
     <ClInclude Include="MyTerrain.h" />
+    <ClInclude Include="MyTransformer.h" />
     <ClInclude Include="MyUIUpdater.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />

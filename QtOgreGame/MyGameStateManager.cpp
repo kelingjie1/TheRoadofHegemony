@@ -5,8 +5,10 @@
 #include "CollisionTools.h"
 #include "Global.h"
 #include "MyUIUpdater.h"
+#include "MyTransformer.h"
 MyGameStateManager* MyGameStateManager::m_pSingleton=0;
-MyGameStateManager::MyGameStateManager(void):m_CurrentState(0),m_iChoose1(-1),m_iChoose2(-1)
+MyGameStateManager::MyGameStateManager(void)
+	:m_iChoose1(-1),m_iChoose2(-1),m_pCurrentPlayer(0),m_pCurrentState(0),m_pNextState(0)
 {
 	if (m_pSingleton)
 	{
@@ -65,12 +67,21 @@ MyGameStateManager::MyGameStateManager(void):m_CurrentState(0),m_iChoose1(-1),m_
 	}
 
 
+	MyGameState *GameStartState=new MyGameStartState("GameStartState");
+	AddRootState(GameStartState);
+	MyGameState *GamePlayerChangeState=new MyGamePlayerChangeState("GamePlayerChangeState");
+	AddRootState(GamePlayerChangeState);
+	MyGameState *GamePlayState=new MyGamePlayState("GamePlayState");
+	AddRootState(GamePlayState);
+// 	MyGameState *GameDiceState=new MyGameDiceState("GameDiceState");
+// 	AddRootState(GameDiceState);
+	MyGameState *GameAttackState=new MyGameAttackState("GameAttackState");
+	AddRootState(GameAttackState);
 
-	AddState(new MyGameStartState("GameStartState"));
-	AddState(new MyGamePlayerChangeState("GamePlayerChangeState"));
-	AddState(new MyGamePlayState("GamePlayState"));
-	AddState(new MyGameDiceState("GameDiceState"));
-	AddState(new MyGameAttackState("GameAttackState"));
+	GameStartState->SetNextState(GamePlayerChangeState);
+	GamePlayerChangeState->SetNextState(GamePlayState);
+	GameAttackState->SetNextState(GamePlayState);
+	new MyTransformerManager;
 }
 
 
@@ -97,36 +108,26 @@ MyPlayer * MyGameStateManager::GetPlayer( int id )
 
 MyGameState * MyGameStateManager::GetCurrentState()
 {
-	return m_CurrentState;
+	return m_pCurrentState;
 }
 
-void MyGameStateManager::AddState( MyGameState *state )
+void MyGameStateManager::AddRootState( MyGameState *state )
 {
-	m_StateMap[state->GetName()]=state;
+	m_RootStateMap[state->GetName()]=state;
 }
 
-void MyGameStateManager::SetCurrentState( QString name )
-{
-	if (m_CurrentState)
-	{
-		m_CurrentState->on_State_Exit();
-	}
-	m_LastStateList.push_back(m_CurrentState);
-	m_CurrentState=m_StateMap[name];
-	m_CurrentState->on_State_Entry();
-}
 
 MyPlayer *MyGameStateManager::GetCurrentPlayer()
 {
-	return m_CurrentPlayer;
+	return m_pCurrentPlayer;
 }
 
 void MyGameStateManager::SetCurrentPlayerID( int id )
 {
-	m_CurrentPlayer=GetPlayer(id);
-	SetCurrentState("GamePlayerChangeState");
+	m_pCurrentPlayer=GetPlayer(id);
+	SetNextState("GamePlayerChangeState");
 	MyUIUpdater::GetSingleton().on_CardChange();
-	m_CurrentPlayer->SetMoveTimes(m_CurrentPlayer->GetMaxMoveTimes());
+	m_pCurrentPlayer->SetMoveTimes(m_pCurrentPlayer->GetMaxMoveTimes());
 }
 
 void MyGameStateManager::ChooseArea( int id )
@@ -145,16 +146,15 @@ void MyGameStateManager::ChooseArea( int id )
 		MyArea *area=MyTerrain::GetSingleton().GetArea(m_iChoose1);
 		if (m_iChoose2<0&&area->GetAreaBelong()==GetCurrentPlayer()->GetID())
 		{
-			std::set<MyArea*> &AdjacencySet=MyTerrain::GetSingleton().GetArea(m_iChoose1)->m_AdjacencySet;
-			if (AdjacencySet.find(MyTerrain::GetSingleton().GetArea(id))==AdjacencySet.end())
+			if (area->IsAdjacencyArea(MyTerrain::GetSingleton().GetArea(id)))
+			{
+				m_iChoose2=id;
+			}
+			else
 			{
 				MyGameApp::GetSingleton().GetMyTerrain()->SetAreaHighLight(m_iChoose1,false);
 				m_iChoose1=id;
 				MyGameApp::GetSingleton().GetMyTerrain()->SetAreaHighLight(m_iChoose1,true);
-			}
-			else
-			{
-				m_iChoose2=id;
 			}
 		}
 		else
@@ -191,7 +191,7 @@ void MyGameStateManager::ClearChoose()
 	win->setVisible(false);
 }
 
-int MyGameStateManager::GetChoose( int id )
+int MyGameStateManager::GetChooseID( int id )
 {
 	if (id==1)
 	{
@@ -205,44 +205,23 @@ int MyGameStateManager::GetChoose( int id )
 	return -1;
 }
 
-MyGameState * MyGameStateManager::GetState( QString name )
+MyGameState * MyGameStateManager::GetRootState( std::string name )
 {
-	if (m_StateMap[name]==0)
+	if (m_RootStateMap[name]==0)
 	{
-		m_StateMap.erase(name);
+		m_RootStateMap.erase(name);
 		return 0;
 	}
 	else
 	{
-		return m_StateMap[name];
+		return m_RootStateMap[name];
 	}
 }
 
-void MyGameStateManager::ReturnLastState()
-{
-	if (m_LastStateList.empty())
-	{
-		return;
-	}
-	if (m_CurrentState)
-	{
-		m_CurrentState->on_State_Exit();
-	}
-	m_CurrentState=*m_LastStateList.rbegin();
-	m_LastStateList.pop_back();
-	m_CurrentState->on_State_Return();
-}
-
-void MyGameStateManager::GoInState( QString name )
-{
-	m_LastStateList.push_back(m_CurrentState);
-	m_CurrentState=m_StateMap[name];
-	m_CurrentState->on_State_Entry();
-}
 
 void MyGameStateManager::TurnNextPlayer()
 {
-	int id=m_CurrentPlayer->GetID()+1;
+	int id=m_pCurrentPlayer->GetID()+1;
 	if (id>m_nPlayerCount)
 	{
 		id=1;
@@ -256,9 +235,120 @@ void MyGameStateManager::DefineInLua( lua_State *L )
 	lua_tinker::class_add<MyGameStateManager>(L,"MyGameStateManager");
 	lua_tinker::class_def<MyGameStateManager>(L,"ChooseArea",&MyGameStateManager::ChooseArea);
 	lua_tinker::class_def<MyGameStateManager>(L,"ClearChoose",&MyGameStateManager::ClearChoose);
-	lua_tinker::class_def<MyGameStateManager>(L,"GetChoose",&MyGameStateManager::GetChoose);
+	lua_tinker::class_def<MyGameStateManager>(L,"GetChooseID",&MyGameStateManager::GetChooseID);
+	lua_tinker::class_def<MyGameStateManager>(L,"GetChooseArea",&MyGameStateManager::GetChooseArea);
 	lua_tinker::class_def<MyGameStateManager>(L,"GetCurrentPlayer",&MyGameStateManager::GetCurrentPlayer);
 	lua_tinker::class_def<MyGameStateManager>(L,"GetPlayer",&MyGameStateManager::GetPlayer);
+}
+
+bool MyGameStateManager::frameStarted( const Ogre::FrameEvent& evt )
+{
+	MyTransformerManager::GetSingleton().Update(evt.timeSinceLastFrame);
+	if(m_pNextState)
+	{
+		while(m_pCurrentState)
+		{
+			m_pCurrentState->on_State_Exit();
+			m_pCurrentState=m_pCurrentState->GetLastState();
+			if(m_pCurrentState)
+				Ogre::LogManager::getSingleton().logMessage("ReturnState:"+m_pCurrentState->GetName());
+		}
+		m_pCurrentState=m_pNextState;
+		Ogre::LogManager::getSingleton().logMessage("TurnToState:"+m_pCurrentState->GetName());
+		m_pNextState=0;
+		m_pCurrentState->on_State_Entry();
+	}
+	if(!m_pCurrentState)
+		return true;
+	bool re=m_pCurrentState->frameStarted(evt);
+	if (m_pCurrentState->GetGoInState())
+	{
+		MyGameState *laststate=m_pCurrentState;
+		m_pCurrentState=m_pCurrentState->GetGoInState();
+		Ogre::LogManager::getSingleton().logMessage("EnterState:"+m_pCurrentState->GetName());
+		m_pCurrentState->SetLastState(laststate);
+		m_pCurrentState->on_State_Entry();
+	}
+	else if(m_pCurrentState->IsGoNext())
+	{
+		m_pCurrentState->on_State_Exit();
+		m_pCurrentState=m_pCurrentState->GetNextState();
+		Ogre::LogManager::getSingleton().logMessage("TurnToState:"+m_pCurrentState->GetName());
+		m_pCurrentState->on_State_Entry();
+	}
+	else if(m_pCurrentState->IsReturn())
+	{
+		m_pCurrentState->on_State_Exit();
+		MyGameState *laststate=m_pCurrentState;;
+		m_pCurrentState=m_pCurrentState->GetLastState();
+		Ogre::LogManager::getSingleton().logMessage("ReturnState:"+m_pCurrentState->GetName());
+		delete laststate;
+	}
+	return re;
+}
+
+void MyGameStateManager::SetNextState( std::string name )
+{
+	m_pNextState=m_RootStateMap[name];
+	
+}
+
+bool MyGameStateManager::keyPressed( const OIS::KeyEvent &arg )
+{
+	if (m_pCurrentState)
+	{
+		m_pCurrentState->keyPressed(arg);
+	}
+	return true;
+}
+
+bool MyGameStateManager::keyReleased( const OIS::KeyEvent &arg )
+{
+	if (m_pCurrentState)
+	{
+		m_pCurrentState->keyReleased(arg);
+	}
+	return true;
+}
+
+bool MyGameStateManager::mouseMoved( const OIS::MouseEvent &arg )
+{
+	if (m_pCurrentState)
+	{
+		m_pCurrentState->mouseMoved(arg);
+	}
+	return true;
+}
+
+bool MyGameStateManager::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+{
+	if (m_pCurrentState)
+	{
+		m_pCurrentState->mousePressed(arg,id);
+	}
+	return true;
+}
+
+bool MyGameStateManager::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+{
+	if (m_pCurrentState)
+	{
+		m_pCurrentState->mouseReleased(arg,id);
+	}
+	return true;
+}
+
+QDataStream	& MyGameStateManager::GetDataStream()
+{
+	return m_DataStream;
+}
+
+MyArea * MyGameStateManager::GetChooseArea( int id )
+{
+	int areaid=GetChooseID(id);
+	if(areaid<0)
+		return 0;
+	return MyTerrain::GetSingleton().GetArea(areaid);
 }
 
 MyPlayer::MyPlayer( int id ):m_ID(id),m_nAreaCount(0),m_nArmyCount(0),m_nGold(0),m_MoveTimes(0),m_MaxMoveTimes(0)
@@ -391,6 +481,10 @@ void MyPlayer::RemoveCard( MyCard *card,bool update/*=true*/ )
 	}
 }
 
+MyGameState::MyGameState( std::string name ):m_pNextState(0),m_pLastState(0),m_pGoInState(0),m_bGoNext(0),m_bReturn(0),m_Stage("Start")
+{
+	m_Name=name;
+}
 
 bool MyGameState::frameStarted( const Ogre::FrameEvent& evt )
 {
@@ -422,97 +516,172 @@ bool MyGameState::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID 
 	return true;
 }
 
-MyGameState::MyGameState( QString name )
-{
-	m_Name=name;
-}
-
-QString MyGameState::GetName()
+std::string MyGameState::GetName()
 {
 	return m_Name;
 }
 
 void MyGameState::on_State_Entry()
 {
-
+	if(m_pLastState)
+		m_pLastState->m_pGoInState=0;
 }
 
 void MyGameState::on_State_Exit()
 {
-
+	m_bGoNext=0;
+	m_bReturn=0;
+	m_pGoInState=0;
 }
 
-void MyGameState::on_State_Return()
+std::string MyGameState::GetStage()
 {
-
-}
-bool MyGameStartState::frameStarted(const Ogre::FrameEvent& evt)
-{
-	if (time<6)
-	{
-		time+=evt.timeSinceLastFrame;
-		CEGUI::WindowManager &winMgr=CEGUI::WindowManager::getSingleton();
-		CEGUI::Window *win=MyPageManager::GetSingleton().GetPage("GamePlayingPage")->GetWindow()->getChild("GameStart");
-		CEGUI::String num=QString::number(((int)(time*10))%12).toStdString();
-		win->setProperty("Image","GameStart/s"+num);
-		win->setPosition(CEGUI::UVector2(CEGUI::UDim(time/3-1,0),CEGUI::UDim(0.3,0)));
-	}
-	else
-	{
-		MyGameStateManager::GetSingleton().SetCurrentState("GamePlayerChangeState");
-	}
-	return true;
+	return m_Stage;
 }
 
-MyGameStartState::MyGameStartState( QString name ):MyGameState(name)
+void MyGameState::SetStage( std::string state )
 {
+	m_Stage=state;
+}
 
+MyGameState * MyGameState::GetNextState()
+{
+	return m_pNextState;
+}
+
+MyGameState * MyGameState::GetLastState()
+{
+	return m_pLastState;
+}
+
+MyGameState * MyGameState::GetGoInState()
+{
+	return m_pGoInState;
+}
+
+void MyGameState::SetNextState( MyGameState *state )
+{
+	m_pNextState=state;
+}
+
+void MyGameState::SetLastState( MyGameState *state )
+{
+	m_pLastState=state;
+}
+
+void MyGameState::SetGoInState( MyGameState *state,std::string nextStage )
+{
+	m_pGoInState=state;
+	m_Stage=nextStage;
+}
+
+void MyGameState::ReturnLastState()
+{
+	m_bReturn=true;
+}
+
+bool MyGameState::IsReturn()
+{
+	return m_bReturn;
+}
+
+void MyGameState::GoNextState()
+{
+	m_bGoNext=true;
+}
+
+bool MyGameState::IsGoNext()
+{
+	return m_bGoNext;
+}
+
+MyGameStartState::MyGameStartState( std::string name ):MyGameState(name)
+{
+	
+
+	m_pWindow=MyPageManager::GetSingleton().GetPage("GamePlayingPage")->GetWindow()->createChild("OgreTray/StaticImage","GameStart");
+	m_pWindow->setArea(CEGUI::UVector2(CEGUI::UDim(0.4,0),CEGUI::UDim(0.3,0)),CEGUI::USize(CEGUI::UDim(0.3,0),CEGUI::UDim(0.3,0)));
+	m_pWindow->setProperty("FrameEnabled","false");
+	m_pWindow->setProperty("BackgroundEnabled","false");
+	CEGUI::AnimationManager &aniMgr=CEGUI::AnimationManager::getSingleton();
+
+	m_pGameStartAnim=aniMgr.instantiateAnimation(aniMgr.getAnimation("GameStartAnim"));
+	m_pGameStartAnim->setTarget(m_pWindow);
+	
+
+	m_pGameStartMoveAnim=aniMgr.instantiateAnimation(aniMgr.getAnimation("GameStartMoveAnim"));
+	m_pGameStartMoveAnim->setTarget(m_pWindow);
 }
 
 void MyGameStartState::on_State_Entry()
 {
-	time=0;
+	MyGameState::on_State_Entry();
+	m_pGameStartAnim->start();
+	m_pGameStartMoveAnim->start();
 }
 
-MyGamePlayerChangeState::MyGamePlayerChangeState( QString name ):MyGameState(name)
+bool MyGameStartState::frameStarted(const Ogre::FrameEvent& evt)
 {
-
-}
-
-bool MyGamePlayerChangeState::frameStarted( const Ogre::FrameEvent& evt )
-{
-	if (time<3)
+	if(!m_pGameStartMoveAnim->isRunning())
 	{
-		time+=evt.timeSinceLastFrame;
-		CEGUI::WindowManager &winMgr=CEGUI::WindowManager::getSingleton();
-		CEGUI::Window *win=MyPageManager::GetSingleton().GetPage("GamePlayingPage")->GetWindow()->getChild("PlayerChange");
-		win->setPosition(CEGUI::UVector2(CEGUI::UDim(time/2-0.5,0),CEGUI::UDim(0.3,0)));
-		
-	}
-	else
-	{
-		MyGameStateManager::GetSingleton().SetCurrentState("GamePlayState");
+		GoNextState();
 	}
 	return true;
 }
 
+void MyGameStartState::on_State_Exit()
+{
+	
+	CEGUI::AnimationManager::getSingleton().destroyAnimationInstance(m_pGameStartAnim);
+	CEGUI::AnimationManager::getSingleton().destroyAnimationInstance(m_pGameStartMoveAnim);
+	CEGUI::WindowManager::getSingleton().destroyWindow(m_pWindow);
+	MyGameState::on_State_Exit();
+}
+
+
+
+
+MyGamePlayerChangeState::MyGamePlayerChangeState( std::string name ):MyGameState(name)
+{
+	m_pWindow=MyPageManager::GetSingleton().GetPage("GamePlayingPage")->GetWindow()->createChild("OgreTray/StaticText","PlayerChange");
+	m_pWindow->setArea(CEGUI::UVector2(CEGUI::UDim(-0.4,0),CEGUI::UDim(0.3,0)),CEGUI::USize(CEGUI::UDim(0.3,0),CEGUI::UDim(0.3,0)));
+	m_pWindow->setProperty("FrameEnabled","false");
+	m_pWindow->setProperty("BackgroundEnabled","false");
+	m_pWindow->setFont("hwxk40");
+	m_pWindow->setProperty("TextColours","tl:FFFFF263 tr:FFFFF263 bl:FFFFF263 br:FFFFF263");
+	m_pWindow->setVisible(false);
+	CEGUI::AnimationManager &aniMgr=CEGUI::AnimationManager::getSingleton();
+	m_pMoveAnim=aniMgr.instantiateAnimation(aniMgr.getAnimation("GameStartMoveAnim"));
+	m_pMoveAnim->setTarget(m_pWindow);
+}
+
 void MyGamePlayerChangeState::on_State_Entry()
 {
-	time=0;
+	MyGameState::on_State_Entry();
 	MyPlayer *player=MyGameStateManager::GetSingleton().GetCurrentPlayer();
-	CEGUI::WindowManager &winMgr=CEGUI::WindowManager::getSingleton();
-	CEGUI::Window *win=MyPageManager::GetSingleton().GetPage("GamePlayingPage")->GetWindow()->getChild("PlayerChange");
-	win->setText((CEGUI::utf8*)(QStringLiteral("玩家")+QString::number(player->GetID())+QStringLiteral("行动")).toUtf8().data());
-	win->setVisible(true);
+	m_pWindow->setText((CEGUI::utf8*)(QStringLiteral("玩家")+QString::number(player->GetID())+QStringLiteral("行动")).toUtf8().data());
+	m_pWindow->setVisible(true);
+	m_pMoveAnim->start();
+}
+
+bool MyGamePlayerChangeState::frameStarted( const Ogre::FrameEvent& evt )
+{
+	if (!m_pMoveAnim->isRunning())
+	{
+		GoNextState();
+	}
+	return true;
 }
 
 void MyGamePlayerChangeState::on_State_Exit()
 {
-	CEGUI::Window *win=MyPageManager::GetSingleton().GetPage("GamePlayingPage")->GetWindow()->getChild("PlayerChange");
-	win->setVisible(false);
+	
+	m_pWindow->setVisible(false);
+	m_pMoveAnim->stop();
+	MyGameState::on_State_Exit();
 }
 
-MyGamePlayState::MyGamePlayState( QString name ):MyGameState(name)
+MyGamePlayState::MyGamePlayState( std::string name ):MyGameState(name)
 {
 
 }
@@ -534,7 +703,7 @@ bool MyGamePlayState::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButton
 }
 
 
-MyGameDiceState::MyGameDiceState( QString name ):MyGameState(name)
+MyGameDiceState::MyGameDiceState( std::string name ,int diceCount ):MyGameState(name)
 {
 	m_pRenderSystem=MyTerrain::GetSingleton().GetRenderSystem();
 	m_pMyTerrain=&MyTerrain::GetSingleton();
@@ -619,7 +788,7 @@ bool MyGameDiceState::frameStarted( const Ogre::FrameEvent& evt )
 			}
 			m_pRenderSystem->destroyBody(dice[i].body);
 		}
-		MyGameStateManager::GetSingleton().ReturnLastState();
+		ReturnLastState();
 	}
 	
 	
@@ -628,6 +797,7 @@ bool MyGameDiceState::frameStarted( const Ogre::FrameEvent& evt )
 
 void MyGameDiceState::on_State_Entry()
 {
+	MyGameState::on_State_Entry();
 	Ogre::RenderWindow *window=MyGameApp::GetSingleton().GetRenderWindow();
 	for (int i=0;i<nDices;i++)
 	{
@@ -643,236 +813,113 @@ void MyGameDiceState::on_State_Entry()
 }
 
 
-MyGameAttackState::MyGameAttackState( QString name ):MyGameState(name)
+MyGameAttackState::MyGameAttackState( std::string name ):MyGameState(name)
 {
-
-}
-
-bool MyGameAttackState::frameStarted( const Ogre::FrameEvent& evt )
-{
-	time+=evt.timeSinceLastFrame;
-	if (returntimes==2)
-	{
-		if (state==0)
-		{
-			if (time<len/Global::MoveSpeed)
-			{
-				Ogre::Vector3 pos=source+dir*time*Global::MoveSpeed;
-				pos.y=MyTerrain::GetSingleton().GetTerrainGroup()->getHeightAtWorldPosition(pos.x,0,pos.z)+25;
-				m_Area1->m_ArmyNode->setPosition(pos);
-				m_Area1->m_Army->getAnimationState("RunBase")->addTime(evt.timeSinceLastFrame);
-				m_Area1->m_Army->getAnimationState("RunTop")->addTime(evt.timeSinceLastFrame);
-			}
-			else
-			{
-				state=1;
-				time=0;
-				
-				m_Area1->m_Army->getAnimationState("RunBase")->setEnabled(false);
-				m_Area1->m_Army->getAnimationState("RunTop")->setEnabled(false);
-
-				m_Area1->m_Army->getAnimationState("DrawSwords")->setEnabled(true);
-				m_Area2->m_Army->getAnimationState("DrawSwords")->setEnabled(true);
-
-				
-
-			}
-		}
-		else if (state==1)
-		{
-			
-
-			if(time>m_Area2->m_Army->getAnimationState("DrawSwords")->getLength()/2&&time-evt.timeSinceLastFrame<m_Area2->m_Army->getAnimationState("DrawSwords")->getLength()/2)
-			{
-
-
-				m_Area1->m_Army->detachAllObjectsFromBone();
-				m_Area1->m_Army->attachObjectToBone("Handle.L", m_Area1->m_Sword1);
-				m_Area1->m_Army->attachObjectToBone("Handle.R", m_Area1->m_Sword2);
-
-				m_Area2->m_Army->detachAllObjectsFromBone();
-				m_Area2->m_Army->attachObjectToBone("Handle.L", m_Area2->m_Sword1);
-				m_Area2->m_Army->attachObjectToBone("Handle.R", m_Area2->m_Sword2);
-			}
-			if (time<m_Area1->m_Army->getAnimationState("DrawSwords")->getLength())
-			{
-				m_Area1->m_Army->getAnimationState("DrawSwords")->addTime(evt.timeSinceLastFrame);
-				m_Area2->m_Army->getAnimationState("DrawSwords")->addTime(evt.timeSinceLastFrame);
-			}
-			else
-			{
-				state=2;
-				time=0;
-				m_Area1->m_Army->getAnimationState("DrawSwords")->setEnabled(false);
-				m_Area2->m_Army->getAnimationState("DrawSwords")->setEnabled(false);
-
-				m_Area1->m_Army->getAnimationState("SliceVertical")->setEnabled(true);
-				m_Area2->m_Army->getAnimationState("SliceVertical")->setEnabled(true);
-			}
-		}
-		else if (state==2)
-		{
-			if (time<m_Area2->m_Army->getAnimationState("SliceVertical")->getLength()*4)
-			{
-				m_Area1->m_Army->getAnimationState("SliceVertical")->addTime(evt.timeSinceLastFrame);
-				m_Area2->m_Army->getAnimationState("SliceVertical")->addTime(evt.timeSinceLastFrame);
-			}
-			else
-			{
-				state=3;
-				time=0;
-				m_Area1->m_Army->getAnimationState("DrawSwords")->setEnabled(true);
-				m_Area2->m_Army->getAnimationState("DrawSwords")->setEnabled(true);
-			}
-		}
-		else if (state==3)
-		{
-			if(time>m_Area2->m_Army->getAnimationState("DrawSwords")->getLength()/2&&time-evt.timeSinceLastFrame<m_Area2->m_Army->getAnimationState("DrawSwords")->getLength()/2)
-			{
-
-
-				m_Area1->m_Army->detachAllObjectsFromBone();
-				m_Area1->m_Army->attachObjectToBone("Sheath.L", m_Area1->m_Sword1);
-				m_Area1->m_Army->attachObjectToBone("Sheath.R", m_Area1->m_Sword2);
-
-				m_Area2->m_Army->detachAllObjectsFromBone();
-				m_Area2->m_Army->attachObjectToBone("Sheath.L", m_Area2->m_Sword1);
-				m_Area2->m_Army->attachObjectToBone("Sheath.R", m_Area2->m_Sword2);
-			}
-			if (time<m_Area2->m_Army->getAnimationState("DrawSwords")->getLength())
-			{
-				m_Area1->m_Army->getAnimationState("DrawSwords")->addTime(-evt.timeSinceLastFrame);
-				m_Area2->m_Army->getAnimationState("DrawSwords")->addTime(-evt.timeSinceLastFrame);
-			}
-			else
-			{
-				state=4;
-				time=0;
-				if(diceNum1>diceNum2)
-				{
-					int count=m_Area1->GetArmyCount();
-					m_Area2->SetArmyCount(0);
-					m_Area2->SetAreaBelong(m_Area1->GetAreaBelong());
-					m_Area2->SetArmyCount(count-1);
-					m_Area1->SetArmyCount(1);
-				}
-				else
-				{
-					m_Area1->SetArmyCount(1);
-				}
-				Ogre::Vector3 walkdir=-dir;
-				walkdir.y=0;
-				Ogre::Quaternion q1=Ogre::Vector3(0,0,1).getRotationTo(walkdir);
-				Ogre::Quaternion q2(Ogre::Radian(),Ogre::Vector3(0,1,0));
-				m_Area1->m_ArmyNode->setOrientation(q1);
-				m_Area2->m_ArmyNode->setOrientation(q2);
-				m_Area1->m_Army->getAnimationState("RunBase")->setEnabled(true);
-				m_Area1->m_Army->getAnimationState("RunTop")->setEnabled(true);
-			}
-		}
-		else if (state==4)
-		{
-			if(time<len/Global::MoveSpeed)
-			{
-				Ogre::Vector3 pos=source+dir*(len-time*Global::MoveSpeed);
-				pos.y=MyTerrain::GetSingleton().GetTerrainGroup()->getHeightAtWorldPosition(pos.x,0,pos.z)+25;
-				m_Area1->m_ArmyNode->setPosition(pos);
-				m_Area1->m_Army->getAnimationState("RunBase")->addTime(evt.timeSinceLastFrame);
-				m_Area1->m_Army->getAnimationState("RunTop")->addTime(evt.timeSinceLastFrame);
-			}
-			else
-			{
-				Ogre::Quaternion q1(Ogre::Radian(),Ogre::Vector3(0,1,0));
-				m_Area1->m_ArmyNode->setOrientation(q1);
-				Ogre::Vector3 pos=source;
-				pos.y=MyTerrain::GetSingleton().GetTerrainGroup()->getHeightAtWorldPosition(pos.x,0,pos.z)+25;
-				m_Area1->m_ArmyNode->setPosition(pos);
-				MyGameStateManager::GetSingleton().SetCurrentState("GamePlayState");
-			}
-		}
-	}
-	return true;
+	
 }
 
 void MyGameAttackState::on_State_Entry()
 {
-	returntimes=0;
-	time=0;
-	m_iChoose1=MyGameStateManager::GetSingleton().GetChoose(1);
-	m_iChoose2=MyGameStateManager::GetSingleton().GetChoose(2);
-
-	m_Area1=MyTerrain::GetSingleton().GetArea(m_iChoose1);
-	m_Area2=MyTerrain::GetSingleton().GetArea(m_iChoose2);
+	MyGameState::on_State_Entry();
+	m_pSoureceArea=MyGameStateManager::GetSingleton().GetChooseArea(1);
+	m_pDestinationArea=MyGameStateManager::GetSingleton().GetChooseArea(2);
 
 	MyGameStateManager &stateMgr=MyGameStateManager::GetSingleton();
-
-	if (m_Area2->GetArmyCount()==0)
-	{
-		returntimes=2;
-		state=0;
-		diceNum1=1;diceNum2=0;
-		source=m_Area1->m_ArmyNode->getPosition();
-		dest=m_Area2->m_ArmyNode->getPosition();
-		dir=dest-source;
-		len=dir.length()-20;
-		dir.normalise();
-		dest-=dir*20;
-		Ogre::Vector3 walkdir=dir;
-		walkdir.y=0;
-		Ogre::Quaternion q1=Ogre::Vector3(0,0,1).getRotationTo(walkdir);
-		Ogre::Quaternion q2=Ogre::Vector3(0,0,1).getRotationTo(-walkdir);
-		m_Area1->m_ArmyNode->setOrientation(q1);
-		m_Area2->m_ArmyNode->setOrientation(q2);
-
-		m_Area1->m_Army->getAnimationState("RunBase")->setEnabled(true);
-		m_Area1->m_Army->getAnimationState("RunTop")->setEnabled(true);
-	}
-	else
-	{
-		dynamic_cast<MyGameDiceState*>(stateMgr.GetState("GameDiceState"))->nDices=m_Area1->GetArmyCount();
-		stateMgr.GoInState("GameDiceState");
-		diceNum1=0;diceNum2=0;
-		state=0;
-	}
+	stateMgr.ClearChoose();
 }
 
-void MyGameAttackState::on_State_Return()
+bool MyGameAttackState::frameStarted( const Ogre::FrameEvent& evt )
 {
-	returntimes++;
-	MyGameStateManager &stateMgr=MyGameStateManager::GetSingleton();
-	MyGameDiceState *diceState=dynamic_cast<MyGameDiceState*>(stateMgr.GetState("GameDiceState"));
-	if (returntimes==1)
+	if(m_Stage=="Start")
 	{
-		for (int i=0;i<diceState->nDices;i++)
+		MyGameStateManager &stateMgr=MyGameStateManager::GetSingleton();
+		if (m_pDestinationArea->GetArmyCount()==0)
 		{
-			diceNum1+=diceState->dice[i].diceNum;
+			m_pSceneNodeTransformer=MySceneNodeTransformer::Create(m_pSoureceArea->GetArmySceneNode());
+			m_pGameWaitingState=new MyGameWaitingState(m_Name+".Move",m_pSceneNodeTransformer);
+			Ogre::Vector3 dir=m_pDestinationArea->GetArmySceneNode()->getPosition()-m_pSoureceArea->GetArmySceneNode()->getPosition();
+			dir.normalise();
+			Ogre::Vector3 pos=m_pDestinationArea->GetArmySceneNode()->getPosition()-dir*Global::MoveDistance;
+			m_pSceneNodeTransformer->SetAutoTurn(true);
+			m_pSceneNodeTransformer->SetForwardVector(Ogre::Vector3(0,0,1));
+			m_pSceneNodeTransformer->SetOnTerrain(true,Global::HeightOffsetForSinbadOnTerrain);
+			m_pSceneNodeTransformer->MoveToAtSpeed(pos,Global::MoveSpeed);
+			SetGoInState(m_pGameWaitingState,"AttackAnimation");
 		}
-
-		diceState->nDices=m_Area2->GetArmyCount();
-		stateMgr.GoInState("GameDiceState");
+		else
+		{
+			m_Stage="OffensiveSideDice";
+		}
 	}
-	else
+	else if(m_Stage=="AttackAnimation")
 	{
-		for (int i=0;i<diceState->nDices;i++)
-		{
-			diceNum2+=diceState->dice[i].diceNum;
-		}
-		source=m_Area1->m_ArmyNode->getPosition();
-		dest=m_Area2->m_ArmyNode->getPosition();
-		dir=dest-source;
-		len=dir.length()-20;
-		dir.normalise();
-		dest-=dir*20;
+		m_pEntityTransformer=MyEntityTransformer::Create(m_pSoureceArea->GetArmyEntity());
 		
-		Ogre::Vector3 walkdir=dir;
-		walkdir.y=0;
-		Ogre::Quaternion q1=Ogre::Vector3(0,0,1).getRotationTo(walkdir);
-		Ogre::Quaternion q2=Ogre::Vector3(0,0,1).getRotationTo(-walkdir);
-		m_Area1->m_ArmyNode->setOrientation(q1);
-		m_Area2->m_ArmyNode->setOrientation(q2);
-
-		m_Area1->m_Army->getAnimationState("RunBase")->setEnabled(true);
-		m_Area1->m_Army->getAnimationState("RunTop")->setEnabled(true);
 	}
+
+	return true;
+}
+
+void MyGameAttackState::on_State_Exit()
+{
 	
+	
+	MyGameState::on_State_Exit();
+}
+
+MyGameMoveState::MyGameMoveState( std::string name ,MyArea *src,MyArea *dest)
+	:MyGameState(name),m_pSourceArea(src),m_pDestinationArea(dest)
+{
+	//m_pTransformer=new MySceneNodeTransformer(src->)
+}
+
+bool MyGameMoveState::frameStarted( const Ogre::FrameEvent& evt )
+{
+	return true;
+}
+
+void MyGameMoveState::on_State_Entry()
+{
+
+}
+
+void MyGameMoveState::on_State_Exit()
+{
+
+}
+
+MyGameAttackAnimationState::MyGameAttackAnimationState( std::string name,MyArea *src,MyArea *dest )
+	:MyGameState(name),m_pSourceArea(src),m_pDestinationArea(dest)
+{
+
+}
+
+bool MyGameAttackAnimationState::frameStarted( const Ogre::FrameEvent& evt )
+{
+	return true;
+}
+
+void MyGameAttackAnimationState::on_State_Entry()
+{
+
+}
+
+void MyGameAttackAnimationState::on_State_Exit()
+{
+
+}
+
+MyGameWaitingState::MyGameWaitingState( std::string name,MyTransformer *transformer )
+	:MyGameState(name),m_pTransformer(transformer)
+{
+
+}
+
+bool MyGameWaitingState::frameStarted( const Ogre::FrameEvent& evt )
+{
+	if(m_pTransformer->IsFinished())
+	{
+		ReturnLastState();
+	}
+	return true;
 }

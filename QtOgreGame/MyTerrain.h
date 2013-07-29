@@ -3,10 +3,10 @@
 class MyBuff;
 class MyArea
 {
+	friend class MyTerrain;
+protected:
 	int				m_iAreaBelong;
 	int				m_nArmyCount;
-public: 
-	MyArea();
 	int				m_id;
 	int				m_bHighLight;
 
@@ -14,7 +14,7 @@ public:
 	Ogre::SceneNode	*m_Node;
 	Ogre::Entity	*m_FlagEntity;
 	Ogre::SceneNode	*m_FlagNode;
-	Ogre::Entity	*m_Army;
+	Ogre::Entity	*m_ArmyEntity;
 	Ogre::SceneNode	*m_ArmyNode;
 	Ogre::Entity	*m_Sword1,*m_Sword2;
 
@@ -23,15 +23,21 @@ public:
 
 	std::set<MyBuff*> m_BuffSet;
 
-
+public: 
+	MyArea();
+	
 	void SetAreaBelong(int id);
 	int GetAreaBelong();
 	void SetArmyCount(int n);
 	int GetArmyCount();
+	Ogre::SceneNode *GetSceneNode();
+	Ogre::SceneNode *GetArmySceneNode();
+	Ogre::Entity	*GetArmyEntity();
+
 
 	void AddBuff(MyBuff *buff);
 	void RemoveBuff(MyBuff *buff);
-
+	bool IsAdjacencyArea(MyArea *area);
 
 	static void DefineInLua(lua_State *L);
 	

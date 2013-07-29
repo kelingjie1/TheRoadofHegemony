@@ -210,20 +210,8 @@ MyGamePlayingPage::MyGamePlayingPage( const char *name ) :MyPage(name),next_clic
 	m_pWindow->getChild("EndTurn")->subscribeEvent(CEGUI ::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_EndTurn_clicked,this));
 	m_pWindow->getChild("Menu")->hide();
 
-	CEGUI::Window *win=m_pWindow->createChild("OgreTray/StaticImage","GameStart");
-	win->setProperty("Image","GameStart/s0");
-	win->setArea(CEGUI::UVector2(CEGUI::UDim(0.4,0),CEGUI::UDim(0.3,0)),CEGUI::USize(CEGUI::UDim(0.3,0),CEGUI::UDim(0.3,0)));
-	win->setProperty("FrameEnabled","false");
-	win->setProperty("BackgroundEnabled","false");
 	
-
-	win=m_pWindow->createChild("OgreTray/StaticText","PlayerChange");
-	win->setArea(CEGUI::UVector2(CEGUI::UDim(0.4,0),CEGUI::UDim(0.3,0)),CEGUI::USize(CEGUI::UDim(0.3,0),CEGUI::UDim(0.3,0)));
-	win->setProperty("FrameEnabled","false");
-	win->setProperty("BackgroundEnabled","false");
-	win->setFont("hwxk40");
-	win->setProperty("TextColours","tl:FFFFF263 tr:FFFFF263 bl:FFFFF263 br:FFFFF263");
-	win->setVisible(false);
+	CEGUI::Window *win;
 
 	win=m_pWindow->getChild("Attack");
 	win->setVisible(false);
@@ -260,14 +248,14 @@ bool MyGamePlayingPage::on_Return_clicked( const CEGUI::EventArgs& e )
 bool MyGamePlayingPage::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
 	if (StateManager)
-		StateManager->GetCurrentState()->mousePressed(arg,id);
+		StateManager->mousePressed(arg,id);
 	return true;
 }
 
 bool MyGamePlayingPage::keyPressed( const OIS::KeyEvent &arg )
 {
 	if (StateManager)
-		StateManager->GetCurrentState()->keyPressed(arg);
+		StateManager->keyPressed(arg);
 	if (arg.key==OIS::KC_ESCAPE)
 	{
 		CEGUI::Window *win=m_pWindow->getChild("Menu");
@@ -279,7 +267,7 @@ bool MyGamePlayingPage::keyPressed( const OIS::KeyEvent &arg )
 bool MyGamePlayingPage::frameStarted( const Ogre::FrameEvent& evt )
 {
 	if (StateManager)
-		StateManager->GetCurrentState()->frameStarted(evt);
+		StateManager->frameStarted(evt);
 	CEGUI::Vector2f p=CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().getPosition();
 	Ogre::Camera *cam=MyGameApp::GetSingleton().GetMainCamera();
 	if (p.d_y<10)
@@ -313,7 +301,7 @@ void MyGamePlayingPage::OnPageLoad()
 	StateManager=&MyGameStateManager::GetSingleton();
 
 	StateManager->SetCurrentPlayerID(1);
-	StateManager->SetCurrentState("GameStartState");
+	StateManager->SetNextState("GameStartState");
 	
 
 	lua_State *L=lua_open();
@@ -338,7 +326,7 @@ void MyGamePlayingPage::OnPageUnload()
 bool MyGamePlayingPage::mouseMoved( const OIS::MouseEvent &arg )
 {
 	if (StateManager)
-		StateManager->GetCurrentState()->mouseMoved(arg);
+		StateManager->mouseMoved(arg);
 	MyGameApp::GetSingleton().GetMainCamera()->move(MyGameApp::GetSingleton().GetMainCamera()->getDirection()*arg.state.Z.rel);
 	return true;
 }
@@ -346,14 +334,14 @@ bool MyGamePlayingPage::mouseMoved( const OIS::MouseEvent &arg )
 bool MyGamePlayingPage::keyReleased( const OIS::KeyEvent &arg )
 {
 	if (StateManager)
-		StateManager->GetCurrentState()->keyReleased(arg);
+		StateManager->keyReleased(arg);
 	return true;
 }
 
 bool MyGamePlayingPage::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
 	if (StateManager)
-		StateManager->GetCurrentState()->mouseReleased(arg,id);
+		StateManager->mouseReleased(arg,id);
 	return true;
 }
 
@@ -362,11 +350,7 @@ bool MyGamePlayingPage::on_Attack_clicked( const CEGUI::EventArgs& e )
 	MyPlayer *player=MyGameStateManager::GetSingleton().GetCurrentPlayer();
 	player->SetMoveTimes(player->GetMoveTimes()-1);
 	MyGameStateManager &stateMgr=MyGameStateManager::GetSingleton();
-	MyGameAttackState *attackstate=dynamic_cast<MyGameAttackState*>(stateMgr.GetState("GameAttackState"));
-	attackstate->m_iChoose1=stateMgr.GetChoose(1);
-	attackstate->m_iChoose2=stateMgr.GetChoose(2);
-	stateMgr.SetCurrentState("GameAttackState");
-	stateMgr.ClearChoose();
+	stateMgr.SetNextState("GameAttackState");
 	m_pWindow->getChild("Attack")->setVisible(false);
 	return true;
 }
