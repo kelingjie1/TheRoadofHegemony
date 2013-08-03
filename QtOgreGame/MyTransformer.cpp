@@ -155,7 +155,7 @@ void MySceneNodeTransformer::MoveToAtSpeed( Ogre::Vector3 dest,float speed )
 {
 	m_Destination=dest;
 	m_Speed=speed;
-	m_Direction=m_Destination-m_pNode->getPosition();
+	m_Direction=m_Destination-m_Position;
 	m_Direction.normalise();
 	m_bFinish=false;
 	if (m_bAutoTurn)
@@ -209,7 +209,13 @@ void MySceneNodeTransformer::SetForwardVector( Ogre::Vector3 forward )
 	m_Forward=forward;
 }
 
-MyEntityTransformer::MyEntityTransformer( Ogre::Entity *entity ):MyTransformer(),m_pEntity(entity)
+Ogre::Vector3 MySceneNodeTransformer::GetDirection()
+{
+	return m_Direction;
+}
+
+MyEntityTransformer::MyEntityTransformer( Ogre::Entity *entity )
+	:MyTransformer(),m_pEntity(entity),m_fRestTime(0)
 {
 	
 }
@@ -220,11 +226,12 @@ MyEntityTransformer * MyEntityTransformer::Create( Ogre::Entity *entity )
 	return tran;
 }
 
-void MyEntityTransformer::PlayAnimation( char *animName,bool loop/*=true*/ )
+void MyEntityTransformer::AddAnimation( char *animName,bool loop/*=true*/ )
 {
 	Ogre::AnimationState *state=m_pEntity->getAnimationState(animName);
 	state->setLoop(loop);
-	m_pAnimaStateList.push_back(state);
+	state->setEnabled(true);
+	m_pAnimaStateSet.insert(state);
 }
 
 void MyEntityTransformer::Update( float timeDelta )
@@ -232,33 +239,31 @@ void MyEntityTransformer::Update( float timeDelta )
 	if(m_fRestTime>0)
 	{
 		m_fRestTime-=timeDelta;
-	}
-	else if(m_fRestTime<0&&m_fRestTime>-1000)
-	{
-		Stop();
-	}
-	else
-	{
-		for(std::list<Ogre::AnimationState*>::iterator it=m_pAnimaStateList.begin();it!=m_pAnimaStateList.end();it++)
+		for(std::set<Ogre::AnimationState*>::iterator it=m_pAnimaStateSet.begin();it!=m_pAnimaStateSet.end();it++)
 		{
 			(*it)->addTime(timeDelta);
 		}
+	}
+	else
+	{
+		m_bFinish=true;
 	}
 }
 
 void MyEntityTransformer::Start( bool frombegin/*=true*/ )
 {
-	for(std::list<Ogre::AnimationState*>::iterator it=m_pAnimaStateList.begin();it!=m_pAnimaStateList.end();it++)
+	for(std::set<Ogre::AnimationState*>::iterator it=m_pAnimaStateSet.begin();it!=m_pAnimaStateSet.end();it++)
 	{
 		(*it)->setEnabled(true);
 		if(frombegin)
 			(*it)->setTimePosition(0);
 	}
+	m_bFinish=false;
 }
 
 void MyEntityTransformer::Stop( bool setbegin/*=true*/ )
 {
-	for(std::list<Ogre::AnimationState*>::iterator it=m_pAnimaStateList.begin();it!=m_pAnimaStateList.end();it++)
+	for(std::set<Ogre::AnimationState*>::iterator it=m_pAnimaStateSet.begin();it!=m_pAnimaStateSet.end();it++)
 	{
 		(*it)->setEnabled(false);
 		if(setbegin)
@@ -272,3 +277,18 @@ void MyEntityTransformer::PlayInTime( float time )
 	Start();
 }
 
+void MyEntityTransformer::RemoveAnimation( char *animName )
+{
+	Ogre::AnimationState *state=m_pEntity->getAnimationState(animName);
+	state->setEnabled(false);
+	m_pAnimaStateSet.erase(state);
+}
+
+void MyEntityTransformer::RemoveAllAnimations()
+{
+	for(std::set<Ogre::AnimationState*>::iterator it=m_pAnimaStateSet.begin();it!=m_pAnimaStateSet.end();it++)
+	{
+		(*it)->setEnabled(false);
+	}
+	m_pAnimaStateSet.clear();
+}

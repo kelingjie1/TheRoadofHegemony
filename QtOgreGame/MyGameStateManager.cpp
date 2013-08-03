@@ -8,7 +8,7 @@
 #include "MyTransformer.h"
 MyGameStateManager* MyGameStateManager::m_pSingleton=0;
 MyGameStateManager::MyGameStateManager(void)
-	:m_iChoose1(-1),m_iChoose2(-1),m_pCurrentPlayer(0),m_pCurrentState(0),m_pNextState(0)
+	:m_iChoose1(-1),m_iChoose2(-1),m_pCurrentPlayer(0),m_pCurrentState(0),m_pNextState(0),m_LastReturnState(0)
 {
 	if (m_pSingleton)
 	{
@@ -88,7 +88,11 @@ MyGameStateManager::MyGameStateManager(void)
 MyGameStateManager::~MyGameStateManager(void)
 {
 	m_pSingleton=0;
-	
+	if(m_LastReturnState)
+	{
+		delete m_LastReturnState;
+		m_LastReturnState=0;
+	}
 }
 
 MyGameStateManager& MyGameStateManager::GetSingleton()
@@ -261,6 +265,11 @@ bool MyGameStateManager::frameStarted( const Ogre::FrameEvent& evt )
 	if(!m_pCurrentState)
 		return true;
 	bool re=m_pCurrentState->frameStarted(evt);
+	if (m_LastReturnState)
+	{
+		delete m_LastReturnState;
+		m_LastReturnState=0;
+	}
 	if (m_pCurrentState->GetGoInState())
 	{
 		MyGameState *laststate=m_pCurrentState;
@@ -279,10 +288,9 @@ bool MyGameStateManager::frameStarted( const Ogre::FrameEvent& evt )
 	else if(m_pCurrentState->IsReturn())
 	{
 		m_pCurrentState->on_State_Exit();
-		MyGameState *laststate=m_pCurrentState;;
+		m_LastReturnState=m_pCurrentState;;
 		m_pCurrentState=m_pCurrentState->GetLastState();
 		Ogre::LogManager::getSingleton().logMessage("ReturnState:"+m_pCurrentState->GetName());
-		delete laststate;
 	}
 	return re;
 }
@@ -479,6 +487,28 @@ void MyPlayer::RemoveCard( MyCard *card,bool update/*=true*/ )
 			MyUIUpdater::GetSingleton().on_CardChange();
 		}
 	}
+}
+
+void MyPlayer::AddBuff( MyBuff *buff )
+{
+	m_BuffVector.push_back(buff);
+}
+
+void MyPlayer::RemoveBuff( MyBuff *buff )
+{
+	std::vector<MyBuff*>::iterator it=find(m_BuffVector.begin(),m_BuffVector.end(),buff);
+	if(it!=m_BuffVector.end())
+		m_BuffVector.erase(it);
+}
+
+MyBuff * MyPlayer::GetBuffByID( int id )
+{
+	return m_BuffVector[id];
+}
+
+int MyPlayer::GetBuffCount()
+{
+	return m_BuffVector.size();
 }
 
 MyGameState::MyGameState( std::string name ):m_pNextState(0),m_pLastState(0),m_pGoInState(0),m_bGoNext(0),m_bReturn(0),m_Stage("Start")
@@ -703,19 +733,12 @@ bool MyGamePlayState::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButton
 }
 
 
-MyGameDiceState::MyGameDiceState( std::string name ,int diceCount ):MyGameState(name)
+MyGameDiceState::MyGameDiceState( std::string name ,int diceCount )
+	:MyGameState(name),m_nDices(diceCount)
 {
 	m_pRenderSystem=MyTerrain::GetSingleton().GetRenderSystem();
 	m_pMyTerrain=&MyTerrain::GetSingleton();
-	for (int i=0;i<8;i++)
-	{
-		dice[i].cam=m_pMyTerrain->GetSceneManager()->createCamera(("DiceCamera"+QString::number(i)).toStdString());
-		dice[i].cam->setNearClipDistance(0.1);
-		dice[i].cam->setFarClipDistance(10000);
-// 		dice[i].cam->setPosition(Ogre::Vector3(50,1000,50));
-// 		//dice[i].cam->setDirection(Ogre::Vector3(0,-1,0));
-// 		dice[i].cam->lookAt(Ogre::Vector3(0,0,0));
-	}
+	
 }
 
 bool MyGameDiceState::frameStarted( const Ogre::FrameEvent& evt )
@@ -724,14 +747,14 @@ bool MyGameDiceState::frameStarted( const Ogre::FrameEvent& evt )
 	time+=evt.timeSinceLastFrame;
 	m_pMyTerrain->Update(evt);
 	bool stop=true;
-	for (int i=0;i<nDices;i++)
+	for (int i=0;i<m_nDices;i++)
 	{
-		dice[i].cam->setPosition(dice[i].body->getNode()->getPosition()+Ogre::Vector3(10,200,10));
-		dice[i].cam->lookAt(dice[i].body->getNode()->getPosition());
+		m_Dice[i].cam->setPosition(m_Dice[i].body->getNode()->getPosition()+Ogre::Vector3(10,200,10));
+		m_Dice[i].cam->lookAt(m_Dice[i].body->getNode()->getPosition());
 		if (time>5)
 		{
-			float v1=dice[i].body->getAngularVelocity().normalise();
-			float v2=dice[i].body->getLinearVelocity().normalise();
+			float v1=m_Dice[i].body->getAngularVelocity().normalise();
+			float v2=m_Dice[i].body->getLinearVelocity().normalise();
 			if(v1>1||v2>2)
 			{
 				stop=false;
@@ -747,46 +770,46 @@ bool MyGameDiceState::frameStarted( const Ogre::FrameEvent& evt )
 	{
 		Ogre::RenderWindow *window=MyGameApp::GetSingleton().GetRenderWindow();
 		MOC::CollisionTools	tool(m_pMyTerrain->GetSceneManager());
-		for (int i=0;i<nDices;i++)
+		for (int i=0;i<m_nDices;i++)
 		{
 			Ogre::Vector3 result;
 			int fid;
 			Ogre::Entity *entity;
 			float dis;
-			Ogre::Vector3 start=dice[i].body->getNode()->getPosition();
+			Ogre::Vector3 start=m_Dice[i].body->getNode()->getPosition();
 			start.y+=200;
 			tool.raycast(Ogre::Ray(start,Ogre::Vector3(0,-1,0)),result,fid,entity,dis);
 			if(fid==0||fid==1)
 			{
-				dice[i].diceNum=1;
+				m_Dice[i].diceNum=1;
 			}
 			else if(fid==10||fid==11)
 			{
-				dice[i].diceNum=2;
+				m_Dice[i].diceNum=2;
 			}
 			else if(fid==2||fid==3)
 			{
-				dice[i].diceNum=3;
+				m_Dice[i].diceNum=3;
 			}
 			else if(fid==4||fid==5)
 			{
-				dice[i].diceNum=4;
+				m_Dice[i].diceNum=4;
 			}
 			else if(fid==8||fid==9)
 			{
-				dice[i].diceNum=5;
+				m_Dice[i].diceNum=5;
 			}
 			else if(fid==6||fid==7)
 			{
-				dice[i].diceNum=6;
+				m_Dice[i].diceNum=6;
 			}
 			window->removeViewport(i+1);
-			Ogre::SceneNode::ObjectIterator it=dice[i].body->getNode()->getSceneNode()->getAttachedObjectIterator();
+			Ogre::SceneNode::ObjectIterator it=m_Dice[i].body->getNode()->getSceneNode()->getAttachedObjectIterator();
 			while (it.hasMoreElements())
 			{
 				MyTerrain::GetSingleton().GetSceneManager()->destroyEntity((Ogre::Entity*)it.getNext());
 			}
-			m_pRenderSystem->destroyBody(dice[i].body);
+			m_pRenderSystem->destroyBody(m_Dice[i].body);
 		}
 		ReturnLastState();
 	}
@@ -798,20 +821,58 @@ bool MyGameDiceState::frameStarted( const Ogre::FrameEvent& evt )
 void MyGameDiceState::on_State_Entry()
 {
 	MyGameState::on_State_Entry();
+
+
 	Ogre::RenderWindow *window=MyGameApp::GetSingleton().GetRenderWindow();
-	for (int i=0;i<nDices;i++)
+	for (int i=0;i<m_nDices;i++)
 	{
+		m_Dice[i].cam=m_pMyTerrain->GetSceneManager()->createCamera(m_Name+("DiceCamera"+QString::number(i)).toStdString());
+		m_Dice[i].cam->setNearClipDistance(0.1);
+		m_Dice[i].cam->setFarClipDistance(10000);
 		int size=m_pMyTerrain->GetTerrainGroup()->getTerrain(0,0)->getWorldSize();
-		dice[i].bodyDescription.mMass=40.0f;
-		dice[i].bodyDescription.mNode=m_pRenderSystem->createNode();
+		m_Dice[i].bodyDescription.mMass=40.0f;
+		m_Dice[i].bodyDescription.mNode=m_pRenderSystem->createNode();
 		srand(clock());
-		dice[i].body=m_pRenderSystem->createBody(NxOgre::BoxDescription(40),NxOgre::Vec3(size/4+rand()%(size/2)+i%2*i/2*200,1000,size/4+rand()%(size/2)+(i+1)%2*i/2*100), "shaizi.mesh", dice[i].bodyDescription);
-		dice[i].body->getNode()->setScale(Ogre::Vector3(60));
-		window->addViewport(dice[i].cam,i+1,i%3*1/3.0,i/3/3.0,1/3.0,1/3.0);
-	}
+		m_Dice[i].body=m_pRenderSystem->createBody(NxOgre::BoxDescription(40),NxOgre::Vec3(size/4+rand()%(size/2)+i%2*i/2*200,1000,size/4+rand()%(size/2)+(i+1)%2*i/2*100), "shaizi.mesh", m_Dice[i].bodyDescription);
+		m_Dice[i].body->getNode()->setScale(Ogre::Vector3(60));
+		window->addViewport(m_Dice[i].cam,i+1,i%3*1/3.0,i/3/3.0,1/3.0,1/3.0);
+	}	
 	time=0;
 }
 
+void MyGameDiceState::on_State_Exit()
+{
+	for (int i=0;i<m_nDices;i++)
+	{
+		m_pMyTerrain->GetSceneManager()->destroyCamera(m_Dice[i].cam);
+	}
+}
+
+int MyGameDiceState::GetDiceCount()
+{
+	return m_nDices;
+}
+
+int MyGameDiceState::GetDiceNumber( int id )
+{
+	return m_Dice[id].diceNum;
+}
+
+int MyGameDiceState::GetDiceSum()
+{
+	int sum=0;
+	for (int i=0;i<m_nDices;i++)
+	{
+		sum+=m_Dice->diceNum;
+	}
+	return sum;
+}
+
+MyGameDiceState::~MyGameDiceState()
+{
+
+	
+}
 
 MyGameAttackState::MyGameAttackState( std::string name ):MyGameState(name)
 {
@@ -824,6 +885,8 @@ void MyGameAttackState::on_State_Entry()
 	m_pSoureceArea=MyGameStateManager::GetSingleton().GetChooseArea(1);
 	m_pDestinationArea=MyGameStateManager::GetSingleton().GetChooseArea(2);
 
+	m_fDrawSwordsTime=m_pSoureceArea->GetArmyEntity()->getAnimationState("DrawSwords")->getLength();
+	m_fAttackTime=m_pSoureceArea->GetArmyEntity()->getAnimationState("SliceVertical")->getLength();
 	MyGameStateManager &stateMgr=MyGameStateManager::GetSingleton();
 	stateMgr.ClearChoose();
 }
@@ -835,28 +898,121 @@ bool MyGameAttackState::frameStarted( const Ogre::FrameEvent& evt )
 		MyGameStateManager &stateMgr=MyGameStateManager::GetSingleton();
 		if (m_pDestinationArea->GetArmyCount()==0)
 		{
-			m_pSceneNodeTransformer=MySceneNodeTransformer::Create(m_pSoureceArea->GetArmySceneNode());
-			m_pGameWaitingState=new MyGameWaitingState(m_Name+".Move",m_pSceneNodeTransformer);
-			Ogre::Vector3 dir=m_pDestinationArea->GetArmySceneNode()->getPosition()-m_pSoureceArea->GetArmySceneNode()->getPosition();
-			dir.normalise();
-			Ogre::Vector3 pos=m_pDestinationArea->GetArmySceneNode()->getPosition()-dir*Global::MoveDistance;
-			m_pSceneNodeTransformer->SetAutoTurn(true);
-			m_pSceneNodeTransformer->SetForwardVector(Ogre::Vector3(0,0,1));
-			m_pSceneNodeTransformer->SetOnTerrain(true,Global::HeightOffsetForSinbadOnTerrain);
-			m_pSceneNodeTransformer->MoveToAtSpeed(pos,Global::MoveSpeed);
-			SetGoInState(m_pGameWaitingState,"AttackAnimation");
+			m_Stage="Move";
+			m_DiceSum1=1;
+			m_DiceSum2=0;
 		}
 		else
 		{
-			m_Stage="OffensiveSideDice";
+			m_pGameDiceState=new MyGameDiceState(m_Name+".OffensiveSideDice",m_pSoureceArea->GetArmyCount());
+			SetGoInState(m_pGameDiceState,"OffensiveSideDiceFinish");
 		}
 	}
-	else if(m_Stage=="AttackAnimation")
+	else if(m_Stage=="OffensiveSideDiceFinish")
 	{
-		m_pEntityTransformer=MyEntityTransformer::Create(m_pSoureceArea->GetArmyEntity());
+		m_DiceSum1=m_pGameDiceState->GetDiceSum();
+		m_pGameDiceState=new MyGameDiceState(m_Name+".DefensiveSideDice",m_pDestinationArea->GetArmyCount());
+		SetGoInState(m_pGameDiceState,"DefensiveSideDiceFinish");
+	}
+	else if(m_Stage=="DefensiveSideDiceFinish")
+	{
+		m_DiceSum2=m_pGameDiceState->GetDiceSum();
+		m_Stage="Move";
+	}
+	else if(m_Stage=="Move")
+	{
+		m_pSceneNodeTransformer=MySceneNodeTransformer::Create(m_pSoureceArea->GetArmySceneNode());
+		m_pGameWaitingState=new MyGameWaitingState(m_Name+".Move",m_pSceneNodeTransformer);
+		m_SourcePos=m_pSoureceArea->GetArmySceneNode()->getPosition();
+		Ogre::Vector3 dir=m_pDestinationArea->GetArmySceneNode()->getPosition()-m_pSoureceArea->GetArmySceneNode()->getPosition();
+		dir.normalise();
+		Ogre::Vector3 pos=m_pDestinationArea->GetArmySceneNode()->getPosition()-dir*Global::MoveDistance;
+		m_pSceneNodeTransformer->SetAutoTurn(true);
+		m_pSceneNodeTransformer->SetForwardVector(Ogre::Vector3(0,0,1));
+		m_pSceneNodeTransformer->SetOnTerrain(true,Global::HeightOffsetForSinbadOnTerrain);
+		m_pSceneNodeTransformer->MoveToAtSpeed(pos,Global::MoveSpeed);
+
+		m_pSourceEntityTransformer=MyEntityTransformer::Create(m_pSoureceArea->GetArmyEntity());
+		m_pDestinationEntityTransformer=MyEntityTransformer::Create(m_pDestinationArea->GetArmyEntity());
+		m_pSourceEntityTransformer->AddAnimation("RunTop");
+		m_pSourceEntityTransformer->AddAnimation("RunBase");
+		m_pSourceEntityTransformer->PlayInTime(9999);
+		SetGoInState(m_pGameWaitingState,"DrawSwords");
+	}
+	else if(m_Stage=="DrawSwords")
+	{
+		m_pSourceEntityTransformer->Stop();
+		m_pSourceEntityTransformer->RemoveAllAnimations();
+		m_pSourceEntityTransformer->AddAnimation("DrawSwords",false);
+		m_pSourceEntityTransformer->PlayInTime(m_fDrawSwordsTime/2);
+		m_pGameWaitingState=new MyGameWaitingState(m_Name+".DrawSwords",m_pSourceEntityTransformer);
+		SetGoInState(m_pGameWaitingState,"DrawSwordsFinish");
+	}
+	else if(m_Stage=="DrawSwordsFinish")
+	{
+		m_pSoureceArea->GetArmyEntity()->detachAllObjectsFromBone();
+		m_pSoureceArea->GetArmyEntity()->attachObjectToBone("Handle.L", m_pSoureceArea->GetSword(1));
+		m_pSoureceArea->GetArmyEntity()->attachObjectToBone("Handle.R", m_pSoureceArea->GetSword(2));
+
+		m_pDestinationArea->GetArmyEntity()->detachAllObjectsFromBone();
+		m_pDestinationArea->GetArmyEntity()->attachObjectToBone("Handle.L", m_pDestinationArea->GetSword(1));
+		m_pDestinationArea->GetArmyEntity()->attachObjectToBone("Handle.R", m_pDestinationArea->GetSword(2));
+
+		Ogre::Vector3 dir=-m_pSceneNodeTransformer->GetDirection();
+		dir.y=0;
+		m_pDestinationArea->GetArmySceneNode()->setOrientation(Ogre::Vector3(0,0,1).getRotationTo(dir));
+		m_pSourceEntityTransformer->PlayInTime(m_fDrawSwordsTime/2);
+		m_pGameWaitingState=new MyGameWaitingState(m_Name+".DrawSwordsFinish",m_pSourceEntityTransformer);
+		SetGoInState(m_pGameWaitingState,"Attack");
+	}
+	else  if(m_Stage=="Attack")
+	{
+		m_pSourceEntityTransformer->RemoveAllAnimations();
+		m_pSourceEntityTransformer->AddAnimation("SliceVertical");
+		m_pSourceEntityTransformer->PlayInTime(m_fAttackTime*4);
+		m_pGameWaitingState=new MyGameWaitingState(m_Name+".Attack",m_pSourceEntityTransformer);
+
+		m_pDestinationEntityTransformer->AddAnimation("SliceVertical");
+		m_pDestinationEntityTransformer->PlayInTime(m_fAttackTime*4);
+		SetGoInState(m_pGameWaitingState,"MoveBack");
+	}
+	else if(m_Stage=="MoveBack")
+	{
+		m_pSourceEntityTransformer->RemoveAllAnimations();
+		m_pSourceEntityTransformer->AddAnimation("RunTop");
+		m_pSourceEntityTransformer->AddAnimation("RunBase");
+		m_pSourceEntityTransformer->PlayInTime(9999);
+		m_pSoureceArea->GetArmyEntity()->detachAllObjectsFromBone();
+		m_pSoureceArea->GetArmyEntity()->attachObjectToBone("Sheath.L", m_pSoureceArea->GetSword(1));
+		m_pSoureceArea->GetArmyEntity()->attachObjectToBone("Sheath.R", m_pSoureceArea->GetSword(2));
+		m_pDestinationArea->GetArmyEntity()->detachAllObjectsFromBone();
+		m_pDestinationArea->GetArmyEntity()->attachObjectToBone("Sheath.L", m_pDestinationArea->GetSword(1));
+		m_pDestinationArea->GetArmyEntity()->attachObjectToBone("Sheath.R", m_pDestinationArea->GetSword(2));
+		m_pSceneNodeTransformer->MoveToAtSpeed(m_SourcePos,Global::MoveSpeed);
+		m_pGameWaitingState=new MyGameWaitingState(m_Name+".MoveBack",m_pSceneNodeTransformer);
+		SetGoInState(m_pGameWaitingState,"Finish");
+
+
+		if(m_DiceSum1>m_DiceSum2)
+		{
+			m_pDestinationArea->SetAreaBelong(m_pSoureceArea->GetAreaBelong());
+			m_pDestinationArea->SetArmyCount(m_pSoureceArea->GetArmyCount()-1);
+			m_pSoureceArea->SetArmyCount(1);
+		}
+		else
+		{
+			m_pSoureceArea->SetArmyCount(1);
+		}
+
 		
 	}
-
+	else if(m_Stage=="Finish")
+	{
+		m_pSceneNodeTransformer->Release();
+		m_pSourceEntityTransformer->Release();
+		m_pDestinationEntityTransformer->Release();
+		GoNextState();
+	}
 	return true;
 }
 

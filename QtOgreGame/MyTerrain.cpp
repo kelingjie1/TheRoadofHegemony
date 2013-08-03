@@ -641,12 +641,14 @@ void MyArea::DefineInLua( lua_State *L )
 
 void MyArea::AddBuff( MyBuff *buff )
 {
-	m_BuffSet.insert(buff);
+	m_BuffVector.push_back(buff);
 }
 
 void MyArea::RemoveBuff( MyBuff *buff )
 {
-	m_BuffSet.erase(buff);
+	std::vector<MyBuff*>::iterator it=find(m_BuffVector.begin(),m_BuffVector.end(),buff);
+	if(it!=m_BuffVector.end())
+		m_BuffVector.erase(it);
 }
 
 bool MyArea::IsAdjacencyArea( MyArea *area )
@@ -670,5 +672,25 @@ Ogre::SceneNode * MyArea::GetArmySceneNode()
 Ogre::Entity	* MyArea::GetArmyEntity()
 {
 	return m_ArmyEntity;
+}
+
+Ogre::Entity	* MyArea::GetSword( int id )
+{
+	if(id==1)
+		return m_Sword1;
+	else if(id==2)
+		return m_Sword2;
+	else
+		return 0;
+}
+
+MyBuff * MyArea::GetBuffByID( int id )
+{
+	return m_BuffVector[id];
+}
+
+int MyArea::GetBuffCount()
+{
+	return m_BuffVector.size();
 }
 

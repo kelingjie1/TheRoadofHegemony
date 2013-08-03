@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "stdafx.h"
 class MyCard;
+class MyBuff;
 class MyArea;
 class MyTerrain;
 class MyTransformer;
@@ -18,14 +19,20 @@ class MyPlayer
 
 	int m_MoveTimes;
 	int m_nAreaCount;
-	std::set<MyArea*>	m_AreaSet;
-	std::vector<MyCard*>	m_CardVector;
+	std::set<MyArea*>			m_AreaSet;
+	std::vector<MyBuff*>		m_BuffVector;
+	std::vector<MyCard*>		m_CardVector;
 public:
 	MyPlayer(int id);
 	
 	void AddCard(MyCard *card,bool update=true);
 	void RemoveCard(MyCard *card,bool update=true);
 	
+	void AddBuff(MyBuff *buff);
+	void RemoveBuff(MyBuff *buff);
+	MyBuff *GetBuffByID(int id);
+	int GetBuffCount();
+
 	int GetAreaCount();
 	int GetMoveTimes();
 	int GetMaxMoveTimes();
@@ -127,12 +134,6 @@ public:
 };
 class MyGameDiceState:public MyGameState
 {
-public:
-	MyGameDiceState(std::string name,int diceCount);
-	virtual bool frameStarted(const Ogre::FrameEvent& evt);
-	virtual void on_State_Entry();
-	int	nDices;
-	MyDice						dice[8];
 protected:
 	float time;
 	MyArea *m_Area1,*m_Area2;
@@ -140,8 +141,17 @@ protected:
 
 	Critter::RenderSystem		*m_pRenderSystem;
 	MyTerrain					*m_pMyTerrain;
-	
-
+	int							m_nDices;
+	MyDice						m_Dice[8];
+public:
+	MyGameDiceState(std::string name,int diceCount);
+	~MyGameDiceState();
+	virtual bool frameStarted(const Ogre::FrameEvent& evt);
+	virtual void on_State_Entry();
+	virtual void on_State_Exit();
+	int GetDiceCount();
+	int GetDiceNumber(int id);
+	int GetDiceSum();
 	
 };
 
@@ -186,8 +196,15 @@ protected:
 	MyArea					*m_pSoureceArea;
 	MyArea					*m_pDestinationArea;
 	MyGameWaitingState		*m_pGameWaitingState;
+	MyGameDiceState			*m_pGameDiceState;
 	MySceneNodeTransformer	*m_pSceneNodeTransformer;
-	MyEntityTransformer		*m_pEntityTransformer;
+	MyEntityTransformer		*m_pSourceEntityTransformer;
+	MyEntityTransformer		*m_pDestinationEntityTransformer;
+	float					m_fDrawSwordsTime;
+	float					m_fAttackTime;
+	Ogre::Vector3			m_SourcePos;
+	int						m_DiceSum1;
+	int						m_DiceSum2;
 public:
 	MyGameAttackState(std::string name);
 	virtual bool frameStarted(const Ogre::FrameEvent& evt);
@@ -207,10 +224,12 @@ class MyGameStateManager
 	MyPlayer							*m_pCurrentPlayer;
 	MyGameState							*m_pCurrentState;
 	MyGameState							*m_pNextState;
+	MyGameState							*m_LastReturnState;
 	int									m_nPlayerCount;
 	std::list<MyGameState*>				m_LastStateList;
 	std::map<std::string,MyGameState*>	m_RootStateMap;
 	std::vector<MyPlayer*>				m_PlayerVector;
+	
 public:
 	MyGameStateManager(void);
 	~MyGameStateManager(void);

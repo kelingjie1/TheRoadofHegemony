@@ -21,7 +21,7 @@ protected:
 
 	std::set<MyArea*> m_AdjacencySet;
 
-	std::set<MyBuff*> m_BuffSet;
+	std::vector<MyBuff*> m_BuffVector;
 
 public: 
 	MyArea();
@@ -33,10 +33,12 @@ public:
 	Ogre::SceneNode *GetSceneNode();
 	Ogre::SceneNode *GetArmySceneNode();
 	Ogre::Entity	*GetArmyEntity();
-
+	Ogre::Entity	*GetSword(int id);
 
 	void AddBuff(MyBuff *buff);
 	void RemoveBuff(MyBuff *buff);
+	MyBuff *GetBuffByID(int id);
+	int GetBuffCount();
 	bool IsAdjacencyArea(MyArea *area);
 
 	static void DefineInLua(lua_State *L);

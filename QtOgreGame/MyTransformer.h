@@ -58,6 +58,9 @@ public:
 	void SetForwardVector(Ogre::Vector3 forward);
 	void MoveToInTime(Ogre::Vector3 dest,float time);
 	void MoveToAtSpeed(Ogre::Vector3 dest,float speed);
+
+	Ogre::Vector3 GetDirection();
+
 	Ogre::SceneNode *GetSceneNode();
 	virtual void Update(float timeDelta);
 };
@@ -67,11 +70,13 @@ class MyEntityTransformer:public MyTransformer
 protected:
 	MyEntityTransformer(Ogre::Entity *entity);
 	Ogre::Entity						*m_pEntity;
-	std::list<Ogre::AnimationState*>	m_pAnimaStateList;
+	std::set<Ogre::AnimationState*>	m_pAnimaStateSet;
 	float								m_fRestTime;
 public:
 	static MyEntityTransformer *Create(Ogre::Entity *entity);
-	void PlayAnimation(char *animName,bool loop=true);
+	void AddAnimation(char *animName,bool loop=true);
+	void RemoveAnimation(char *animName);
+	void RemoveAllAnimations();
 	void PlayInTime(float time);
 	void Start(bool frombegin=true);
 	void Stop(bool setbegin=true);
