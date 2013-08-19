@@ -6,7 +6,10 @@
 #include "Global.h"
 #include "MyUIUpdater.h"
 #include "MyTransformer.h"
+#include "MyBuffManager.h"
+#include "MyCardManager.h"
 MyGameStateManager* MyGameStateManager::m_pSingleton=0;
+MyEventInfo *MyEventInfo::m_pSingleton=0;
 MyGameStateManager::MyGameStateManager(void)
 	:m_iChoose1(-1),m_iChoose2(-1),m_pCurrentPlayer(0),m_pCurrentState(0),m_pNextState(0),m_LastReturnState(0)
 {
@@ -49,7 +52,7 @@ MyGameStateManager::MyGameStateManager(void)
 				fy+=1.0*j/nCut;
 				int id=MyTerrain::GetSingleton().GetAreaIDFromImageF(fx,fy);
 				MyArea *area=MyTerrain::GetSingleton().GetArea(id);
-				area->SetAreaBelong(playerid);
+				area->SetAreaBelongID(playerid);
 				area->SetArmyCount(5);
 
 
@@ -82,6 +85,7 @@ MyGameStateManager::MyGameStateManager(void)
 	GamePlayerChangeState->SetNextState(GamePlayState);
 	GameAttackState->SetNextState(GamePlayState);
 	new MyTransformerManager;
+	new MyEventInfo;
 }
 
 
@@ -130,7 +134,7 @@ void MyGameStateManager::SetCurrentPlayerID( int id )
 {
 	m_pCurrentPlayer=GetPlayer(id);
 	SetNextState("GamePlayerChangeState");
-	MyUIUpdater::GetSingleton().on_CardChange();
+	MyUIUpdater::GetSingleton().UpdateCardBox();
 	m_pCurrentPlayer->SetMoveTimes(m_pCurrentPlayer->GetMaxMoveTimes());
 }
 
@@ -148,7 +152,7 @@ void MyGameStateManager::ChooseArea( int id )
 	else
 	{
 		MyArea *area=MyTerrain::GetSingleton().GetArea(m_iChoose1);
-		if (m_iChoose2<0&&area->GetAreaBelong()==GetCurrentPlayer()->GetID())
+		if (m_iChoose2<0&&area->GetAreaBelongID()==GetCurrentPlayer()->GetID())
 		{
 			if (area->IsAdjacencyArea(MyTerrain::GetSingleton().GetArea(id)))
 			{
@@ -171,7 +175,7 @@ void MyGameStateManager::ChooseArea( int id )
 		}
 	}
 	
-	MyUIUpdater::GetSingleton().on_AreaChoose();
+	MyUIUpdater::GetSingleton().UpdateAreaInfo();
 }
 
 void MyGameStateManager::ClearChoose()
@@ -186,13 +190,7 @@ void MyGameStateManager::ClearChoose()
 		MyGameApp::GetSingleton().GetMyTerrain()->SetAreaHighLight(m_iChoose2,false);
 		m_iChoose2=-1;
 	}
-	CEGUI::WindowManager &winMgr=CEGUI::WindowManager::getSingleton();
-	CEGUI::Window *win=MyPageManager::GetSingleton().GetPage("GamePlayingPage")->GetWindow()->getChild("AreaInfo1");
-	win->setVisible(false);
-	win=MyPageManager::GetSingleton().GetPage("GamePlayingPage")->GetWindow()->getChild("AreaInfo2");
-	win->setVisible(false);
-	win=MyPageManager::GetSingleton().GetPage("GamePlayingPage")->GetWindow()->getChild("Action");
-	win->setVisible(false);
+	MyUIUpdater::GetSingleton().UpdateAreaInfo();
 }
 
 int MyGameStateManager::GetChooseID( int id )
@@ -389,7 +387,7 @@ int MyPlayer::GetAreaCount()
 void MyPlayer::SetMoveTimes( int n )
 {
 	m_MoveTimes=n;
-	MyUIUpdater::GetSingleton().on_MoveTimesChange();
+	MyUIUpdater::GetSingleton().UpdateMoveTimes();
 }
 
 int MyPlayer::GetMoveTimes()
@@ -439,7 +437,7 @@ void MyPlayer::AddCard( MyCard *card,bool update/*=true*/ )
 	{
 		if(this==MyGameStateManager::GetSingleton().GetCurrentPlayer())
 		{
-			MyUIUpdater::GetSingleton().on_CardChange();
+			MyUIUpdater::GetSingleton().UpdateCardBox();
 		}
 	}
 }
@@ -484,7 +482,7 @@ void MyPlayer::RemoveCard( MyCard *card,bool update/*=true*/ )
 	{
 		if(this==MyGameStateManager::GetSingleton().GetCurrentPlayer())
 		{
-			MyUIUpdater::GetSingleton().on_CardChange();
+			MyUIUpdater::GetSingleton().UpdateCardBox();
 		}
 	}
 }
@@ -993,17 +991,39 @@ bool MyGameAttackState::frameStarted( const Ogre::FrameEvent& evt )
 		SetGoInState(m_pGameWaitingState,"Finish");
 
 
+		MyEventInfo &info=MyEventInfo::GetSingleton();
+
+		info.AttackerArea=m_pSoureceArea;
+		info.DefenderArea=m_pDestinationArea;
+		
 		if(m_DiceSum1>m_DiceSum2)
 		{
-			m_pDestinationArea->SetAreaBelong(m_pSoureceArea->GetAreaBelong());
-			m_pDestinationArea->SetArmyCount(m_pSoureceArea->GetArmyCount()-1);
-			m_pSoureceArea->SetArmyCount(1);
+			info.WinnerArea=m_pSoureceArea;
+			info.Winner=info.WinnerArea->GetAreaBelong();
+			info.LoserArea=m_pDestinationArea;
+			info.Loser=info.LoserArea->GetAreaBelong();
 		}
 		else
 		{
-			m_pSoureceArea->SetArmyCount(1);
+			info.WinnerArea=m_pDestinationArea;
+			info.Winner=info.WinnerArea->GetAreaBelong();
+			info.LoserArea=m_pSoureceArea;
+			info.Loser=info.LoserArea->GetAreaBelong();
 		}
 
+		MyBuffManager::GetSingleton().StateTrigger("BeforeFightWin");
+		
+		if(info.AttackerArea==info.WinnerArea)
+		{
+			info.LoserArea->SetAreaBelongID(info.WinnerArea->GetAreaBelongID());
+			info.LoserArea->SetArmyCount(info.WinnerArea->GetArmyCount()-1);
+			info.WinnerArea->SetArmyCount(1);
+		}
+		else
+		{
+			info.LoserArea->SetArmyCount(1);
+		}
+		MyBuffManager::GetSingleton().StateTrigger("AfterFightWin");
 		
 	}
 	else if(m_Stage=="Finish")
@@ -1078,4 +1098,59 @@ bool MyGameWaitingState::frameStarted( const Ogre::FrameEvent& evt )
 		ReturnLastState();
 	}
 	return true;
+}
+
+MyEventInfo::MyEventInfo()
+{
+	if(m_pSingleton)
+		throw "Error";
+	else
+		m_pSingleton=this;
+	memset(this,0,sizeof(MyEventInfo));
+}
+
+MyEventInfo & MyEventInfo::GetSingleton()
+{
+	return *m_pSingleton;
+}
+
+void MyEventInfo::Clean()
+{
+	memset(this,0,sizeof(MyEventInfo));
+}
+
+void MyEventInfo::DefineInLua( lua_State *L )
+{
+	lua_tinker::class_add<MyEventInfo>(L,"MyEventInfo");
+
+// 	lua_tinker::class_mem<MyEventInfo>(L,"TriggerPlayer",&MyEventInfo::TriggerPlayer);
+// 	lua_tinker::class_mem<MyEventInfo>(L,"Winner",&MyEventInfo::Winner);
+// 	lua_tinker::class_mem<MyEventInfo>(L,"Loser",&MyEventInfo::Loser);
+// 	lua_tinker::class_mem<MyEventInfo>(L,"WinnerArea",&MyEventInfo::WinnerArea);
+// 	lua_tinker::class_mem<MyEventInfo>(L,"LoserArea",&MyEventInfo::LoserArea);
+// 	lua_tinker::class_mem<MyEventInfo>(L,"AttackerArea",&MyEventInfo::AttackerArea);
+// 	lua_tinker::class_mem<MyEventInfo>(L,"DefenderArea",&MyEventInfo::DefenderArea);
+// 	lua_tinker::class_mem<MyEventInfo>(L,"AttackerDiceSum",&MyEventInfo::AttackerDiceSum);
+// 	lua_tinker::class_mem<MyEventInfo>(L,"DefenderDiceSum",&MyEventInfo::DefenderDiceSum);
+
+	lua_tinker::class_def<MyEventInfo>(L,"GetTriggerPlayer",&MyEventInfo::GetTriggerPlayer);
+	lua_tinker::class_def<MyEventInfo>(L,"GetWinner",&MyEventInfo::GetWinner);
+	lua_tinker::class_def<MyEventInfo>(L,"GetLoser",&MyEventInfo::GetLoser);
+	lua_tinker::class_def<MyEventInfo>(L,"GetWinnerArea",&MyEventInfo::GetWinnerArea);
+	lua_tinker::class_def<MyEventInfo>(L,"GetLoserArea",&MyEventInfo::GetLoserArea);
+	lua_tinker::class_def<MyEventInfo>(L,"GetAttackerArea",&MyEventInfo::GetAttackerArea);
+	lua_tinker::class_def<MyEventInfo>(L,"GetDefenderArea",&MyEventInfo::GetDefenderArea);
+	lua_tinker::class_def<MyEventInfo>(L,"GetAttackerDiceSum",&MyEventInfo::GetAttackerDiceSum);
+	lua_tinker::class_def<MyEventInfo>(L,"GetDefenderDiceSum",&MyEventInfo::GetDefenderDiceSum);
+
+	lua_tinker::class_def<MyEventInfo>(L,"SetTriggerPlayer",&MyEventInfo::SetTriggerPlayer);
+	lua_tinker::class_def<MyEventInfo>(L,"SetWinner",&MyEventInfo::SetWinner);
+	lua_tinker::class_def<MyEventInfo>(L,"SetLoser",&MyEventInfo::SetLoser);
+	lua_tinker::class_def<MyEventInfo>(L,"SetWinnerArea",&MyEventInfo::SetWinnerArea);
+	lua_tinker::class_def<MyEventInfo>(L,"SetLoserArea",&MyEventInfo::SetLoserArea);
+	lua_tinker::class_def<MyEventInfo>(L,"SetAttackerArea",&MyEventInfo::SetAttackerArea);
+	lua_tinker::class_def<MyEventInfo>(L,"SetDefenderArea",&MyEventInfo::SetDefenderArea);
+	lua_tinker::class_def<MyEventInfo>(L,"SetAttackerDiceSum",&MyEventInfo::SetAttackerDiceSum);
+	lua_tinker::class_def<MyEventInfo>(L,"SetDefenderDiceSum",&MyEventInfo::SetDefenderDiceSum);
+
 }

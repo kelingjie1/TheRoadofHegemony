@@ -2,11 +2,11 @@ Name="Mine";
 Description="在所选区域设置一个地雷，在敌军占领此区域后触发。扣除对方1~3个部队数量";
 ImageName="Card/Mine";
 function Use()
-	choose1=GameStateManager:GetChoose(1);
-	choose2=GameStateManager:GetChoose(2);
+	choose1=GameStateManager:GetChooseID(1);
+	choose2=GameStateManager:GetChooseID(2);
 	if(choose1~=-1 and choose2==-1) then
 		area=Terrain:GetArea(choose1);
-		if(area:GetAreaBelong()==GameStateManager:GetCurrentPlayer():GetID()) then
+		if(area:GetAreaBelongID()==GameStateManager:GetCurrentPlayer():GetID()) then
 			buff=BuffManager:CreateNewBuff("Mine");
 			area:AddBuff(buff);
 			re=1;

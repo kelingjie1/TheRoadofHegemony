@@ -1,0 +1,11 @@
+OS:Win8 professional/Win7
+VS 2012 update 3
+CEGUI 1.8.2
+Ogre 1.8.1
+Lua 5.1.4
+Qt 5.1.0
+DX SDK June 2010
+PhysX 2.8.4
+Critter 1.7(on github)
+NxOgre 1.7(on github)
+Lua-tinker 0.5d (already in source file)

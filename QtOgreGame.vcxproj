@@ -45,8 +45,8 @@
     <LibraryPath>..\..\..\OgreSDK\lib\release;..\..\..\boost\stage\lib;..\..\..\Qt\vs2012\lib;..\..\..\CEGUISDK\lib;..\..\..\NxOgre\sdk;..\..\..\Critter\sdk;..\..\..\Lua\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\OgreSDK\include\;D:\OgreSDK\include\OGRE;D:\OgreSDK\include\OIS;D:\boost;D:\CEGUISDK\include;D:\Qt\include;D:\Qt\include\QtGui;D:\Qt\include\QtCore;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\OgreSDK\lib\debug;D:\boost\stage\lib;D:\Qt\lib;D:\CEGUISDK\lib;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\OgreSDK\include\;D:\OgreSDK\include\OGRE;D:\OgreSDK\include\OIS;D:\boost;D:\CEGUISDK\include;D:\Qt\vs2012\include;D:\Qt\vs2012\include\QtGui;D:\Qt\vs2012\include\QtCore;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\OgreSDK\lib\debug;D:\boost\stage\lib;D:\Qt\vs2012\lib;D:\CEGUISDK\lib;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

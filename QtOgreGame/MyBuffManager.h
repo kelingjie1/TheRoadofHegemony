@@ -3,6 +3,7 @@
 
 class MyBuffType
 {
+	friend class MyBuffManager;
 	friend class MyBuff;
 	std::string m_Name;
 	std::string m_Description;
@@ -12,6 +13,10 @@ class MyBuffType
 public:
 	MyBuffType(const char *name);
 	~MyBuffType();
+
+	const char *GetImageName();
+	const char *GetName();
+	const char *GetDescription();
 };
 class MyBuff
 {
@@ -22,6 +27,9 @@ class MyBuff
 	MyBuffType* m_pType;
 public:
 	//如果触发完毕之后应该删除，返回true
+
+	MyBuffType *GetBuffType();
+	
 	void Register();
 	bool Trigger(const char *event);
 

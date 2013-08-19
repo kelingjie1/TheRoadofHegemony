@@ -3,7 +3,7 @@ n=terrain:GetAreaCount();
 math.randomseed(0);
 for i=0,n-1 do
 	area=terrain:GetArea(i);
-	if area:GetAreaBelong()==0 then
+	if area:GetAreaBelongID()==0 then
 		x=math.random(0,8);
 		area:SetArmyCount(x);
 	else

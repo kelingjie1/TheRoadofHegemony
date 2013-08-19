@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "MyGameApp.h"
 #include "MyPageManager.h"
+#include "MyBuffManager.h"
 #include "MyCardManager.h"
 #include "MyUIUpdater.h"
 #include "Global.h"
@@ -306,13 +307,17 @@ void MyGamePlayingPage::OnPageLoad()
 
 	lua_State *L=lua_open();
 	luaopen_base(L);
+	MyArea::DefineInLua(L);
 	MyTerrain::DefineInLua(L);
+	MyBuff::DefineInLua(L);
+	MyBuffManager::DefineInLua(L);
 	MyCard::DefineInLua(L);
 	MyCardManager::DefineInLua(L);
 	MyPlayer::DefineInLua(L);
 	MyGameStateManager::DefineInLua(L);
 	lua_tinker::set(L,"Terrain",&MyTerrain::GetSingleton());
 	lua_tinker::set(L,"GameStateManager",&MyGameStateManager::GetSingleton());
+	lua_tinker::set(L,"BuffManager",&MyBuffManager::GetSingleton());
 	lua_tinker::set(L,"CardManager",&MyCardManager::GetSingleton());
 	lua_tinker::dofile(L,"./media/lua/PlayingPageInit.lua");
 	lua_close(L);

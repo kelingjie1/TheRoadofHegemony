@@ -39,9 +39,19 @@ MyCardType::~MyCardType()
 	lua_close(L);
 }
 
-std::string MyCardType::GetImageName()
+const char *MyCardType::GetImageName()
 {
-	return m_ImageName;
+	return m_ImageName.c_str();
+}
+
+const char * MyCardType::GetName()
+{
+	return m_Name.c_str();
+}
+
+const char * MyCardType::GetDescription()
+{
+	return m_Description.c_str();
 }
 
 MyCard::MyCard():m_bChoosed(0),m_pOwener(0)
@@ -84,7 +94,7 @@ void MyCard::SetChoosed( bool choose/*=true*/,bool update/*=true*/ )
 	m_bChoosed=choose;
 	if (update)
 	{
-		MyUIUpdater::GetSingleton().on_CardChange();
+		MyUIUpdater::GetSingleton().UpdateCardBox();
 	}
 	
 }

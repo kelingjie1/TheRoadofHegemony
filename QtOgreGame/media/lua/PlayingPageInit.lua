@@ -23,3 +23,7 @@ card=CardManager:CreateNewCard("Mine");
 player1:AddCard(card,false);
 card=CardManager:CreateNewCard("Mine");
 player1:AddCard(card,true);
+
+
+buff=BuffManager:CreateNewBuff("Mine");
+Terrain:GetArea(7):AddBuff(buff);

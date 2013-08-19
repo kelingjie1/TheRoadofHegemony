@@ -14,6 +14,7 @@ MyBuffType::MyBuffType( const char *name )
 	MyPlayer::DefineInLua(L);
 	MyArea::DefineInLua(L);
 	MyTerrain::DefineInLua(L);
+	MyEventInfo::DefineInLua(L);
 	MyGameStateManager::DefineInLua(L);
 	MyBuff::DefineInLua(L);
 	MyBuffManager::DefineInLua(L);
@@ -21,6 +22,7 @@ MyBuffType::MyBuffType( const char *name )
 	MyCardManager::DefineInLua(L);
 
 	lua_tinker::set(L,"Terrain",&MyTerrain::GetSingleton());
+	lua_tinker::set(L,"EventInfo",&MyEventInfo::GetSingleton());
 	lua_tinker::set(L,"GameStateManager",&MyGameStateManager::GetSingleton());
 	lua_tinker::set(L,"BuffManager",&MyBuffManager::GetSingleton());
 	lua_tinker::set(L,"CardManager",&MyCardManager::GetSingleton());
@@ -34,6 +36,21 @@ MyBuffType::MyBuffType( const char *name )
 MyBuffType::~MyBuffType()
 {
 	lua_close(L);
+}
+
+const char * MyBuffType::GetImageName()
+{
+	return m_ImageName.c_str();
+}
+
+const char * MyBuffType::GetName()
+{
+	return m_Name.c_str();
+}
+
+const char * MyBuffType::GetDescription()
+{
+	return m_Description.c_str();
 }
 
 
@@ -54,6 +71,11 @@ void MyBuff::DefineInLua( lua_State *l )
 	lua_tinker::class_add<MyBuff>(l,"MyBuff");
 	lua_tinker::class_def<MyBuff>(l,"Register",&MyBuff::Register);
 	lua_tinker::class_def<MyBuff>(l,"Trigger",&MyBuff::Trigger);
+}
+
+MyBuffType * MyBuff::GetBuffType()
+{
+	return m_pType;
 }
 
 
@@ -92,6 +114,10 @@ void MyBuffManager::StateTrigger( char *event )
 		if((*it)->Trigger(event))
 		{
 			bufflist.erase(it++);
+		}
+		else
+		{
+			it++;
 		}
 	}
 }

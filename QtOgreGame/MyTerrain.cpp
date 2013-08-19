@@ -590,7 +590,7 @@ MyArea::MyArea():m_bHighLight(0),m_iAreaBelong(0),m_nArmyCount(0)
 	
 }
 
-void MyArea::SetAreaBelong( int id )
+void MyArea::SetAreaBelongID( int id )
 {
 	if (id!=m_iAreaBelong)
 	{
@@ -610,9 +610,20 @@ void MyArea::SetAreaBelong( int id )
 	m_FlagEntity->setMaterialName(("qiziMaterial"+str).toStdString());
 }
 
-int MyArea::GetAreaBelong()
+int MyArea::GetAreaBelongID()
 {
 	return m_iAreaBelong;
+}
+
+
+void MyArea::SetAreaBelong( MyPlayer *player )
+{
+	SetAreaBelongID(player->GetID());
+}
+
+MyPlayer * MyArea::GetAreaBelong()
+{
+	return MyGameStateManager::GetSingleton().GetPlayer(m_iAreaBelong);
 }
 
 void MyArea::SetArmyCount( int n )
@@ -631,9 +642,12 @@ int MyArea::GetArmyCount()
 void MyArea::DefineInLua( lua_State *L )
 {
 	lua_tinker::class_add<MyArea>(L,"MyArea");
+	lua_tinker::class_def<MyArea>(L,"GetID",&MyArea::GetID);
 	lua_tinker::class_def<MyArea>(L,"GetAreaBelong",&MyArea::GetAreaBelong);
+	lua_tinker::class_def<MyArea>(L,"GetAreaBelongID",&MyArea::GetAreaBelongID);
 	lua_tinker::class_def<MyArea>(L,"GetArmyCount",&MyArea::GetArmyCount);
-	lua_tinker::class_def<MyArea>(L,"SetAreaBelong",&MyArea::SetAreaBelong);
+	lua_tinker::class_def<MyArea>(L,"SetAreaBelongID",&MyArea::SetAreaBelong);
+	lua_tinker::class_def<MyArea>(L,"SetAreaBelong",&MyArea::SetAreaBelongID);
 	lua_tinker::class_def<MyArea>(L,"SetArmyCount",&MyArea::SetArmyCount);
 	lua_tinker::class_def<MyArea>(L,"AddBuff",&MyArea::AddBuff);
 	lua_tinker::class_def<MyArea>(L,"RemoveBuff",&MyArea::RemoveBuff);
@@ -693,4 +707,10 @@ int MyArea::GetBuffCount()
 {
 	return m_BuffVector.size();
 }
+
+int MyArea::GetID()
+{
+	return m_id;
+}
+
 

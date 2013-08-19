@@ -1,6 +1,6 @@
-Gravity=-9.8*10;
+Gravity=-9.8*50;
 DiceSpeed=100;
-MoveSpeed=80;
+MoveSpeed=120;
 MoveDistance=30;
 HeightOffsetForSinbadOnTerrain=25;
 CardWidthScale=0.15*7/10;

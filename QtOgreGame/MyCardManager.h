@@ -14,7 +14,9 @@ public:
 	MyCardType(const char *name);
 	~MyCardType();
 
-	std::string GetImageName();
+	const char *GetImageName();
+	const char *GetName();
+	const char *GetDescription();
 };
 
 class MyCard

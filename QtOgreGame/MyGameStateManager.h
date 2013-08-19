@@ -211,10 +211,52 @@ public:
 	virtual void on_State_Entry();
 	virtual	void on_State_Exit();
 	
+};
 
-	
+
+class MyEventInfo
+{
+protected:
+	static MyEventInfo	*m_pSingleton;
+public:
+	MyPlayer	*TriggerPlayer;
+	MyPlayer	*Winner;
+	MyPlayer	*Loser;
+	MyArea		*WinnerArea;
+	MyArea		*LoserArea;
+	MyArea		*AttackerArea;
+	MyArea		*DefenderArea;
+	int			AttackerDiceSum;
+	int			DefenderDiceSum;
+
+	MyEventInfo();
+	void Clean();
+	static MyEventInfo &GetSingleton();
+
+	MyPlayer	*GetTriggerPlayer()		{return TriggerPlayer;}
+	MyPlayer	*GetWinner()			{return Winner;}
+	MyPlayer	*GetLoser()				{return Loser;}
+	MyArea		*GetWinnerArea()		{return WinnerArea;}
+	MyArea		*GetLoserArea()			{return LoserArea;}
+	MyArea		*GetAttackerArea()		{return AttackerArea;}
+	MyArea		*GetDefenderArea()		{return DefenderArea;}
+	int			GetAttackerDiceSum()	{return AttackerDiceSum;}
+	int			GetDefenderDiceSum()	{return DefenderDiceSum;}
+
+	void	SetTriggerPlayer(MyPlayer *value)		{TriggerPlayer=value;}
+	void	SetWinner(MyPlayer *value)				{Winner=value;}
+	void	SetLoser(MyPlayer *value)				{Loser=value;}
+	void	SetWinnerArea(MyArea *value)			{WinnerArea=value;}
+	void	SetLoserArea(MyArea *value)			{LoserArea=value;}
+	void	SetAttackerArea(MyArea *value)			{AttackerArea=value;}
+	void	SetDefenderArea(MyArea *value)			{DefenderArea=value;}
+	void	SetAttackerDiceSum(int value)			{AttackerDiceSum=value;}
+	void	SetDefenderDiceSum(int value)			{DefenderDiceSum=value;}
+
+	static void DefineInLua(lua_State *L);
 
 };
+
 
 class MyGameStateManager
 {

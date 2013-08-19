@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "stdafx.h"
 class MyBuff;
+class MyPlayer;
 class MyArea
 {
 	friend class MyTerrain;
@@ -26,8 +27,11 @@ protected:
 public: 
 	MyArea();
 	
-	void SetAreaBelong(int id);
-	int GetAreaBelong();
+	int GetID();
+	void SetAreaBelongID(int id);
+	int GetAreaBelongID();
+	void SetAreaBelong(MyPlayer *player);
+	MyPlayer *GetAreaBelong();
 	void SetArmyCount(int n);
 	int GetArmyCount();
 	Ogre::SceneNode *GetSceneNode();
