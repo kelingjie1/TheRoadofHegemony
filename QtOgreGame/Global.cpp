@@ -7,6 +7,7 @@ float Global::CardWidthScale;
 float Global::CardChooseHeight;
 float Global::HeightOffsetForSinbadOnTerrain;
 float Global::MoveDistance;
+int Global::UseHydrax;
 using namespace Global;
 void Global::LoadGlobleSetting()
 {
@@ -22,6 +23,6 @@ void Global::LoadGlobleSetting()
 	HeightOffsetForSinbadOnTerrain=lua_tinker::get<float>(L,"HeightOffsetForSinbadOnTerrain");
 	CardWidthScale=lua_tinker::get<float>(L,"CardWidthScale");
 	CardChooseHeight=lua_tinker::get<float>(L,"CardChooseHeight");
-
+	UseHydrax=lua_tinker::get<float>(L,"UseHydrax");
 	lua_close(L);
 }

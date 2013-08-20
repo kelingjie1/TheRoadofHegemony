@@ -8,6 +8,7 @@ namespace Global
 	extern float CardChooseHeight;
 	extern float MoveDistance;
 	extern float HeightOffsetForSinbadOnTerrain;
+	extern int UseHydrax;
 	void LoadGlobleSetting();
 }
 inline std::wstring ANSI_to_UNICODE(const char *str)

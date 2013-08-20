@@ -62,6 +62,7 @@ protected:
 	bool		m_bReturn;
 public:
 	MyGameState(std::string name);
+	virtual ~MyGameState(){};
 	std::string GetName();
 	std::string GetStage();
 	void SetStage(std::string state);
@@ -70,7 +71,7 @@ public:
 	MyGameState *GetGoInState();
 	void SetNextState(MyGameState *state);
 	void SetLastState(MyGameState *state);
-	void SetGoInState(MyGameState *state,std::string nextStage);
+	void SetGoInState(MyGameState *state,std::string nextStage="");
 
 	void ReturnLastState();
 	bool IsReturn();
@@ -213,6 +214,18 @@ public:
 	
 };
 
+class MyMineCardState:public MyGameState
+{
+protected:
+	float						m_fRestTime;
+	Ogre::SceneNode				*m_pNode;
+	MyArea						*m_pArea;
+	Ogre::ParticleSystem		*m_pParticleSystem;
+public:
+	MyMineCardState(std::string name,MyArea *area);
+	~MyMineCardState();
+	virtual bool frameStarted(const Ogre::FrameEvent& evt);
+};
 
 class MyEventInfo
 {
@@ -294,6 +307,9 @@ public:
 	MyArea *GetChooseArea(int id);
 	void ChooseArea(int id);
 	void ClearChoose();
+
+	void PlayAnimation(const char *name);
+
 
 	void TurnNextPlayer();
 	bool frameStarted(const Ogre::FrameEvent& evt);

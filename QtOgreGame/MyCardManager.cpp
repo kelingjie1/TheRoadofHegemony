@@ -67,6 +67,7 @@ bool MyCard::Use()
 	{
 		MyGameStateManager::GetSingleton().GetCurrentPlayer()->RemoveCard(this);
 	}
+	MyUIUpdater::GetSingleton().UpdateBuffList();
 	return re;
 }
 MyCardType* MyCard::GetCardType()

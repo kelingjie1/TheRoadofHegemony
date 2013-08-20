@@ -37,6 +37,10 @@
 #include <NxOgre.h>
 #include <Critter.h>
 
+#include <Hydrax.h>
+#include <Noise/Perlin/Perlin.h>
+#include <Modules/ProjectedGrid/ProjectedGrid.h>
+
 extern "C" 
 {
 #include <lua.h>

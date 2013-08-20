@@ -8,14 +8,15 @@ function Register()
 end
 function AfterFightWin()
 	print("Mine Check");
-	local area1=EventInfo:GetWinnerArea();
-	local area2=EventInfo:GetAttackerArea();
-	if(area1:GetID()==area2:GetID())then
-		local MineBoom=math.random(0,3);
-		local armycount=EventInfo:GetLoserArea():GetArmyCount()-MineBoom;
-		EventInfo:GetLoserArea():SetArmyCount(armycount);
-		print("Mine Boom,Lose "..MineBoom.." Army(s)");
+	if(Buff:GetOwnerArea():GetID()==EventInfo:GetDefenderArea():GetID())then
+		if(EventInfo:GetWinnerArea():GetID()==EventInfo:GetAttackerArea():GetID())then
+			local MineBoom=math.random(0,3);
+			local armycount=EventInfo:GetLoserArea():GetArmyCount()-MineBoom;
+			EventInfo:GetLoserArea():SetArmyCount(armycount);
+			GameStateManager:PlayAnimation("MineBoom");
+			print("Mine Boom,Lose "..MineBoom.." Army(s)");
+			return 1;
+		end
 	end
-	
-	return 1;
+	return 0;
 end

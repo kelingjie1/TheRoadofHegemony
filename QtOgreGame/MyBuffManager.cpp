@@ -71,11 +71,42 @@ void MyBuff::DefineInLua( lua_State *l )
 	lua_tinker::class_add<MyBuff>(l,"MyBuff");
 	lua_tinker::class_def<MyBuff>(l,"Register",&MyBuff::Register);
 	lua_tinker::class_def<MyBuff>(l,"Trigger",&MyBuff::Trigger);
+	lua_tinker::class_def<MyBuff>(l,"GetOwnerArea",&MyBuff::GetOwnerArea);
+	lua_tinker::class_def<MyBuff>(l,"GetOwnerPlayer",&MyBuff::GetOwnerPlayer);
+	lua_tinker::class_def<MyBuff>(l,"SetOwnerArea",&MyBuff::SetOwnerArea);
+	lua_tinker::class_def<MyBuff>(l,"SetOwnerPlayer",&MyBuff::SetOwnerPlayer);
 }
 
 MyBuffType * MyBuff::GetBuffType()
 {
 	return m_pType;
+}
+
+void MyBuff::SetOwnerArea( MyArea *area )
+{
+	m_pOwnerArea=area;
+	m_pOwnerPlayer=0;
+}
+
+void MyBuff::SetOwnerPlayer( MyPlayer *player )
+{
+	m_pOwnerArea=0;
+	m_pOwnerPlayer=player;
+}
+
+MyArea * MyBuff::GetOwnerArea()
+{
+	return m_pOwnerArea;
+}
+
+MyPlayer * MyBuff::GetOwnerPlayer()
+{
+	return m_pOwnerPlayer;
+}
+
+MyBuff::MyBuff():m_pType(0),m_pOwnerArea(0),m_pOwnerPlayer(0)
+{
+
 }
 
 
@@ -111,9 +142,19 @@ void MyBuffManager::StateTrigger( char *event )
 	std::list<MyBuff*>::iterator it=bufflist.begin();
 	while (it!=bufflist.end())
 	{
+		lua_tinker::set((*it)->GetBuffType()->L,"Buff",*it);
 		if((*it)->Trigger(event))
 		{
+			if((*it)->GetOwnerArea())
+			{
+				(*it)->GetOwnerArea()->RemoveBuff(*it);
+			}
+			if((*it)->GetOwnerPlayer())
+			{
+				(*it)->GetOwnerPlayer()->RemoveBuff(*it);
+			}
 			bufflist.erase(it++);
+			
 		}
 		else
 		{

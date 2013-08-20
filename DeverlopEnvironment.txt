@@ -9,3 +9,4 @@ PhysX 2.8.4
 Critter 1.7(on github)
 NxOgre 1.7(on github)
 Lua-tinker 0.5d (already in source file)
+Hydrax 0.5.1

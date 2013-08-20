@@ -269,6 +269,7 @@ bool MyGamePlayingPage::frameStarted( const Ogre::FrameEvent& evt )
 {
 	if (StateManager)
 		StateManager->frameStarted(evt);
+	MyTerrain::GetSingleton().Update(evt);
 	CEGUI::Vector2f p=CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().getPosition();
 	Ogre::Camera *cam=MyGameApp::GetSingleton().GetMainCamera();
 	if (p.d_y<10)

@@ -241,6 +241,7 @@ void MyGameStateManager::DefineInLua( lua_State *L )
 	lua_tinker::class_def<MyGameStateManager>(L,"GetChooseArea",&MyGameStateManager::GetChooseArea);
 	lua_tinker::class_def<MyGameStateManager>(L,"GetCurrentPlayer",&MyGameStateManager::GetCurrentPlayer);
 	lua_tinker::class_def<MyGameStateManager>(L,"GetPlayer",&MyGameStateManager::GetPlayer);
+	lua_tinker::class_def<MyGameStateManager>(L,"PlayAnimation",&MyGameStateManager::PlayAnimation);
 }
 
 bool MyGameStateManager::frameStarted( const Ogre::FrameEvent& evt )
@@ -286,7 +287,7 @@ bool MyGameStateManager::frameStarted( const Ogre::FrameEvent& evt )
 	else if(m_pCurrentState->IsReturn())
 	{
 		m_pCurrentState->on_State_Exit();
-		m_LastReturnState=m_pCurrentState;;
+		m_LastReturnState=m_pCurrentState;
 		m_pCurrentState=m_pCurrentState->GetLastState();
 		Ogre::LogManager::getSingleton().logMessage("ReturnState:"+m_pCurrentState->GetName());
 	}
@@ -355,6 +356,12 @@ MyArea * MyGameStateManager::GetChooseArea( int id )
 	if(areaid<0)
 		return 0;
 	return MyTerrain::GetSingleton().GetArea(areaid);
+}
+
+void MyGameStateManager::PlayAnimation( const char *name )
+{
+	if(std::string(name)=="MineBoom")
+		m_pCurrentState->SetGoInState(new MyMineCardState(m_pCurrentState->GetName()+".MineBoom",MyEventInfo::GetSingleton().GetDefenderArea()));
 }
 
 MyPlayer::MyPlayer( int id ):m_ID(id),m_nAreaCount(0),m_nArmyCount(0),m_nGold(0),m_MoveTimes(0),m_MaxMoveTimes(0)
@@ -490,11 +497,13 @@ void MyPlayer::RemoveCard( MyCard *card,bool update/*=true*/ )
 void MyPlayer::AddBuff( MyBuff *buff )
 {
 	m_BuffVector.push_back(buff);
+	buff->SetOwnerPlayer(this);
 }
 
 void MyPlayer::RemoveBuff( MyBuff *buff )
 {
 	std::vector<MyBuff*>::iterator it=find(m_BuffVector.begin(),m_BuffVector.end(),buff);
+	buff->SetOwnerPlayer(0);
 	if(it!=m_BuffVector.end())
 		m_BuffVector.erase(it);
 }
@@ -553,6 +562,7 @@ void MyGameState::on_State_Entry()
 {
 	if(m_pLastState)
 		m_pLastState->m_pGoInState=0;
+	m_Stage="Start";
 }
 
 void MyGameState::on_State_Exit()
@@ -600,7 +610,8 @@ void MyGameState::SetLastState( MyGameState *state )
 void MyGameState::SetGoInState( MyGameState *state,std::string nextStage )
 {
 	m_pGoInState=state;
-	m_Stage=nextStage;
+	if(nextStage!="")
+		m_Stage=nextStage;
 }
 
 void MyGameState::ReturnLastState()
@@ -743,7 +754,6 @@ bool MyGameDiceState::frameStarted( const Ogre::FrameEvent& evt )
 {
 	using namespace std;
 	time+=evt.timeSinceLastFrame;
-	m_pMyTerrain->Update(evt);
 	bool stop=true;
 	for (int i=0;i<m_nDices;i++)
 	{
@@ -988,7 +998,6 @@ bool MyGameAttackState::frameStarted( const Ogre::FrameEvent& evt )
 		m_pDestinationArea->GetArmyEntity()->attachObjectToBone("Sheath.R", m_pDestinationArea->GetSword(2));
 		m_pSceneNodeTransformer->MoveToAtSpeed(m_SourcePos,Global::MoveSpeed);
 		m_pGameWaitingState=new MyGameWaitingState(m_Name+".MoveBack",m_pSceneNodeTransformer);
-		SetGoInState(m_pGameWaitingState,"Finish");
 
 
 		MyEventInfo &info=MyEventInfo::GetSingleton();
@@ -1024,7 +1033,12 @@ bool MyGameAttackState::frameStarted( const Ogre::FrameEvent& evt )
 			info.LoserArea->SetArmyCount(1);
 		}
 		MyBuffManager::GetSingleton().StateTrigger("AfterFightWin");
+		SetStage("Animation");
 		
+	}
+	else if(m_Stage=="Animation")
+	{
+		SetGoInState(m_pGameWaitingState,"Finish");
 	}
 	else if(m_Stage=="Finish")
 	{
@@ -1153,4 +1167,29 @@ void MyEventInfo::DefineInLua( lua_State *L )
 	lua_tinker::class_def<MyEventInfo>(L,"SetAttackerDiceSum",&MyEventInfo::SetAttackerDiceSum);
 	lua_tinker::class_def<MyEventInfo>(L,"SetDefenderDiceSum",&MyEventInfo::SetDefenderDiceSum);
 
+}
+
+MyMineCardState::MyMineCardState( std::string name,MyArea *area ):MyGameState(name)
+{
+	m_pArea=area;
+	m_pParticleSystem=MyTerrain::GetSingleton().GetSceneManager()->createParticleSystem("MineParticle","Explosion");
+	m_pNode=m_pArea->GetArmySceneNode()->createChildSceneNode();
+	m_pNode->setScale(Ogre::Vector3(0.1));
+	m_pNode->attachObject(m_pParticleSystem);
+	m_fRestTime=m_pParticleSystem->getEmitter(0)->getMaxDuration();
+	
+}
+
+MyMineCardState::~MyMineCardState()
+{
+	m_pArea->GetArmySceneNode()->removeChild(m_pNode);
+	MyTerrain::GetSingleton().GetSceneManager()->destroyParticleSystem(m_pParticleSystem);
+}
+
+bool MyMineCardState::frameStarted( const Ogre::FrameEvent& evt )
+{
+	m_fRestTime-=evt.timeSinceLastFrame;
+	if(m_fRestTime<=0)
+		ReturnLastState();
+	return true;
 }

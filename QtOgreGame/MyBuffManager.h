@@ -1,6 +1,8 @@
 #pragma once
 #include "stdafx.h"
 
+class MyArea;
+class MyPlayer;
 class MyBuffType
 {
 	friend class MyBuffManager;
@@ -21,15 +23,22 @@ public:
 class MyBuff
 {
 	friend class MyBuffManager;
-	MyBuff(){}
+	MyBuff();
 	MyBuff(const MyBuff&){}
 
 	MyBuffType* m_pType;
+	MyArea		*m_pOwnerArea;
+	MyPlayer	*m_pOwnerPlayer;
 public:
 	//如果触发完毕之后应该删除，返回true
 
 	MyBuffType *GetBuffType();
 	
+	void SetOwnerArea(MyArea *area);
+	void SetOwnerPlayer(MyPlayer *player);
+	MyArea *GetOwnerArea();
+	MyPlayer *GetOwnerPlayer();
+
 	void Register();
 	bool Trigger(const char *event);
 

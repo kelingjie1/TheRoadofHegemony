@@ -39,14 +39,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>..\..\..\OgreSDK\include\;..\..\..\OgreSDK\include\OGRE;..\..\..\OgreSDK\include\OIS;..\..\..\boost;..\..\..\CEGUISDK\include;..\..\..\Qt\vs2012\include;..\..\..\Qt\vs2012\include\QtGui;..\..\..\Qt\vs2012\include\QtCore;..\..\..\NxOgre\sdk;..\..\..\Critter\sdk;..\..\..\Lua\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\OgreSDK\include\;D:\OgreSDK\include\OGRE;D:\OgreSDK\include\OIS;D:\boost;D:\CEGUISDK\include;D:\Qt\include;D:\Qt\include\QtGui;D:\Qt\include\QtCore;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\include;D:\Hydrax\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LibraryPath>..\..\..\OgreSDK\lib\release;..\..\..\boost\stage\lib;..\..\..\Qt\vs2012\lib;..\..\..\CEGUISDK\lib;..\..\..\NxOgre\sdk;..\..\..\Critter\sdk;..\..\..\Lua\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>D:\OgreSDK\lib\Release;D:\boost\stage\lib;D:\Qt\lib;D:\CEGUISDK\lib;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\lib;D:\Hydrax\bin\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\OgreSDK\include\;D:\OgreSDK\include\OGRE;D:\OgreSDK\include\OIS;D:\boost;D:\CEGUISDK\include;D:\Qt\include;D:\Qt\include\QtGui;D:\Qt\include\QtCore;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\OgreSDK\lib\debug;D:\boost\stage\lib;D:\Qt\lib;D:\CEGUISDK\lib;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\OgreSDK\include\;D:\OgreSDK\include\OGRE;D:\OgreSDK\include\OIS;D:\boost;D:\CEGUISDK\include;D:\Qt\include;D:\Qt\include\QtGui;D:\Qt\include\QtCore;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\include;D:\Hydrax\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\OgreSDK\lib\debug;D:\boost\stage\lib;D:\Qt\lib;D:\CEGUISDK\lib;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\lib;D:\Hydrax\bin\debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -58,7 +58,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;OgreMain_d.lib;OgreTerrain_d.lib;OIS_d.lib;CEGUIBase-0_d.lib;CEGUIOgreRenderer-0_d.lib;NxOgreDebug.lib;CritterDebugStatic.lib;lua5.1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;OgreMain_d.lib;OgreTerrain_d.lib;OIS_d.lib;CEGUIBase-0_d.lib;CEGUIOgreRenderer-0_d.lib;NxOgreDebug.lib;CritterDebugStatic.lib;lua5.1.lib;Hydrax.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <Profile>false</Profile>
     </Link>
     <Bscmake>
@@ -82,7 +82,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>qtmain.lib;Qt5Core.lib;Qt5Gui.lib;OgreMain.lib;OgreTerrain.lib;OIS.lib;CEGUIBase-0.lib;CEGUIOgreRenderer-0.lib;NxOgre.lib;CritterStatic.lib;lua5.1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmain.lib;Qt5Core.lib;Qt5Gui.lib;OgreMain.lib;OgreTerrain.lib;OIS.lib;CEGUIBase-0.lib;CEGUIOgreRenderer-0.lib;NxOgre.lib;CritterStatic.lib;lua5.1.lib;Hydrax.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

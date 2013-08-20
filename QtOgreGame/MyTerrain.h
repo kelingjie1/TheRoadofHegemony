@@ -61,7 +61,7 @@ class MyTerrain
 	NxOgre::World				*m_pWorld;
 	NxOgre::Scene				*m_pScene;
 	Critter::RenderSystem		*m_pRenderSystem;
-
+	Hydrax::Hydrax				*m_pHydrax;
 
 
 	int							m_nAreaCount;
