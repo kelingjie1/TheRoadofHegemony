@@ -79,7 +79,8 @@ public:
 	virtual bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
 	virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
 
-
+	bool on_AttackScroBarPositionChanged(const CEGUI::EventArgs& e);
+	bool on_MoveScroBarPositionChanged(const CEGUI::EventArgs& e);
 
 };
 class MyGameSettingPage : public MyPage

@@ -844,6 +844,8 @@ bool MyGameDiceState::frameStarted( const Ogre::FrameEvent& evt )
 	bool stop=true;
 	for (int i=0;i<m_nDices;i++)
 	{
+		m_Dice[i].cam->setNearClipDistance(0.1);
+		m_Dice[i].cam->setFarClipDistance(1000);
 		m_Dice[i].cam->setPosition(m_Dice[i].body->getNode()->getPosition()+Ogre::Vector3(10,200,10));
 		m_Dice[i].cam->lookAt(m_Dice[i].body->getNode()->getPosition());
 		if (time>5)

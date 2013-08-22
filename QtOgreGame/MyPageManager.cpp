@@ -198,17 +198,19 @@ MyGamePlayingPage::MyGamePlayingPage( const char *name ) :MyPage(name),next_clic
 {
 	CEGUI::WindowManager &winMgr=CEGUI::WindowManager::getSingleton();
 	m_pWindow=winMgr.loadLayoutFromFile("GamePlayingPage.layout");
-	m_pWindow->getChild("Menu/Restart")->subscribeEvent(CEGUI ::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_Restart_clicked,this));
-	m_pWindow->getChild("Menu/Return")->subscribeEvent(CEGUI ::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_Return_clicked,this));
-	m_pWindow->getChild("Attack/OK")->subscribeEvent(CEGUI ::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_Attack_clicked,this));
-	m_pWindow->getChild("Attack/Cancel")->subscribeEvent(CEGUI ::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_AttackCancel_clicked,this));
-	m_pWindow->getChild("Move/OK")->subscribeEvent(CEGUI ::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_Move_clicked,this));
-	m_pWindow->getChild("Move/Cancel")->subscribeEvent(CEGUI ::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_MoveCancel_clicked,this));
-	m_pWindow->getChild("Build/Building1")->subscribeEvent(CEGUI ::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_Building1_clicked,this));
-	m_pWindow->getChild("Build/Building2")->subscribeEvent(CEGUI ::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_Building2_clicked,this));
-	m_pWindow->getChild("Build/Building3")->subscribeEvent(CEGUI ::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_Building3_clicked,this));
-	m_pWindow->getChild("Build/Cancel")->subscribeEvent(CEGUI ::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_BuildCancel_clicked,this));
-	m_pWindow->getChild("EndTurn")->subscribeEvent(CEGUI ::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_EndTurn_clicked,this));
+	m_pWindow->getChild("Menu/Restart")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_Restart_clicked,this));
+	m_pWindow->getChild("Menu/Return")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_Return_clicked,this));
+	m_pWindow->getChild("Attack/ScrollBar")->subscribeEvent(CEGUI::Scrollbar::EventScrollPositionChanged,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_AttackScroBarPositionChanged,this));
+	m_pWindow->getChild("Attack/OK")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_Attack_clicked,this));
+	m_pWindow->getChild("Attack/Cancel")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_AttackCancel_clicked,this));
+	m_pWindow->getChild("Move/ScrollBar")->subscribeEvent(CEGUI::Scrollbar::EventScrollPositionChanged,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_MoveScroBarPositionChanged,this));
+	m_pWindow->getChild("Move/OK")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_Move_clicked,this));
+	m_pWindow->getChild("Move/Cancel")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_MoveCancel_clicked,this));
+	m_pWindow->getChild("Build/Building1")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_Building1_clicked,this));
+	m_pWindow->getChild("Build/Building2")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_Building2_clicked,this));
+	m_pWindow->getChild("Build/Building3")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_Building3_clicked,this));
+	m_pWindow->getChild("Build/Cancel")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_BuildCancel_clicked,this));
+	m_pWindow->getChild("EndTurn")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGamePlayingPage::on_EndTurn_clicked,this));
 	m_pWindow->getChild("Menu")->hide();
 
 	
@@ -441,6 +443,22 @@ bool MyGamePlayingPage::on_Card_doubleClicked( const CEGUI::EventArgs& e )
 	{
 		next_click_invalid=true;
 	}
+	return true;
+}
+
+bool MyGamePlayingPage::on_AttackScroBarPositionChanged( const CEGUI::EventArgs& e )
+{
+	CEGUI::Scrollbar *win=dynamic_cast<CEGUI::Scrollbar*>(dynamic_cast<const CEGUI::WindowEventArgs*>(&e)->window);
+	int maxcount=MyGameStateManager::GetSingleton().GetChooseArea(1)->GetArmyCount();
+	m_pWindow->getChild("Attack/ArmyCount")->setText(CEGUIText((QStringLiteral("数量：")+QString::number(static_cast<int>(maxcount*win->getScrollPosition()))).toLocal8Bit().data()));
+	return true;
+}
+
+bool MyGamePlayingPage::on_MoveScroBarPositionChanged( const CEGUI::EventArgs& e )
+{
+	CEGUI::Scrollbar *win=dynamic_cast<CEGUI::Scrollbar*>(dynamic_cast<const CEGUI::WindowEventArgs*>(&e)->window);
+	int maxcount=MyGameStateManager::GetSingleton().GetChooseArea(1)->GetArmyCount();
+	m_pWindow->getChild("Move/ArmyCount")->setText(CEGUIText((QStringLiteral("数量：")+QString::number(static_cast<int>(maxcount*win->getScrollPosition()))).toLocal8Bit().data()));
 	return true;
 }
 

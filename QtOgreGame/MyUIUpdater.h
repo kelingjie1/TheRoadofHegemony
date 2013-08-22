@@ -8,6 +8,9 @@ protected:
 
 	std::vector<MyBuff*> m_SourecBuffVector;
 	std::vector<MyBuff*> m_DestinationBuffVector;
+
+
+	void InitEvent();
 public:
 	MyUIUpdater();
 
@@ -17,6 +20,8 @@ public:
 	void UpdateAreaInfo();
 	void UpdateCardBox();
 	void UpdateMoveTimes();
+
+
 	bool on_MouseEnterCardArea(const CEGUI::EventArgs& e);
 	bool on_MouseLeaveCardArea(const CEGUI::EventArgs& e);
 	bool on_MouseEnterSourceBuffArea(const CEGUI::EventArgs& e);

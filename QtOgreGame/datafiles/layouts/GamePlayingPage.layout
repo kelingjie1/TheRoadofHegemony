@@ -51,7 +51,7 @@
             <Property name="Font" value="hwxk10" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Property name="Visible" value="False" />
-            <Window type="OgreTray/StaticText" name="label1" >
+            <Window type="OgreTray/StaticText" name="ArmyCount" >
                 <Property name="Area" value="{{0.0598184,0},{0.157258,0},{0.32868,0},{0.37693,0}}" />
                 <Property name="Font" value="hwxk10" />
                 <Property name="Text" value="数量：0" />
@@ -77,7 +77,7 @@
                     </AutoWindow>
                 </AutoWindow>
             </Window>
-            <Window type="OgreTray/HorizontalScrollbar" name="Scrollbar" >
+            <Window type="OgreTray/HorizontalScrollbar" name="ScrollBar" >
                 <Property name="Area" value="{{0.347277,0},{0.209564,0},{0.965933,0},{0.314482,0}}" />
                 <Property name="Font" value="hwxk10" />
                 <AutoWindow namePath="__auto_incbtn__" >
@@ -103,7 +103,7 @@
             <Property name="Font" value="hwxk10" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Property name="Visible" value="False" />
-            <Window type="OgreTray/StaticText" name="label2" >
+            <Window type="OgreTray/StaticText" name="ArmyCount" >
                 <Property name="Area" value="{{0.0629227,0},{0.134036,0},{0.325646,0},{0.353708,0}}" />
                 <Property name="Font" value="hwxk10" />
                 <Property name="Text" value="数量：0" />
@@ -129,7 +129,7 @@
                     </AutoWindow>
                 </AutoWindow>
             </Window>
-            <Window type="OgreTray/HorizontalScrollbar" name="Scrollbar" >
+            <Window type="OgreTray/HorizontalScrollbar" name="ScrollBar" >
                 <Property name="Area" value="{{0.344123,0},{0.192147,0},{0.971358,0},{0.290508,0}}" />
                 <Property name="Font" value="hwxk10" />
                 <AutoWindow namePath="__auto_incbtn__" >

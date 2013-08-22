@@ -15,6 +15,12 @@ MyUIUpdater::MyUIUpdater()
 		throw "Error";
 	else
 		m_pSingleton=this;
+	InitEvent();
+}
+
+void MyUIUpdater::InitEvent()
+{
+	
 }
 
 MyUIUpdater& MyUIUpdater::GetSingleton()
@@ -55,6 +61,7 @@ void MyUIUpdater::UpdateAreaInfo()
 			QStringLiteral("地形特性：无\n")+
 			QStringLiteral("放置卡牌：无\n")
 			).toLocal8Bit().data()));
+		
 
 		
 
@@ -83,12 +90,16 @@ void MyUIUpdater::UpdateAreaInfo()
 				win->getChild("Move")->setVisible(true);
 				win->getChild("Action")->setText(CEGUIText("移动\n--->\n"));
 				win->getChild("Move/OK")->setEnabled(MyGameStateManager::GetSingleton().GetCurrentPlayer()->GetMoveTimes()>0);
+				dynamic_cast<CEGUI::Scrollbar*>(win->getChild("Move/ScrollBar"))->setScrollPosition(0.0);
+				dynamic_cast<CEGUI::Scrollbar*>(win->getChild("Move/ScrollBar"))->setScrollPosition(1.0);
 			}
 			else
 			{
 				win->getChild("Attack")->setVisible(true);
 				win->getChild("Action")->setText(CEGUIText("攻击\n--->\n"));
 				win->getChild("Attack/OK")->setEnabled(MyGameStateManager::GetSingleton().GetCurrentPlayer()->GetMoveTimes()>0);
+				dynamic_cast<CEGUI::Scrollbar*>(win->getChild("Attack/ScrollBar"))->setScrollPosition(0.0);
+				dynamic_cast<CEGUI::Scrollbar*>(win->getChild("Attack/ScrollBar"))->setScrollPosition(1.0);
 			}
 		}
 
