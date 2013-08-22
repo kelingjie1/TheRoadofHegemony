@@ -7,6 +7,12 @@ float Global::CardWidthScale;
 float Global::CardChooseHeight;
 float Global::HeightOffsetForSinbadOnTerrain;
 float Global::MoveDistance;
+
+float Global::DefaultCameraOffsetX;
+float Global::DefaultCameraOffsetY;
+float Global::DefaultCameraOffsetZ;
+float Global::CameraMoveSpeed;
+
 int Global::UseHydrax;
 using namespace Global;
 void Global::LoadGlobleSetting()
@@ -23,6 +29,13 @@ void Global::LoadGlobleSetting()
 	HeightOffsetForSinbadOnTerrain=lua_tinker::get<float>(L,"HeightOffsetForSinbadOnTerrain");
 	CardWidthScale=lua_tinker::get<float>(L,"CardWidthScale");
 	CardChooseHeight=lua_tinker::get<float>(L,"CardChooseHeight");
+
+	DefaultCameraOffsetX=lua_tinker::get<float>(L,"DefaultCameraOffsetX");
+	DefaultCameraOffsetY=lua_tinker::get<float>(L,"DefaultCameraOffsetY");
+	DefaultCameraOffsetZ=lua_tinker::get<float>(L,"DefaultCameraOffsetZ");
+	CameraMoveSpeed=lua_tinker::get<float>(L,"CameraMoveSpeed");
+
+
 	UseHydrax=lua_tinker::get<float>(L,"UseHydrax");
 	lua_close(L);
 }

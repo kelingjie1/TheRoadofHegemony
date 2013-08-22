@@ -104,7 +104,7 @@ void MyGameApp::InitOgre()
 
 	m_pMainCamera=m_pSceneMgr->createCamera("MainCamera");
 	m_pMainCamera->setNearClipDistance(0.1);
-	m_pMainCamera->setFarClipDistance(10000);
+	m_pMainCamera->setFarClipDistance(100000);
 	//m_pMainCamera->setPosition(Ogre::Vector3(50,1000,50));
 	//m_pMainCamera->lookAt(Ogre::Vector3(1000,0,1000));
 	m_pRenderWindow->addViewport(m_pMainCamera);
@@ -327,5 +327,10 @@ void MyGameApp::InitResource()
 void MyGameApp::SetNextTimeDelta( float timeDelta )
 {
 	m_fTimeDelta=timeDelta;
+}
+
+Ogre::SceneNode * MyGameApp::GetCameraSceneNode()
+{
+	return m_pCameraSceneNode;
 }
 

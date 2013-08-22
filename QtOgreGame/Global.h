@@ -8,6 +8,10 @@ namespace Global
 	extern float CardChooseHeight;
 	extern float MoveDistance;
 	extern float HeightOffsetForSinbadOnTerrain;
+	extern float DefaultCameraOffsetX;
+	extern float DefaultCameraOffsetY;
+	extern float DefaultCameraOffsetZ;
+	extern float CameraMoveSpeed;
 	extern int UseHydrax;
 	void LoadGlobleSetting();
 	void DefineOgreInLua(lua_State *L);

@@ -19,9 +19,15 @@ class MyPlayer
 
 	int m_MoveTimes;
 	int m_nAreaCount;
+
+	Ogre::Quaternion			m_CameraQuaternion;
+	Ogre::Vector3				m_CameraPosition;
 	std::set<MyArea*>			m_AreaSet;
 	std::vector<MyBuff*>		m_BuffVector;
 	std::vector<MyCard*>		m_CardVector;
+
+
+
 public:
 	MyPlayer(int id);
 	
@@ -47,6 +53,11 @@ public:
 	void SetID(int id);
 	void SetName(char *name);
 	void SetMaxMoveTimes(int n);
+
+
+	void SaveCameraState();
+	void RestoreCameraState();
+	
 
 	static void DefineInLua(lua_State *L);
 };
@@ -286,6 +297,10 @@ class MyGameStateManager
 	std::map<std::string,MyGameState*>	m_RootStateMap;
 	std::vector<MyPlayer*>				m_PlayerVector;
 	
+
+	void InitPlayer();
+	void InitGameState();
+	void InitPlayerCamera();
 public:
 	MyGameStateManager(void);
 	~MyGameStateManager(void);

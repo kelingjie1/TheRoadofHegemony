@@ -12,6 +12,7 @@ public:
 	void Init();
 	void Run();
 	Ogre::Camera *GetMainCamera();
+	Ogre::SceneNode *GetCameraSceneNode();
 	MyTerrain*	GetMyTerrain();
 	Ogre::RenderWindow *GetRenderWindow();
 	void InitScene();

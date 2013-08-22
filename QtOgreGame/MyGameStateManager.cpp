@@ -19,6 +19,15 @@ MyGameStateManager::MyGameStateManager(void)
 	}
 	m_pSingleton=this;
 
+	InitPlayer();
+	InitGameState();
+	InitPlayerCamera();
+
+	
+}
+
+void MyGameStateManager::InitPlayer()
+{
 	m_nPlayerCount=QString(MyPageManager::GetSingleton().GetPage("GameSettingPage")->GetWindow()->getChild("Background/PlayerCount")->getText().c_str()).toInt();
 	m_PlayerVector.resize(m_nPlayerCount+1);
 	for (int i=0;i<m_nPlayerCount+1;i++)
@@ -68,16 +77,18 @@ MyGameStateManager::MyGameStateManager(void)
 			break;
 		}
 	}
+}
 
-
+void MyGameStateManager::InitGameState()
+{
 	MyGameState *GameStartState=new MyGameStartState("GameStartState");
 	AddRootState(GameStartState);
 	MyGameState *GamePlayerChangeState=new MyGamePlayerChangeState("GamePlayerChangeState");
 	AddRootState(GamePlayerChangeState);
 	MyGameState *GamePlayState=new MyGamePlayState("GamePlayState");
 	AddRootState(GamePlayState);
-// 	MyGameState *GameDiceState=new MyGameDiceState("GameDiceState");
-// 	AddRootState(GameDiceState);
+	// 	MyGameState *GameDiceState=new MyGameDiceState("GameDiceState");
+	// 	AddRootState(GameDiceState);
 	MyGameState *GameAttackState=new MyGameAttackState("GameAttackState");
 	AddRootState(GameAttackState);
 
@@ -88,6 +99,20 @@ MyGameStateManager::MyGameStateManager(void)
 	new MyEventInfo;
 }
 
+void MyGameStateManager::InitPlayerCamera()
+{
+	Ogre::Camera *cam=MyGameApp::GetSingleton().GetMainCamera();
+	for (int i=1;i<m_PlayerVector.size();i++)
+	{
+		MyArea *area=*m_PlayerVector[i]->GetAreaSet().begin();
+		Ogre::Vector3 pos=area->GetSceneNode()->getPosition();
+		cam->setPosition(pos+Ogre::Vector3(Global::DefaultCameraOffsetX,Global::DefaultCameraOffsetY,Global::DefaultCameraOffsetZ));
+		cam->lookAt(pos);
+		m_PlayerVector[i]->SaveCameraState();
+	}
+	cam->setPosition(0,0,0);
+	cam->setOrientation(Ogre::Quaternion());
+}
 
 MyGameStateManager::~MyGameStateManager(void)
 {
@@ -132,6 +157,8 @@ MyPlayer *MyGameStateManager::GetCurrentPlayer()
 
 void MyGameStateManager::SetCurrentPlayerID( int id )
 {
+	if(m_pCurrentPlayer)
+		m_pCurrentPlayer->SaveCameraState();
 	m_pCurrentPlayer=GetPlayer(id);
 	SetNextState("GamePlayerChangeState");
 	MyUIUpdater::GetSingleton().UpdateCardBox();
@@ -518,6 +545,20 @@ int MyPlayer::GetBuffCount()
 	return m_BuffVector.size();
 }
 
+void MyPlayer::SaveCameraState()
+{
+	Ogre::Camera *cam=MyGameApp::GetSingleton().GetMainCamera();
+	m_CameraQuaternion=cam->getOrientation();
+	m_CameraPosition=cam->getPosition();
+}
+
+void MyPlayer::RestoreCameraState()
+{
+	Ogre::Camera *cam=MyGameApp::GetSingleton().GetMainCamera();
+	cam->setOrientation(m_CameraQuaternion);
+	cam->setPosition(m_CameraPosition);
+}
+
 MyGameState::MyGameState( std::string name ):m_pNextState(0),m_pLastState(0),m_pGoInState(0),m_bGoNext(0),m_bReturn(0),m_Stage("Start")
 {
 	m_Name=name;
@@ -650,26 +691,28 @@ MyGameStartState::MyGameStartState( std::string name ):MyGameState(name)
 
 	m_pGameStartMoveAnim=aniMgr.instantiateAnimation(aniMgr.getAnimation("GameStartMoveAnim"));
 	m_pGameStartMoveAnim->setTarget(m_pWindow);
+
+	MyPageManager::GetSingleton().GetPage("GamePlayingPage")->GetWindow()->getChild("CardBox")->setVisible(false);
 }
 
 void MyGameStartState::on_State_Entry()
 {
 	MyGameState::on_State_Entry();
-	Ogre::Animation *anim=MyTerrain::GetSingleton().GetSceneManager()->createAnimation("CameraTrack",20);
+	Ogre::Animation *anim=MyTerrain::GetSingleton().GetSceneManager()->createAnimation("CameraTrack",14);
 	anim->setDefaultInterpolationMode(Ogre::Animation::InterpolationMode::IM_SPLINE);
 	Ogre::AnimationTrack* track = anim->createNodeTrack(0,MyGameApp::GetSingleton().GetMainCamera()->getParentSceneNode());
 	Ogre::TransformKeyFrame *key=dynamic_cast<Ogre::TransformKeyFrame*>(track->createKeyFrame(0));
-	key->setTranslate(Ogre::Vector3(10000,100,10000));
+	key->setTranslate(Ogre::Vector3(-10000,100,-10000));
 	key=dynamic_cast<Ogre::TransformKeyFrame*>(track->createKeyFrame(8));
-	key->setTranslate(Ogre::Vector3(2760,1000,2760));
+	key->setTranslate(Ogre::Vector3(-440,1000,-440));
 	key=dynamic_cast<Ogre::TransformKeyFrame*>(track->createKeyFrame(11));
-	key->setTranslate(Ogre::Vector3(-200,1000,2760));
+	key->setTranslate(Ogre::Vector3(-440,1000,3000));
 	key=dynamic_cast<Ogre::TransformKeyFrame*>(track->createKeyFrame(14));
-	key->setTranslate(Ogre::Vector3(-200,1000,-200));
-	key=dynamic_cast<Ogre::TransformKeyFrame*>(track->createKeyFrame(17));
-	key->setTranslate(Ogre::Vector3(2760,1000,-200));
-	key=dynamic_cast<Ogre::TransformKeyFrame*>(track->createKeyFrame(20));
-	key->setTranslate(Ogre::Vector3(-200,1000,-200));
+	key->setTranslate(Ogre::Vector3(3000,1000,3000));
+ 	key=dynamic_cast<Ogre::TransformKeyFrame*>(track->createKeyFrame(17));
+ 	key->setTranslate(Ogre::Vector3(3000,1000,-440));
+ 	key=dynamic_cast<Ogre::TransformKeyFrame*>(track->createKeyFrame(20));
+ 	key->setTranslate(Ogre::Vector3(-440,1000,-440));
 
 
 
@@ -689,6 +732,7 @@ bool MyGameStartState::frameStarted(const Ogre::FrameEvent& evt)
 		m_pAnimationState->addTime(evt.timeSinceLastFrame);
 		if(m_pAnimationState->hasEnded())
 		{
+			MyTerrain::GetSingleton().GetSceneManager()->destroyAnimationState(m_pAnimationState->getAnimationName());
 			MyGameApp::GetSingleton().GetMainCamera()->setAutoTracking(false);
 			m_pGameStartAnim->start();
 			m_pGameStartMoveAnim->start();
@@ -699,6 +743,8 @@ bool MyGameStartState::frameStarted(const Ogre::FrameEvent& evt)
 	{
 		if(!m_pGameStartMoveAnim->isRunning())
 		{
+			MyGameApp::GetSingleton().GetMainCamera()->getParentSceneNode()->setPosition(0,0,0);
+			MyGameApp::GetSingleton().GetMainCamera()->getParentSceneNode()->setOrientation(Ogre::Quaternion());
 			GoNextState();
 		}
 	}
@@ -711,6 +757,9 @@ void MyGameStartState::on_State_Exit()
 	CEGUI::AnimationManager::getSingleton().destroyAnimationInstance(m_pGameStartAnim);
 	CEGUI::AnimationManager::getSingleton().destroyAnimationInstance(m_pGameStartMoveAnim);
 	CEGUI::WindowManager::getSingleton().destroyWindow(m_pWindow);
+
+	MyPageManager::GetSingleton().GetPage("GamePlayingPage")->GetWindow()->getChild("CardBox")->setVisible(true);
+
 	MyGameState::on_State_Exit();
 }
 
@@ -735,6 +784,7 @@ void MyGamePlayerChangeState::on_State_Entry()
 {
 	MyGameState::on_State_Entry();
 	MyPlayer *player=MyGameStateManager::GetSingleton().GetCurrentPlayer();
+	player->RestoreCameraState();
 	m_pWindow->setText((CEGUI::utf8*)(QStringLiteral("玩家")+QString::number(player->GetID())+QStringLiteral("行动")).toUtf8().data());
 	m_pWindow->setVisible(true);
 	m_pMoveAnim->start();
