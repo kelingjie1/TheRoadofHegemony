@@ -655,15 +655,52 @@ MyGameStartState::MyGameStartState( std::string name ):MyGameState(name)
 void MyGameStartState::on_State_Entry()
 {
 	MyGameState::on_State_Entry();
-	m_pGameStartAnim->start();
-	m_pGameStartMoveAnim->start();
+	Ogre::Animation *anim=MyTerrain::GetSingleton().GetSceneManager()->createAnimation("CameraTrack",20);
+	anim->setDefaultInterpolationMode(Ogre::Animation::InterpolationMode::IM_SPLINE);
+	Ogre::AnimationTrack* track = anim->createNodeTrack(0,MyGameApp::GetSingleton().GetMainCamera()->getParentSceneNode());
+	Ogre::TransformKeyFrame *key=dynamic_cast<Ogre::TransformKeyFrame*>(track->createKeyFrame(0));
+	key->setTranslate(Ogre::Vector3(10000,100,10000));
+	key=dynamic_cast<Ogre::TransformKeyFrame*>(track->createKeyFrame(8));
+	key->setTranslate(Ogre::Vector3(2760,1000,2760));
+	key=dynamic_cast<Ogre::TransformKeyFrame*>(track->createKeyFrame(11));
+	key->setTranslate(Ogre::Vector3(-200,1000,2760));
+	key=dynamic_cast<Ogre::TransformKeyFrame*>(track->createKeyFrame(14));
+	key->setTranslate(Ogre::Vector3(-200,1000,-200));
+	key=dynamic_cast<Ogre::TransformKeyFrame*>(track->createKeyFrame(17));
+	key->setTranslate(Ogre::Vector3(2760,1000,-200));
+	key=dynamic_cast<Ogre::TransformKeyFrame*>(track->createKeyFrame(20));
+	key->setTranslate(Ogre::Vector3(-200,1000,-200));
+
+
+
+
+	Ogre::SceneNode *node=MyTerrain::GetSingleton().GetSceneManager()->getRootSceneNode()->createChildSceneNode("CarmeraLookAt",Ogre::Vector3(1000,50,1000));
+	MyGameApp::GetSingleton().GetMainCamera()->setAutoTracking(true,node);
+	m_pAnimationState= MyTerrain::GetSingleton().GetSceneManager()->createAnimationState("CameraTrack");
+	m_pAnimationState->setEnabled(true);
+	m_pAnimationState->setLoop(false);
+
 }
 
 bool MyGameStartState::frameStarted(const Ogre::FrameEvent& evt)
 {
-	if(!m_pGameStartMoveAnim->isRunning())
+	if(m_Stage=="Start")
 	{
-		GoNextState();
+		m_pAnimationState->addTime(evt.timeSinceLastFrame);
+		if(m_pAnimationState->hasEnded())
+		{
+			MyGameApp::GetSingleton().GetMainCamera()->setAutoTracking(false);
+			m_pGameStartAnim->start();
+			m_pGameStartMoveAnim->start();
+			m_Stage="Move";
+		}
+	}
+	else if(m_Stage=="Move")
+	{
+		if(!m_pGameStartMoveAnim->isRunning())
+		{
+			GoNextState();
+		}
 	}
 	return true;
 }

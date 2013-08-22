@@ -94,6 +94,7 @@ class MyGameStartState:public MyGameState
 	CEGUI::AnimationInstance	*m_pGameStartAnim;
 	CEGUI::AnimationInstance	*m_pGameStartMoveAnim;
 	CEGUI::Window				*m_pWindow;
+	Ogre::AnimationState		*m_pAnimationState;
 public:
 	MyGameStartState(std::string name);
 	virtual bool frameStarted(const Ogre::FrameEvent& evt);

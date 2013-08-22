@@ -10,6 +10,7 @@ namespace Global
 	extern float HeightOffsetForSinbadOnTerrain;
 	extern int UseHydrax;
 	void LoadGlobleSetting();
+	void DefineOgreInLua(lua_State *L);
 }
 inline std::wstring ANSI_to_UNICODE(const char *str)
 {

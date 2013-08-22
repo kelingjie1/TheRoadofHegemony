@@ -72,6 +72,7 @@ class MyTerrain
 
 	void UpdateTexture();
 	void InitTerrain();
+	void InitHydrax();
 	void InitBlendMap(Ogre::Terrain *terrain);
 	void InitArea();
 	void InitNxOgre();

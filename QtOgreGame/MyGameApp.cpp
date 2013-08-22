@@ -105,9 +105,13 @@ void MyGameApp::InitOgre()
 	m_pMainCamera=m_pSceneMgr->createCamera("MainCamera");
 	m_pMainCamera->setNearClipDistance(0.1);
 	m_pMainCamera->setFarClipDistance(10000);
-	m_pMainCamera->setPosition(Ogre::Vector3(50,1000,50));
-	m_pMainCamera->lookAt(Ogre::Vector3(1000,0,1000));
+	//m_pMainCamera->setPosition(Ogre::Vector3(50,1000,50));
+	//m_pMainCamera->lookAt(Ogre::Vector3(1000,0,1000));
 	m_pRenderWindow->addViewport(m_pMainCamera);
+
+ 	m_pCameraSceneNode=m_pSceneMgr->getRootSceneNode()->createChildSceneNode("MainCameraNode");
+ 	m_pCameraSceneNode->attachObject(m_pMainCamera);
+
 }
 
 void MyGameApp::InitScene()

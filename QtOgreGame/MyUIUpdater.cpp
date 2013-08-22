@@ -181,9 +181,11 @@ bool MyUIUpdater::on_MouseEnterCardArea( const CEGUI::EventArgs& e )
 {
 	CEGUI::Window *win=MyPageManager::GetSingleton().GetPage("GamePlayingPage")->GetWindow();
 	win->getChild("InfoFrame")->setVisible(true);
+
+
 	CEGUI::WindowEventArgs *ev=(CEGUI::WindowEventArgs*)(&e);
 	CEGUI::Window *cardwin=ev->window;
-	QString s=win->getName().c_str();
+	QString s=cardwin->getName().c_str();
 	int id=s.remove("Card").toInt();
 	MyCard *card=MyGameStateManager::GetSingleton().GetCurrentPlayer()->GetCardByID(id);
 	win->getChild("InfoFrame/InfoText")->setText((CEGUI::utf8*)ANSI_to_UTF8(card->GetCardType()->GetDescription()).c_str());
@@ -299,9 +301,11 @@ bool MyUIUpdater::on_MouseEnterSourceBuffArea( const CEGUI::EventArgs& e )
 {
 	CEGUI::Window *win=MyPageManager::GetSingleton().GetPage("GamePlayingPage")->GetWindow();
 	win->getChild("InfoFrame")->setVisible(true);
+
+
 	CEGUI::WindowEventArgs *ev=(CEGUI::WindowEventArgs*)(&e);
 	CEGUI::Window *cardwin=ev->window;
-	QString s=win->getName().c_str();
+	QString s=cardwin->getName().c_str();
 	int id=s.remove("SourceBuffWindow").toInt();
 	MyBuff *buff=m_SourecBuffVector[id];
 	win->getChild("InfoFrame/InfoText")->setText((CEGUI::utf8*)ANSI_to_UTF8(buff->GetBuffType()->GetDescription()).c_str());
@@ -319,9 +323,12 @@ bool MyUIUpdater::on_MouseEnterDestinationBuffArea( const CEGUI::EventArgs& e )
 {
 	CEGUI::Window *win=MyPageManager::GetSingleton().GetPage("GamePlayingPage")->GetWindow();
 	win->getChild("InfoFrame")->setVisible(true);
+
+
+
 	CEGUI::WindowEventArgs *ev=(CEGUI::WindowEventArgs*)(&e);
 	CEGUI::Window *cardwin=ev->window;
-	QString s=win->getName().c_str();
+	QString s=cardwin->getName().c_str();
 	int id=s.remove("DestinationBuffWindow").toInt();
 	MyBuff *buff=m_DestinationBuffVector[id];
 	win->getChild("InfoFrame/InfoText")->setText((CEGUI::utf8*)ANSI_to_UTF8(buff->GetBuffType()->GetDescription()).c_str());

@@ -36,6 +36,7 @@ private:
 	OIS::Mouse						*m_pMouse;
 
 	Ogre::Camera					*m_pMainCamera;
+	Ogre::SceneNode					*m_pCameraSceneNode;
 	MyTerrain						*m_pMyTerrain;
 	MyGameStateManager				*m_pGameStateManager;
 	MyPageManager					*m_pPageManager;

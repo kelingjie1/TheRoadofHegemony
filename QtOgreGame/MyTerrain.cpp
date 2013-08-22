@@ -21,6 +21,7 @@ MyTerrain::MyTerrain(Ogre::SceneManager *mgr)
 
 
 	InitTerrain();
+	InitHydrax();
 	InitArea();
 	ReadAreaRelationship();
 	InitNxOgre();
@@ -30,30 +31,24 @@ MyTerrain::MyTerrain(Ogre::SceneManager *mgr)
 
 	m_pSceneMgr->setSkyBox(true, "Examples/EveningSkyBox");
 	m_pSceneMgr->setShadowTechnique(Ogre::ShadowTechnique::SHADOWTYPE_TEXTURE_MODULATIVE);
+	//m_pSceneMgr->setFog(Ogre::FogMode::FOG_EXP,Ogre::ColourValue::White,0.0001);
+}
 
+void MyTerrain::InitHydrax()
+{
 	if(Global::UseHydrax)
 	{
 		m_pHydrax=new Hydrax::Hydrax(m_pSceneMgr,MyGameApp::GetSingleton().GetMainCamera(),MyGameApp::GetSingleton().GetRenderWindow()->getViewport(0));
 
 		Hydrax::Module::ProjectedGrid *mModule 
-			= new Hydrax::Module::ProjectedGrid(// Hydrax parent pointer
+			= new Hydrax::Module::ProjectedGrid(
 			m_pHydrax,
-			// Noise module
 			new Hydrax::Noise::Perlin(/*Generic one*/),
-			// Base plane
 			Ogre::Plane(Ogre::Vector3(0,1,0), Ogre::Vector3(0,0,0)),
-			// Normal mode
 			Hydrax::MaterialManager::NM_VERTEX,
-			// Projected grid options
 			Hydrax::Module::ProjectedGrid::Options(/*264 /*Generic one*/));
 
-		// Set our module
 		m_pHydrax->setModule(static_cast<Hydrax::Module::Module*>(mModule));
-
-		// Load all parameters from config file
-		// Remarks: The config file must be in Hydrax resource group.
-		// All parameters can be set/updated directly by code(Like previous versions),
-		// but due to the high number of customizable parameters, since 0.4 version, Hydrax allows save/load config files.
 		m_pHydrax->loadCfg("Hydrax.hdx");
 
 		auto ti=m_pTerrainGroup->getTerrainIterator();
@@ -399,7 +394,6 @@ void MyTerrain::InitTerrain()
 	m_pTerrainGlobals->setLightMapDirection(l->getDerivedDirection());//地图光照方向（和实时阴影生成相关）
 	m_pTerrainGlobals->setCompositeMapAmbient(m_pSceneMgr->getAmbientLight());
 	m_pTerrainGlobals->setCompositeMapDiffuse(l->getDiffuseColour());
-
 	Ogre::Terrain::ImportData& defaultimp = m_pTerrainGroup->getDefaultImportSettings();
 	defaultimp.terrainSize = TERRAIN_SIZE;//不太了解，调试中，这个值越小，地图边缘锯齿现象越严重，太小的话，运行起来程序会跑死、出错
 	defaultimp.worldSize = TERRAIN_WORLD_SIZE;//假设为a，那么地图大小为 a x a
