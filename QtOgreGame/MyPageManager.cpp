@@ -140,7 +140,7 @@ MyGameSettingPage::MyGameSettingPage( const char *name ) :MyPage(name)
 	m_pWindow->getChild("Background/OK")->subscribeEvent(CEGUI ::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyGameSettingPage::on_OK_clicked,this));
 
 	CEGUI::Combobox *PlayerCount=dynamic_cast<CEGUI::Combobox*>(m_pWindow->getChild("Background/PlayerCount"));
-	PlayerCount->addItem(new CEGUI::ListboxTextItem("1",1));
+//	PlayerCount->addItem(new CEGUI::ListboxTextItem("1",1));
 	PlayerCount->addItem(new CEGUI::ListboxTextItem("2",2));
 	PlayerCount->addItem(new CEGUI::ListboxTextItem("3",3));
 	PlayerCount->addItem(new CEGUI::ListboxTextItem("4",4));
@@ -166,6 +166,8 @@ MyGameSettingPage::MyGameSettingPage( const char *name ) :MyPage(name)
 		win=m_pWindow->getChild("Background/Color"+id);
 		win->setVisible(false);
 	}
+	PlayerCount->setItemSelectState((size_t)0,true);
+	PlayerCount->fireEvent(CEGUI::Combobox::EventListSelectionAccepted,CEGUI::EventArgs());
 }
 
 bool MyGameSettingPage::on_OK_clicked( const CEGUI::EventArgs& e )
