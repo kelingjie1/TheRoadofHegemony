@@ -5,7 +5,6 @@
 #pragma warning(disable:4193)
 #pragma warning(disable:4275)
 
-
 #include <windows.h>
 
 #include <list>

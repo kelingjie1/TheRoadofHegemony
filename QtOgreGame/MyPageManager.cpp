@@ -5,6 +5,8 @@
 #include "MyCardManager.h"
 #include "MyUIUpdater.h"
 #include "Global.h"
+#include "BuildVersion.h"
+#include "GitVersion.h"
 MyPageManager *MyPageManager::m_pSingleton=0;
 
 MyPageManager::MyPageManager():m_CurrentPage(0)
@@ -119,6 +121,8 @@ MyMenuPage::MyMenuPage( const char *name ) :MyPage(name)
 	m_pWindow=CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuPage.layout");
 	CEGUI::WindowManager &winMgr=CEGUI::WindowManager::getSingleton();
 	m_pWindow->getChild("Background/StartGame")->subscribeEvent(CEGUI ::PushButton::EventClicked,CEGUI::Event::Subscriber(&MyMenuPage::on_StartGame_clicked,this));
+	m_pWindow->getChild("Background/Version")->setText("Version: v"+QString::number((int)GIT_VERSION).toStdString()+" Build:"+QString::number((int)BUILD_VERSION).toStdString());
+	m_pWindow->getChild("Background/Version")->show();
 }
 bool MyMenuPage::on_StartGame_clicked(const CEGUI::EventArgs& e)
 {

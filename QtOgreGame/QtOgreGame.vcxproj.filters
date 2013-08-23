@@ -19,6 +19,9 @@
     <Filter Include="LIB">
       <UniqueIdentifier>{8db3c1fb-8066-4a25-bc9b-c3d0b6119b19}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Version">
+      <UniqueIdentifier>{9d6163bc-3941-4145-be89-8a9e02b582c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -106,6 +109,12 @@
     </ClInclude>
     <ClInclude Include="MyTransformer.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildVersion.h">
+      <Filter>Version</Filter>
+    </ClInclude>
+    <ClInclude Include="GitVersion.h">
+      <Filter>Version</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

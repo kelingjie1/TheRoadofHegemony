@@ -104,6 +104,13 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>qtmain.lib;Qt5Core.lib;Qt5Gui.lib;OgreMain.lib;OgreTerrain.lib;OIS.lib;CEGUIBase-0.lib;CEGUIOgreRenderer-0.lib;NxOgre.lib;CritterStatic.lib;lua5.1.lib;Hydrax.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>BuildVersionIncrease.exe BuildVersion.h</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebugInfo|Win32'">
     <ClCompile>
@@ -149,7 +156,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BuildVersion.h" />
     <ClInclude Include="CollisionTools.h" />
+    <ClInclude Include="GitVersion.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="InputHook.h" />
     <ClInclude Include="lua_tinker.h" />

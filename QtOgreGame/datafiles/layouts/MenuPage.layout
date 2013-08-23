@@ -40,6 +40,32 @@
                 <Property name="Area" value="{{0.021064,0},{0.694898,0},{0.188513,0},{0.758314,0}}" />
                 <Property name="Text" value="退出游戏" />
             </Window>
+            <Window type="OgreTray/StaticText" name="Version" >
+                <Property name="Area" value="{{0.752122,0},{0.934259,0},{0.994271,0},{0.994444,0}}" />
+                <Property name="Font" value="DejaVuSans-12" />
+                <Property name="Text" value="Version: v13 Build:2000" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="HorzScrollPageSize" value="220.267" />
+                <Property name="VertScrollPageSize" value="18.2667" />
+                <Property name="HorzScrollDocumentSize" value="209" />
+                <Property name="VertScrollDocumentSize" value="19.8618" />
+                <AutoWindow namePath="__auto_hscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+                <AutoWindow namePath="__auto_vscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="Visible" value="False" />
+                    </AutoWindow>
+                </AutoWindow>
+            </Window>
         </Window>
     </Window>
 </GUILayout>
