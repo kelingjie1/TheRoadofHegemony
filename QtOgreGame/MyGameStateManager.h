@@ -15,10 +15,14 @@ class MyPlayer
 	CEGUI::String m_Name;
 	int m_nArmyCount;
 	int m_nGold;
-	int m_MaxMoveTimes;
 
-	int m_MoveTimes;
-	int m_nAreaCount;
+	int m_MaxMoveTimes;					//最大移动次数
+	int m_MoveTimes;					//剩余移动次数
+	int m_nAreaCount;					//拥有区域数量
+	int m_nRage;						//怒气值
+	int m_nFightingCapacityAddition;	//战斗力加成
+	int m_nArmyReserve;					//预备役部队数量
+	int m_nConscriptionCount;			//每回合征兵数量
 
 	Ogre::Quaternion			m_CameraQuaternion;
 	Ogre::Vector3				m_CameraPosition;

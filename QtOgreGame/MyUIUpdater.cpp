@@ -179,8 +179,8 @@ void MyUIUpdater::UpdateMoveTimes()
 	{
 		CEGUI::String name=CEGUIText((QStringLiteral("lingpai")+QString::number(i)).toLocal8Bit().data());
 		CEGUI::Window *lingpai=win->createChild("OgreTray/StaticImage",name);
-		lingpai->setPosition(CEGUI::UVector2(CEGUI::UDim(0.95-i*0.05,0),CEGUI::UDim(0.01,0)));
-		lingpai->setSize(CEGUI::USize(CEGUI::UDim(0.05,0),CEGUI::UDim(0.1,0)));
+		lingpai->setPosition(CEGUI::UVector2(CEGUI::UDim(0.95-i*0.05,0),CEGUI::UDim(0.06,0)));
+		lingpai->setSize(CEGUI::USize(CEGUI::UDim(0.05,0),CEGUI::UDim(0.05,0)));
 		lingpai->setProperty("BackgroundEnabled","false");
 		lingpai->setProperty("FrameEnabled","false");
 		lingpai->setProperty("Image","lingpai/img1");
