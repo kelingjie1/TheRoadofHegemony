@@ -352,3 +352,8 @@ bool MyUIUpdater::on_MouseLeaveDestinationBuffArea( const CEGUI::EventArgs& e )
 	win->getChild("InfoFrame")->setVisible(false);
 	return true;
 }
+
+void MyUIUpdater::on_PlayerChanged()
+{
+	UpdateCardBox();
+}

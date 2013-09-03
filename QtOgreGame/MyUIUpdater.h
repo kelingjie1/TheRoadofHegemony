@@ -20,6 +20,8 @@ public:
 	void UpdateAreaInfo();
 	void UpdateCardBox();
 	void UpdateMoveTimes();
+	void on_PlayerChanged();
+
 
 
 	bool on_MouseEnterCardArea(const CEGUI::EventArgs& e);

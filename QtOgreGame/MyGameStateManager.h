@@ -62,6 +62,8 @@ public:
 	void SaveCameraState();
 	void RestoreCameraState();
 	
+	void MyTurnBegin();
+	void MyTurnEnd();
 
 	static void DefineInLua(lua_State *L);
 };

@@ -158,11 +158,11 @@ MyPlayer *MyGameStateManager::GetCurrentPlayer()
 void MyGameStateManager::SetCurrentPlayerID( int id )
 {
 	if(m_pCurrentPlayer)
-		m_pCurrentPlayer->SaveCameraState();
+	{
+		m_pCurrentPlayer->MyTurnEnd();
+	}
 	m_pCurrentPlayer=GetPlayer(id);
 	SetNextState("GamePlayerChangeState");
-	MyUIUpdater::GetSingleton().UpdateCardBox();
-	m_pCurrentPlayer->SetMoveTimes(m_pCurrentPlayer->GetMaxMoveTimes());
 }
 
 void MyGameStateManager::ChooseArea( int id )
@@ -559,6 +559,18 @@ void MyPlayer::RestoreCameraState()
 	cam->setPosition(m_CameraPosition);
 }
 
+void MyPlayer::MyTurnBegin()
+{
+	SetMoveTimes(GetMaxMoveTimes());
+	RestoreCameraState();
+	MyUIUpdater::GetSingleton().on_PlayerChanged();
+}
+
+void MyPlayer::MyTurnEnd()
+{
+	SaveCameraState();
+}
+
 MyGameState::MyGameState( std::string name ):m_pNextState(0),m_pLastState(0),m_pGoInState(0),m_bGoNext(0),m_bReturn(0),m_Stage("Start")
 {
 	m_Name=name;
@@ -783,8 +795,10 @@ MyGamePlayerChangeState::MyGamePlayerChangeState( std::string name ):MyGameState
 void MyGamePlayerChangeState::on_State_Entry()
 {
 	MyGameState::on_State_Entry();
+
 	MyPlayer *player=MyGameStateManager::GetSingleton().GetCurrentPlayer();
-	player->RestoreCameraState();
+	player->MyTurnBegin();
+
 	m_pWindow->setText((CEGUI::utf8*)(QStringLiteral("玩家")+QString::number(player->GetID())+QStringLiteral("行动")).toUtf8().data());
 	m_pWindow->setVisible(true);
 	m_pMoveAnim->start();
