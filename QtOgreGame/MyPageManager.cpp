@@ -477,8 +477,11 @@ MyGameLoadingPage::MyGameLoadingPage( const char *name ) :MyPage(name)
 
 void MyGameLoadingPage::OnPageLoad()
 {
+	CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().hide();
 	Ogre::Root::getSingleton().addFrameListener(this);
 	MyGameApp::GetSingleton().InitScene();
+	MyPageManager::GetSingleton().ChangePage("GamePlayingPage");
+	CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().show();
 }
 
 void MyGameLoadingPage::OnPageUnload()
@@ -488,7 +491,5 @@ void MyGameLoadingPage::OnPageUnload()
 
 bool MyGameLoadingPage::frameStarted(const Ogre::FrameEvent& evt)
 {
-
-	MyPageManager::GetSingleton().ChangePage("GamePlayingPage");
 	return true;
 }

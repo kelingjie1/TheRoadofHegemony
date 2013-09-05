@@ -116,12 +116,24 @@ void MyGameApp::InitOgre()
 
 void MyGameApp::InitScene()
 {
-	
+	CEGUI::ProgressBar *progress=dynamic_cast<CEGUI::ProgressBar*>(MyPageManager::GetSingleton().GetCurrentPage()->GetWindow()->getChild("Background/ProgressBar"));
+	progress->setProgress(0.1);
+	m_pRoot->renderOneFrame();
 	m_pMyTerrain=new MyTerrain(m_pSceneMgr);
+	progress->setProgress(0.6);
+	m_pRoot->renderOneFrame();
 	m_pGameStateManager=new MyGameStateManager;
+	progress->setProgress(0.7);
+	m_pRoot->renderOneFrame();
 	MyBuffManager *BuffManager=new MyBuffManager;
+	progress->setProgress(0.8);
+	m_pRoot->renderOneFrame();
 	MyCardManager *CardManager=new MyCardManager;
+	progress->setProgress(0.9);
+	m_pRoot->renderOneFrame();
 	MyUIUpdater	*UIUpdater=new MyUIUpdater;
+	progress->setProgress(1.0);
+	m_pRoot->renderOneFrame();
 	m_pMyTerrain->InitArmy();
 	
 }
