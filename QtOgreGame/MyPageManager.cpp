@@ -488,6 +488,7 @@ void MyGameLoadingPage::OnPageUnload()
 
 bool MyGameLoadingPage::frameStarted(const Ogre::FrameEvent& evt)
 {
+
 	MyPageManager::GetSingleton().ChangePage("GamePlayingPage");
 	return true;
 }

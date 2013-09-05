@@ -53,20 +53,20 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>D:\OgreSDK\include\;D:\OgreSDK\include\OGRE;D:\OgreSDK\include\OIS;D:\boost;D:\CEGUISDK\include;D:\Qt\include;D:\Qt\include\QtGui;D:\Qt\include\QtCore;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\include;D:\Hydrax\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\OgreSDK\include\;D:\OgreSDK\include\OGRE;D:\OgreSDK\include\OIS;D:\boost;D:\CEGUISDK\include;D:\Qt\include;D:\Qt\include\QtGui;D:\Qt\include\QtCore;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\include;D:\Hydrax\include;D:\ffmpeg\include;D:\OpenAL\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebugInfo|Win32'">
-    <IncludePath>D:\OgreSDK\include\;D:\OgreSDK\include\OGRE;D:\OgreSDK\include\OIS;D:\boost;D:\CEGUISDK\include;D:\Qt\include;D:\Qt\include\QtGui;D:\Qt\include\QtCore;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\include;D:\Hydrax\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\OgreSDK\include\;D:\OgreSDK\include\OGRE;D:\OgreSDK\include\OIS;D:\boost;D:\CEGUISDK\include;D:\Qt\include;D:\Qt\include\QtGui;D:\Qt\include\QtCore;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\include;D:\Hydrax\include;D:\ffmpeg\include;D:\OpenAL\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LibraryPath>D:\OgreSDK\lib\Release;D:\boost\stage\lib;D:\Qt\lib;D:\CEGUISDK\lib;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\lib;D:\Hydrax\bin\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>D:\OgreSDK\lib\Release;D:\boost\stage\lib;D:\Qt\lib;D:\CEGUISDK\lib;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\lib;D:\Hydrax\bin\Release;D:\ffmpeg\lib;D:\OpenAL\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebugInfo|Win32'">
-    <LibraryPath>D:\OgreSDK\lib\Release;D:\boost\stage\lib;D:\Qt\lib;D:\CEGUISDK\lib;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\lib;D:\Hydrax\bin\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>D:\OgreSDK\lib\Release;D:\boost\stage\lib;D:\Qt\lib;D:\CEGUISDK\lib;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\lib;D:\Hydrax\bin\Release;D:\ffmpeg\lib;D:\OpenAL\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\OgreSDK\include\;D:\OgreSDK\include\OGRE;D:\OgreSDK\include\OIS;D:\boost;D:\CEGUISDK\include;D:\Qt\include;D:\Qt\include\QtGui;D:\Qt\include\QtCore;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\include;D:\Hydrax\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\OgreSDK\lib\debug;D:\boost\stage\lib;D:\Qt\lib;D:\CEGUISDK\lib;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\lib;D:\Hydrax\bin\debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\OgreSDK\include\;D:\OgreSDK\include\OGRE;D:\OgreSDK\include\OIS;D:\boost;D:\CEGUISDK\include;D:\Qt\include;D:\Qt\include\QtGui;D:\Qt\include\QtCore;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\include;D:\Hydrax\include;D:\ffmpeg\include;D:\OpenAL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\OgreSDK\lib\debug;D:\boost\stage\lib;D:\Qt\lib;D:\CEGUISDK\lib;D:\NxOgre\sdk;D:\Critter\sdk;D:\Lua\lib;D:\Hydrax\bin\debug;D:\ffmpeg\lib;D:\OpenAL\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -78,7 +78,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;OgreMain_d.lib;OgreTerrain_d.lib;OIS_d.lib;CEGUIBase-0_d.lib;CEGUIOgreRenderer-0_d.lib;NxOgreDebug.lib;CritterDebugStatic.lib;lua5.1.lib;Hydrax.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;OgreMain_d.lib;OgreTerrain_d.lib;OIS_d.lib;CEGUIBase-0_d.lib;CEGUIOgreRenderer-0_d.lib;NxOgreDebug.lib;CritterDebugStatic.lib;lua5.1.lib;Hydrax.lib;avcodec.lib;avformat.lib;avutil.lib;swscale.lib;Openal32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <Profile>false</Profile>
     </Link>
     <Bscmake>
@@ -102,7 +102,8 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>qtmain.lib;Qt5Core.lib;Qt5Gui.lib;OgreMain.lib;OgreTerrain.lib;OIS.lib;CEGUIBase-0.lib;CEGUIOgreRenderer-0.lib;NxOgre.lib;CritterStatic.lib;lua5.1.lib;Hydrax.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmain.lib;Qt5Core.lib;Qt5Gui.lib;OgreMain.lib;OgreTerrain.lib;OIS.lib;CEGUIBase-0.lib;CEGUIOgreRenderer-0.lib;NxOgre.lib;CritterStatic.lib;lua5.1.lib;Hydrax.lib;avcodec.lib;avformat.lib;avutil.lib;swscale.lib;Openal32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -125,7 +126,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>qtmain.lib;Qt5Core.lib;Qt5Gui.lib;OgreMain.lib;OgreTerrain.lib;OIS.lib;CEGUIBase-0.lib;CEGUIOgreRenderer-0.lib;NxOgre.lib;CritterStatic.lib;lua5.1.lib;Hydrax.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmain.lib;Qt5Core.lib;Qt5Gui.lib;OgreMain.lib;OgreTerrain.lib;OIS.lib;CEGUIBase-0.lib;CEGUIOgreRenderer-0.lib;NxOgre.lib;CritterStatic.lib;lua5.1.lib;Hydrax.lib;avcodec.lib;avformat.lib;avutil.lib;swscale.lib;Openal32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -145,6 +147,11 @@
     </ClCompile>
     <ClCompile Include="MyGameApp.cpp" />
     <ClCompile Include="MyGameStateManager.cpp" />
+    <ClCompile Include="MyMediaManager.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebugInfo|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="MyPageManager.cpp" />
     <ClCompile Include="MyTerrain.cpp" />
     <ClCompile Include="MyTransformer.cpp" />
@@ -169,6 +176,7 @@
     </ClInclude>
     <ClInclude Include="MyGameApp.h" />
     <ClInclude Include="MyGameStateManager.h" />
+    <ClInclude Include="MyMediaManager.h" />
     <ClInclude Include="MyPageManager.h" />
     <ClInclude Include="MyTerrain.h" />
     <ClInclude Include="MyTransformer.h" />

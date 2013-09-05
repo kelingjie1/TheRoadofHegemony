@@ -48,3 +48,4 @@ extern "C"
 };
 
 #include "lua_tinker.h"
+#include <boost/thread.hpp>
