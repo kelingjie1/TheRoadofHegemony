@@ -5,6 +5,7 @@
 #include "MyUIUpdater.h"
 #include "InputHook.h"
 #include "Global.h"
+#include "MyMediaManager.h"
 MyGameApp* MyGameApp::m_pSingleton=0;
 MyGameApp& MyGameApp::GetSingleton()
 {
@@ -23,6 +24,7 @@ MyGameApp::MyGameApp()
 void MyGameApp::Init()
 {
 	Global::LoadGlobleSetting();
+	QTextCodec::setCodecForLocale(QTextCodec::codecForName("System"));
 	InitOgre();
 	InitCEGUI();
 	InitResource();
@@ -334,6 +336,11 @@ Ogre::RenderWindow * MyGameApp::GetRenderWindow()
 void MyGameApp::InitResource()
 {
 	CEGUI::AnimationManager::getSingleton().loadAnimationsFromXML("MyAnimation.anims");
+	MyMediaManager *manager=new MyMediaManager;
+	MyMedia *media=manager->LoadMedia("./Media/Media/menu.mp3","menu");
+	media->Play();
+	Sleep(10000);
+	media->SetProgress(0);
 }
 
 void MyGameApp::SetNextTimeDelta( float timeDelta )

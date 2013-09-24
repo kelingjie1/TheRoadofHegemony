@@ -85,8 +85,7 @@
       <PreserveSBR>true</PreserveSBR>
     </Bscmake>
     <PreBuildEvent>
-      <Command>
-      </Command>
+      <Command>BuildVersionIncrease.exe BuildVersion.h</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -129,6 +128,9 @@
       <AdditionalDependencies>qtmain.lib;Qt5Core.lib;Qt5Gui.lib;OgreMain.lib;OgreTerrain.lib;OIS.lib;CEGUIBase-0.lib;CEGUIOgreRenderer-0.lib;NxOgre.lib;CritterStatic.lib;lua5.1.lib;Hydrax.lib;avcodec.lib;avformat.lib;avutil.lib;swscale.lib;Openal32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
+    <PreBuildEvent>
+      <Command>BuildVersionIncrease.exe BuildVersion.h</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CollisionTools.cpp" />

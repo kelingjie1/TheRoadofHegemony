@@ -1,2 +1,2 @@
-#define GIT_VERSION 15
-#define GIT_HASH_VERSION 7154a7f653b5fa413488a0df9ac3da85d2cfc7e8
+#define GIT_VERSION 19
+#define GIT_HASH_VERSION 43de5f17a0cb3e354c4b40d529bbcd4ca301cddd
